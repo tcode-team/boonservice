@@ -141,6 +141,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\BlankController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ShipmentListController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -1055,6 +1056,7 @@
     <Content Include="spa\controller\BlankController.js" />
     <Content Include="spa\controller\LoginController.js" />
     <Content Include="spa\controller\HomeController.js" />
+    <Content Include="spa\controller\ShipmentListController.js" />
     <Content Include="spa\service\AuthenticationService.js" />
     <Content Include="spa\view\home.html" />
     <Content Include="spa\view\login.html" />
@@ -1136,6 +1138,7 @@
     <Content Include="Content\vendor\perfect-scrollbar\src\css\variables.scss" />
     <None Include="packages.config" />
     <Content Include="Views\Blank\index.cshtml" />
+    <Content Include="Views\ShipmentList\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Content\vendor\mobile-detect\mobile-detect.d.ts" />
