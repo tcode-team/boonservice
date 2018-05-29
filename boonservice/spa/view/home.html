@@ -32,7 +32,7 @@
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link ripple " href="apps-calendar.html" data-url="user-interface-page-layouts-blank.html">
+                        <a class="nav-link ripple " href ng-click="UrlChange('http://localhost:56468/blank?')" data-url="user-interface-page-layouts-blank.html">
                             <i class="icon s-4 icon-calendar-today"></i>
                             <span>Blank</span>
                         </a>
@@ -96,7 +96,7 @@
         </nav>
         <div class="content custom-scrollbar">
             <div class="page-layout simple left-sidebar-floating">
-                <iframe id="framecontent" name="framecontent" style="width:100%; height:100%;border:none"></iframe>
+                <iframe id="framecontent" name="framecontent" ng-src="{{prgurl | trustAsResourceUrl}}" style="width:100%; height:100%;border:none"></iframe>
                 <!--<div class="page-header bg-secondary text-auto row no-gutters align-items-center justify-content-between p-4 p-sm-6">
                     <div class="col">
                         <div class="row no-gutters align-items-center flex-nowrap">

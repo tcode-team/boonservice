@@ -17,11 +17,6 @@
             display: none !important;
         }
     </style>
-
-</head>
-<body class="layout layout-vertical layout-left-navigation layout-below-toolbar">
-    @RenderBody()
-
     @Styles.Render("~/bundles/css")
     @Scripts.Render("~/bundles/js")
 
@@ -30,5 +25,8 @@
     @Scripts.Render("~/bundles/angular")
 
     @RenderSection("apps", required: false)
+</head>
+<body class="layout layout-vertical layout-left-navigation layout-below-toolbar">
+    @RenderBody()
 </body>
 </html>

@@ -2,8 +2,13 @@
 @{
     ViewBag.Title = "Blank";
 }
-
-<main ng-app="app" ng-controller="BlankController">
+@section apps {
+    <!-- Controller -->
+    <script src="~/spa/app.js"></script>
+    <script src="~/spa/config.js"></script>
+    <script src="~/spa/controller/BlankController.js"></script>
+}
+<div ng-app="app" ng-controller="BlankController">
     <div class="page-header bg-secondary text-auto row no-gutters align-items-center justify-content-between p-4 p-sm-6">
         <div class="col">
             <div class="row no-gutters align-items-center flex-nowrap">
@@ -17,6 +22,4 @@
     <div class="page-content-wrapper">
         <h2>{{title}}</h2>
     </div>
-</main>
-
-
+</div>
