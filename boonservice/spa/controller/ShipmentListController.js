@@ -5,10 +5,10 @@
         .module('app')
         .controller('ShipmentListController', ShipmentListController)
 
-    BlankController.$inject = ['$scope', '$http'];
+    ShipmentListController.$inject = ['$scope', '$http'];
     function ShipmentListController($scope, $http) {        
-        $scope.title = 'Shipment List Page'; 
-
+        $scope.title = 'คำนวณค่าขนส่ง BLF'; 
+         
     };
 
 })();

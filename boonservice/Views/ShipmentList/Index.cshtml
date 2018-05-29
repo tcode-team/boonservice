@@ -1,7 +1,206 @@
 ﻿
+
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "คำนวณค่าขนส่ง BLF";
 }
 
-<h2>Index</h2>
+@section apps {
+    <!-- Controller -->
+    <script src="~/spa/app.js"></script>
+    <script src="~/spa/config.js"></script>
+    <script src="~/spa/controller/ShipmentListController.js"></script>
+}
+@section scripts {
+    <script src="~/content/vendor/fuse-html/fuse-html.min.js" type="text/javascript"></script>
+    <script src="~/content/js/main.js" type="text/javascript"></script>
+    <script type="text/javascript" src="~/content/vendor/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="~/content/vendor/datatables-responsive/js/dataTables.responsive.js"></script>
+}
 
+    <div class="content-wrapper" ng-app="app" ng-controller="ShipmentListController">
+
+
+        <div class="content custom-scrollbar">
+            <div class="page-layout simple left-sidebar-floating">
+
+                <div class="page-header bg-secondary text-auto row no-gutters align-items-center justify-content-between p-4 p-sm-6">
+                    <div class="col">
+                        <!-- APP TITLE -->
+                        <div class="row no-gutters align-items-center flex-nowrap">
+                            <div class="logo row no-gutters align-items-center flex-nowrap">
+                                <span class="logo-text h4">{{title}}</span>
+                            </div>
+                        </div>
+                        <!-- / APP TITLE -->
+                    </div>
+
+                </div>
+
+                <div class="page-content-wrapper">
+                    <div class="col">
+                        <div class="tab-pane fade show active" id="basic-info-tab-pane" role="tabpanel" aria-labelledby="basic-info-tab">
+
+                            <div class="card">
+
+                                <form class="container">
+                                    <div class="form-row">
+                                        <div class="form-group col-md-2">
+                                            <label class="form-control-label mb-3">วันที่ Shipment</label>
+                                        </div>
+                                        <div class="form-group col-md-2">
+                                            <input class="form-control" type="date" id="ShipmentDateS">
+                                            <!--    <label class="form-control-label mb-3" for="ShipmentDateS">วันที่ Shipment</label>-->
+                                        </div>
+                                        <div class="form-group col-md-1">
+                                            <label class="form-control-label">ถึงวันที่</label>
+                                        </div>
+                                        <div class="form-group col-md-2">
+                                            <input class="form-control" type="date" id="ShipmentDateE">
+                                            <!--<label class="form-control-label" for="ShipmentDateE">ถึงวันที่</label>-->
+                                        </div>
+                                        <div class="form-group col-md-5">
+                                            <input type="text" class="form-control" id="ShipmentNo" placeholder="">
+                                            <label class="form-control-label" for="ShipmentNo">Shipment NO</label>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-row">
+
+                                        <div class="form-group col-md-6">
+                                            <label for="CarType" class="col-form-label">ประเภทรถ</label>
+                                            <select id="CarType" class="form-control">
+                                                <option value="ALL" selected>ทั้งหมด</option>
+                                                <option value="ENTRY">ยังไม่ได้ระบุค่าขนส่ง</option>
+                                                <option value="WAIT">ยังไม่ได้ Confirm</option>
+                                                <option value="CONFIRM">Confirm แล้ว</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="CarGroup" class="col-form-label">กลุ่มรถ</label>
+                                            <select id="CarGroup" class="form-control">
+                                                <option value="ALL" selected>ทั้งหมด</option>
+                                                <option value="ENTRY">ยังไม่ได้ระบุค่าขนส่ง</option>
+                                                <option value="WAIT">ยังไม่ได้ Confirm</option>
+                                                <option value="CONFIRM">Confirm แล้ว</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+
+                                        <div class="form-group col-md-6">
+                                            <input type="text" class="form-control" id="CarNo">
+                                            <label class="form-control-label" for="CarNo">ทะเบียนรถ</label>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="Status" class="col-form-label">สถานะ</label>
+                                            <select id="Status" class="form-control">
+                                                <option value="ALL" selected>ทั้งหมด</option>
+                                                <option value="ENTRY">ยังไม่ได้ระบุค่าขนส่ง</option>
+                                                <option value="WAIT">ยังไม่ได้ Confirm</option>
+                                                <option value="CONFIRM">Confirm แล้ว</option>
+                                            </select>
+                                        </div>
+
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="page-content-wrapper">
+                    <div class="col">
+                        <div class="tab-pane fade show active" id="basic-info-tab-pane" role="tabpanel" aria-labelledby="basic-info-tab">
+                            <div class="card p-1">
+
+                                <div class="row">
+                                    <div class="col-auto">
+                                        <button type="submit" class="btn btn-primary">Confirm</button>
+                                    </div>
+                                </div>
+
+                                <div class="preview">
+                                    <div class="preview-elements">
+                                        <div id="sample-data-table_wrapper" class="dataTables_wrapper no-footer">
+                                            <table id="sample-data-table" class="table  table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="secondary-text">
+                                                            <div class="table-header">
+                                                                <span class="column-title">Name</span>
+                                                            </div>
+                                                        </th>
+                                                        <th class="secondary-text">
+                                                            <div class="table-header">
+                                                                <span class="column-title">Position</span>
+                                                            </div>
+                                                        </th>
+                                                        <th class="secondary-text">
+                                                            <div class="table-header">
+                                                                <span class="column-title">Office</span>
+                                                            </div>
+                                                        </th>
+                                                        <th class="secondary-text">
+                                                            <div class="table-header">
+                                                                <span class="column-title">Age</span>
+                                                            </div>
+                                                        </th>
+                                                        <th class="secondary-text">
+                                                            <div class="table-header">
+                                                                <span class="column-title">Start Date</span>
+                                                            </div>
+                                                        </th>
+                                                        <th class="secondary-text">
+                                                            <div class="table-header">
+                                                                <span class="column-title">Salary</span>
+                                                            </div>
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                    <tr>
+                                                        <td>Diana Carpenter</td>
+                                                        <td>Speech Pathologist</td>
+                                                        <td>Pajapita</td>
+                                                        <td>25</td>
+                                                        <td>2015/03/28</td>
+                                                        <td>$954517.23</td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td>Virginia Garrett</td>
+                                                        <td>Systems Administrator III</td>
+                                                        <td>Kuala Lumpur</td>
+                                                        <td>33</td>
+                                                        <td>2015/02/01</td>
+                                                        <td>$698280.06</td>
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
+
+                                            <script type="text/javascript">
+                                                $('#sample-data-table').DataTable({
+                                                    responsive: true
+                                                });
+                                            </script>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
