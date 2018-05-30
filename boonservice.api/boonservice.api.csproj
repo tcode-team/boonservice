@@ -197,6 +197,8 @@
     </Compile>
     <Compile Include="Models\PostSuperheroModel.cs" />
     <Compile Include="Models\PutSuperheroModel.cs" />
+    <Compile Include="Models\fetchdata.cs" />
+    <Compile Include="Models\sap.cs" />
     <Compile Include="Models\Superhero.cs" />
     <Compile Include="Models\Shipment.cs" />
     <Compile Include="Models\UserAutomapperProfile.cs" />

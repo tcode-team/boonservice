@@ -7,9 +7,21 @@ using System.Web;
 
 namespace boonservice.api.Models
 {
-
+    /// <summary>
+    /// Structure for Shipment Search
+    /// </summary>
     public class ShipmentSearchModel
     {
+        /// <summary>
+        /// Fetch data setting
+        /// </summary>
+        public fetchdata fetchdata;
+
+        /// <summary>
+        /// forwarding agent
+        /// </summary>
+        public string forwarding;
+
         /// <summary>
         /// Shipment date from
         /// </summary>
@@ -46,96 +58,137 @@ namespace boonservice.api.Models
         public string ShipmentStatus;
     }
 
-
     /// <summary>
-    /// Table VTTK  
+    /// Shipment Type
     /// </summary>
-    [Table("VTTK")]
-    public class VTTK
+    public class ShipmentTypeModel
     {
         /// <summary>
         /// Client
         /// </summary>
         [Key, Column(Order = 0)]
         [StringLength(9)]
-        public string MANDT { get; set; }
-
-        /// <summary>
-        /// Shipment Number
-        /// </summary>
-        [Key, Column(Order = 1)]
-        [StringLength(30)]
-        public string TKNUM { get; set; }
-    
-        /// <summary>
-        /// Shipment date
-        /// </summary>
-        [StringLength(20)]
-        public string ERDAT { get; set; }
-
-        /// <summary>
-        /// Shipment Type
-        /// </summary>
-        [StringLength(2)]
-        public string VSART { get; set; }
-
-        /// <summary>
-        /// Route
-        /// </summary>
-        [StringLength(18)]
-        public string ROUTE { get; set; }
-
-        /// <summary>
-        /// Container ID
-        /// </summary>
-        [StringLength(60)]
-        public string SIGNI { get; set; }
-
-        /// <summary>
-        /// Number of forwarding agent
-        /// </summary>
-        [StringLength(10)]
-        public string TDLNR { get; set; }
-
-        ///// <summary>
-        ///// Shipment Type List
-        ///// </summary>
-        //public virtual List<T173T> T173Ts { get; set; }
-    }
-
-    /// <summary>
-    /// Table T173T  
-    /// </summary>
-    [Table("T173T")]
-    public class T173T
-    {
-        /// <summary>
-        /// Client
-        /// </summary>
-        [Key, Column(Order = 0)]
-        [StringLength(9)]
-        public string MANDT { get; set; }
+        public string client { get; set; }
 
         /// <summary>
         /// Language
         /// </summary>
         [Key, Column(Order = 1)]
         [StringLength(1)]
-        public string SPRAS { get; set; }
+        public string lang_code { get; set; }
 
         /// <summary>
         /// Shipment Type
         /// </summary>
         [Key, Column(Order = 2)]
         [StringLength(2)]
-        public string VSART { get; set; }
+        public string shipmenttype_code { get; set; }
 
         /// <summary>
         /// Description of the Shipping Type
         /// </summary>
         [StringLength(20)]
-        public string BEZEI { get; set; }
-        
+        public string shipmenttype_desc { get; set; }
     }
+
+    /// <summary>
+    /// Route
+    /// </summary>
+    public class RouteModel
+    {
+        /// <summary>
+        /// Client
+        /// </summary>
+        [Key, Column(Order = 0)]
+        [StringLength(9)]
+        public string client { get; set; }
+
+        /// <summary>
+        /// Language
+        /// </summary>
+        [Key, Column(Order = 1)]
+        [StringLength(1)]
+        public string lang_code { get; set; }
+
+        /// <summary>
+        /// Route
+        /// </summary>
+        [Key, Column(Order = 2)]
+        [StringLength(2)]
+        public string route_code { get; set; }
+
+        /// <summary>
+        /// Description of Route
+        /// </summary>
+        [StringLength(40)]
+        public string route_desc { get; set; }
+    }
+
+    /// <summary>
+    /// Shipment Detail
+    /// </summary>
+    public class ShipmentDetailModel
+    {
+        /// <summary>
+        /// Client
+        /// </summary>
+        [Key, Column(Order = 0)]
+        [StringLength(9)]
+        public string client { get; set; }
+
+        /// <summary>
+        /// Shipment Number
+        /// </summary>
+        [Key, Column(Order = 1)]
+        [StringLength(30)]
+        public string shipment_number { get; set; }
+
+        /// <summary>
+        /// Shipment date
+        /// </summary>
+        public DateTime? shipment_date { get; set; }
+
+        /// <summary>
+        /// Shipment Type
+        /// </summary>
+        [StringLength(2)]
+        public string shipmenttype_code { get; set; }
+
+        /// <summary>
+        /// Description of the Shipping Type
+        /// </summary>
+        [StringLength(20)]
+        public string shipmenttype_desc { get; set; }
+
+        /// <summary>
+        /// Route
+        /// </summary>
+        [StringLength(18)]
+        public string route { get; set; }
+
+        /// <summary>
+        /// Description of Route
+        /// </summary>
+        [StringLength(40)]
+        public string route_desc { get; set; }
+
+        /// <summary>
+        /// Container ID
+        /// </summary>
+        [StringLength(60)]
+        public string container_id { get; set; }
+
+        /// <summary>
+        /// Car License (ทะเบียนรถ)
+        /// </summary>
+        [StringLength(10)]
+        public string car_license { get; set; }
+
+        /// <summary>
+        /// Number of forwarding agent
+        /// </summary>
+        [StringLength(10)]
+        public string forwarding { get; set; }
+    }    
 
 }

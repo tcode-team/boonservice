@@ -38,168 +38,163 @@
 
                 <div class="page-content-wrapper">
                     <div class="col">
-                        <div class="tab-pane fade show active" id="basic-info-tab-pane" role="tabpanel" aria-labelledby="basic-info-tab">
-
-                            <div class="card">
-
-                                <form class="container">
+                        <br />
+                        <!-- Criteria -->
+                        <div class="card">
+                            <div class="card-body">
+                                <form>
                                     <div class="form-row">
-                                        <div class="form-group col-md-2">
-                                            <label class="form-control-label mb-3">วันที่ Shipment</label>
+                                        <div class="form-group col-md-6">
+                                            <label class="form-control-label col-md-3">วันที่ Shipment</label>
+                                            <div class="col-md-3">
+                                                <input class="form-control" type="date" id="ShipmentDateS">
+                                                <!--    <label class="form-control-label mb-3" for="ShipmentDateS">วันที่ Shipment</label>-->
+                                            </div>
+                                            <label class="form-control-label col-md-2">ถึงวันที่</label>
+                                            <div class="col-md-3">
+                                                <input class="form-control" type="date" id="ShipmentDateE">
+                                                <!--<label class="form-control-label" for="ShipmentDateE">ถึงวันที่</label>-->
+                                            </div>
                                         </div>
-                                        <div class="form-group col-md-2">
-                                            <input class="form-control" type="date" id="ShipmentDateS">
-                                            <!--    <label class="form-control-label mb-3" for="ShipmentDateS">วันที่ Shipment</label>-->
-                                        </div>
-                                        <div class="form-group col-md-1">
-                                            <label class="form-control-label">ถึงวันที่</label>
-                                        </div>
-                                        <div class="form-group col-md-2">
-                                            <input class="form-control" type="date" id="ShipmentDateE">
-                                            <!--<label class="form-control-label" for="ShipmentDateE">ถึงวันที่</label>-->
-                                        </div>
-                                        <div class="form-group col-md-5">
-                                            <input type="text" class="form-control" id="ShipmentNo" placeholder="">
-                                            <label class="form-control-label" for="ShipmentNo">Shipment NO</label>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="form-row">
 
                                         <div class="form-group col-md-6">
-                                            <label for="CarType" class="col-form-label">ประเภทรถ</label>
-                                            <select id="CarType" class="form-control">
-                                                <option value="ALL" selected>ทั้งหมด</option>
-                                                <option value="ENTRY">ยังไม่ได้ระบุค่าขนส่ง</option>
-                                                <option value="WAIT">ยังไม่ได้ Confirm</option>
-                                                <option value="CONFIRM">Confirm แล้ว</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label for="CarGroup" class="col-form-label">กลุ่มรถ</label>
-                                            <select id="CarGroup" class="form-control">
-                                                <option value="ALL" selected>ทั้งหมด</option>
-                                                <option value="ENTRY">ยังไม่ได้ระบุค่าขนส่ง</option>
-                                                <option value="WAIT">ยังไม่ได้ Confirm</option>
-                                                <option value="CONFIRM">Confirm แล้ว</option>
-                                            </select>
+                                            <label class="form-control-label col-md-3" for="ShipmentNo">Shipment NO</label>
+                                            <div class="col-md-6">
+                                                <input type="text" class="form-control" id="ShipmentNo" placeholder="">
+                                            </div>
                                         </div>
                                     </div>
 
                                     <div class="form-row">
-
                                         <div class="form-group col-md-6">
-                                            <input type="text" class="form-control" id="CarNo">
-                                            <label class="form-control-label" for="CarNo">ทะเบียนรถ</label>
+                                            <label for="CarType" class="col-form-label col-md-3">ประเภทรถ</label>
+                                            <div class="col-md-9">
+                                                <select id="CarType" class="form-control">
+                                                    <option value="ALL" selected>ทั้งหมด</option>
+                                                    <option value="ENTRY">ยังไม่ได้ระบุค่าขนส่ง</option>
+                                                    <option value="WAIT">ยังไม่ได้ Confirm</option>
+                                                    <option value="CONFIRM">Confirm แล้ว</option>
+                                                </select>
+                                            </div>
                                         </div>
                                         <div class="form-group col-md-6">
-                                            <label for="Status" class="col-form-label">สถานะ</label>
-                                            <select id="Status" class="form-control">
-                                                <option value="ALL" selected>ทั้งหมด</option>
-                                                <option value="ENTRY">ยังไม่ได้ระบุค่าขนส่ง</option>
-                                                <option value="WAIT">ยังไม่ได้ Confirm</option>
-                                                <option value="CONFIRM">Confirm แล้ว</option>
-                                            </select>
+                                            <label for="CarGroup" class="col-form-label col-md-3">กลุ่มรถ</label>
+                                            <div class="col-md-9">
+                                                <select id="CarGroup" class="form-control">
+                                                    <option value="ALL" selected>ทั้งหมด</option>
+                                                    <option value="ENTRY">ยังไม่ได้ระบุค่าขนส่ง</option>
+                                                    <option value="WAIT">ยังไม่ได้ Confirm</option>
+                                                    <option value="CONFIRM">Confirm แล้ว</option>
+                                                </select>
+                                            </div>
                                         </div>
+                                    </div>
 
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label class="form-control-label col-md-3" for="CarNo">ทะเบียนรถ</label>
+                                            <div class="col-md-9">
+                                                <input type="text" class="form-control" id="CarNo">
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="Status" class="col-form-label col-md-3">สถานะ</label>
+                                            <div class="col-md-9">
+                                                <select id="Status" class="form-control">
+                                                    <option value="ALL" selected>ทั้งหมด</option>
+                                                    <option value="ENTRY">ยังไม่ได้ระบุค่าขนส่ง</option>
+                                                    <option value="WAIT">ยังไม่ได้ Confirm</option>
+                                                    <option value="CONFIRM">Confirm แล้ว</option>
+                                                </select>
+                                            </div>
+                                        </div>
                                     </div>
 
                                 </form>
                             </div>
                         </div>
-                    </div>
-
-                </div>
-
-                <div class="page-content-wrapper">
-                    <div class="col">
-                        <div class="tab-pane fade show active" id="basic-info-tab-pane" role="tabpanel" aria-labelledby="basic-info-tab">
-                            <div class="card p-1">
-
+                    
+                        <br />
+                        <!-- Table List -->
+                        <div class="card">
+                            <div class="card-body">
                                 <div class="row">
                                     <div class="col-auto">
                                         <button type="submit" class="btn btn-primary">Confirm</button>
                                     </div>
                                 </div>
-
                                 <div class="preview">
                                     <div class="preview-elements">
-                                        <div id="sample-data-table_wrapper" class="dataTables_wrapper no-footer">
-                                            <table id="sample-data-table" class="table  table-striped">
-                                                <thead>
-                                                    <tr>
-                                                        <th class="secondary-text">
-                                                            <div class="table-header">
-                                                                <span class="column-title">Name</span>
-                                                            </div>
-                                                        </th>
-                                                        <th class="secondary-text">
-                                                            <div class="table-header">
-                                                                <span class="column-title">Position</span>
-                                                            </div>
-                                                        </th>
-                                                        <th class="secondary-text">
-                                                            <div class="table-header">
-                                                                <span class="column-title">Office</span>
-                                                            </div>
-                                                        </th>
-                                                        <th class="secondary-text">
-                                                            <div class="table-header">
-                                                                <span class="column-title">Age</span>
-                                                            </div>
-                                                        </th>
-                                                        <th class="secondary-text">
-                                                            <div class="table-header">
-                                                                <span class="column-title">Start Date</span>
-                                                            </div>
-                                                        </th>
-                                                        <th class="secondary-text">
-                                                            <div class="table-header">
-                                                                <span class="column-title">Salary</span>
-                                                            </div>
-                                                        </th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
+                                        <table id="sample-data-table" class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th class="secondary-text">
+                                                        <div class="table-header">
+                                                            <span class="column-title">Name</span>
+                                                        </div>
+                                                    </th>
+                                                    <th class="secondary-text">
+                                                        <div class="table-header">
+                                                            <span class="column-title">Position</span>
+                                                        </div>
+                                                    </th>
+                                                    <th class="secondary-text">
+                                                        <div class="table-header">
+                                                            <span class="column-title">Office</span>
+                                                        </div>
+                                                    </th>
+                                                    <th class="secondary-text">
+                                                        <div class="table-header">
+                                                            <span class="column-title">Age</span>
+                                                        </div>
+                                                    </th>
+                                                    <th class="secondary-text">
+                                                        <div class="table-header">
+                                                            <span class="column-title">Start Date</span>
+                                                        </div>
+                                                    </th>
+                                                    <th class="secondary-text">
+                                                        <div class="table-header">
+                                                            <span class="column-title">Salary</span>
+                                                        </div>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
 
-                                                    <tr>
-                                                        <td>Diana Carpenter</td>
-                                                        <td>Speech Pathologist</td>
-                                                        <td>Pajapita</td>
-                                                        <td>25</td>
-                                                        <td>2015/03/28</td>
-                                                        <td>$954517.23</td>
-                                                    </tr>
+                                                <tr>
+                                                    <td>Diana Carpenter</td>
+                                                    <td>Speech Pathologist</td>
+                                                    <td>Pajapita</td>
+                                                    <td>25</td>
+                                                    <td>2015/03/28</td>
+                                                    <td>$954517.23</td>
+                                                </tr>
 
-                                                    <tr>
-                                                        <td>Virginia Garrett</td>
-                                                        <td>Systems Administrator III</td>
-                                                        <td>Kuala Lumpur</td>
-                                                        <td>33</td>
-                                                        <td>2015/02/01</td>
-                                                        <td>$698280.06</td>
-                                                    </tr>
+                                                <tr>
+                                                    <td>Virginia Garrett</td>
+                                                    <td>Systems Administrator III</td>
+                                                    <td>Kuala Lumpur</td>
+                                                    <td>33</td>
+                                                    <td>2015/02/01</td>
+                                                    <td>$698280.06</td>
+                                                </tr>
 
-                                                </tbody>
-                                            </table>
+                                            </tbody>
+                                        </table>
 
-                                            <script type="text/javascript">
-                                                $('#sample-data-table').DataTable({
-                                                    responsive: true
-                                                });
-                                            </script>
-                                        </div>
-
-
+                                        <script type="text/javascript">
+                                            $('#sample-data-table').DataTable({
+                                                responsive: true
+                                            });
+                                        </script>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                     </div>
-
                 </div>
+
 
             </div>
         </div>

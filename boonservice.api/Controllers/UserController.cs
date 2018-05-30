@@ -87,9 +87,11 @@ namespace boonservice.api.Controllers
                 UserDetail userdetail = new UserDetail();
                 userdetail.userid = user.USER_ID;
                 userdetail.username = user.USER_NAME;
-                userdetail.firstname = userd.FIRST_NAME;
-                userdetail.lastname = userd.LAST_NAME;
-
+                if (userd != null)
+                {
+                    userdetail.firstname = userd.FIRST_NAME;
+                    userdetail.lastname = userd.LAST_NAME;
+                }
                 return user == null
                     ? Request.CreateErrorResponse(HttpStatusCode.NotFound, "User not found")
                     : Request.CreateResponse(HttpStatusCode.OK, userdetail);

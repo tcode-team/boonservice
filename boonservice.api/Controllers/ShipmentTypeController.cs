@@ -24,18 +24,28 @@ namespace boonservice.api.Controllers
         /// <returns></returns>
         /// <response code="200"></response>
         /// <response code="404">Data not found</response>
-        [ResponseType(typeof(IEnumerable<T173T>))]
+        [ResponseType(typeof(IEnumerable<ShipmentTypeModel>))]
         [Route("shipmenttype/getall")]
         public HttpResponseMessage GetShipmentType()
         {
+            var ShipmentTypes = new List<ShipmentTypeModel>();
             try
             {
                 using (var context = new SapContext())
                 {
                     var t173ts = context.T173T.Where(t => t.SPRAS == "2").ToList();
-                    return t173ts == null
-                        ? Request.CreateErrorResponse(HttpStatusCode.NotFound, "T173T not found")
-                        : Request.CreateResponse(HttpStatusCode.OK, t173ts);
+                    foreach (var r in t173ts)
+                    {
+                        var ShipmentType = new ShipmentTypeModel();
+                        ShipmentType.client = r.MANDT;
+                        ShipmentType.lang_code = r.SPRAS;
+                        ShipmentType.shipmenttype_code = r.VSART;
+                        ShipmentType.shipmenttype_desc = r.BEZEI;
+                        ShipmentTypes.Add(ShipmentType);
+                    }
+                    return ShipmentTypes == null
+                        ? Request.CreateErrorResponse(HttpStatusCode.NotFound, "Shipment Type not found")
+                        : Request.CreateResponse(HttpStatusCode.OK, ShipmentTypes);
                 }
             }
             catch (Exception ex)
@@ -54,7 +64,7 @@ namespace boonservice.api.Controllers
         /// <returns></returns>
         /// <response code="200"></response>
         /// <response code="404">Data not found</response>
-        [ResponseType(typeof(T173T))]
+        [ResponseType(typeof(ShipmentTypeModel))]
         [Route("shipmenttype/detail")]
         public HttpResponseMessage Get(string id)
         {
@@ -63,9 +73,17 @@ namespace boonservice.api.Controllers
                 using (var context = new SapContext())
                 {
                     var t173t = context.T173T.Where(t => t.MANDT == "900" && t.SPRAS == "2" && t.VSART == id).FirstOrDefault();
-                    return t173t == null
-                        ? Request.CreateErrorResponse(HttpStatusCode.NotFound, "T173T not found")
-                        : Request.CreateResponse(HttpStatusCode.OK, t173t);
+                    ShipmentTypeModel ShipmentType = new ShipmentTypeModel();
+                    if (t173t != null)
+                    {
+                        ShipmentType.client = t173t.MANDT;
+                        ShipmentType.lang_code = t173t.SPRAS;
+                        ShipmentType.shipmenttype_code = t173t.VSART;
+                        ShipmentType.shipmenttype_desc = t173t.BEZEI;
+                    };
+                    return ShipmentType.shipmenttype_code == null
+                        ? Request.CreateErrorResponse(HttpStatusCode.NotFound, "Shipment Type not found")
+                        : Request.CreateResponse(HttpStatusCode.OK, ShipmentType);
                 }
             }
             catch (Exception ex)

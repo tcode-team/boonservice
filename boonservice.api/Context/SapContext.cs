@@ -29,9 +29,14 @@ namespace boonservice.api.Context
             modelBuilder.Entity<T173T>()
                 .ToTable("T173T")
                 .HasKey(t => new { t.MANDT, t.SPRAS, t.VSART });
+
+            modelBuilder.Entity<TVROT>()
+                .ToTable("TVROT")
+                .HasKey(t => new { t.MANDT, t.SPRAS, t.ROUTE });
         }
 
         public DbSet<VTTK> VTTK { get; set; }
         public DbSet<T173T> T173T { get; set; }
+        public DbSet<TVROT> TVROT { get; set;  }
     }
 }
