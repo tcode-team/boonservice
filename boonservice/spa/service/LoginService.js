@@ -15,14 +15,16 @@
 
         function Login(userData) {
             var response = $http({
-                url: 'http://dotnet64-test.boonthavorn.com/boon.api/user/token',
+                url: config.api.url + 'user/token',
                 method: 'POST',
                 data: $.param({
                     grant_type: userData.grant_type,
                     username: userData.username,
                     password: userData.password
                 }),
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
             });
             return response;  
         }        

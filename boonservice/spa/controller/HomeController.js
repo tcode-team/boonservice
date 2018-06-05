@@ -11,8 +11,8 @@
             };
         }])
 
-    HomeController.$inject = ['$scope', '$http', '$rootScope', '$location'];
-    function HomeController($scope, $http, $rootScope, $location) {        
+    HomeController.$inject = ['$scope', '$http', '$state'];
+    function HomeController($scope, $http, $state) {        
 
         $scope.prgurl = 'http://localhost:56468/blank';
 
@@ -27,10 +27,12 @@
         };
 
         $scope.logout = function () {
-            // reset login status
-            //AuthenticationService.ClearCredentials();
-            $location.path('/login');
-        };
+            $scope.isAuthenticated = false;
+            angular.forEach(sessionStorage, function (item, key) {
+                sessionStorage.removeItem(key);
+            });
+            $state.go("login");
+        }
         
     };
 

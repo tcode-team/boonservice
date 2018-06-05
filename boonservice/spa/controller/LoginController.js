@@ -50,11 +50,6 @@
             } 
         }
 
-        $scope.logout = function () {
-            console.log('logout');
-            sessionStorage.clear();
-            $state.go("login");
-        }
     };
 
 })();

@@ -7,17 +7,20 @@
         .factory('AuthInterceptor', AuthInterceptor);
         //.run(run);    
 
-    AuthInterceptor.$inject = ['$state', '$q'];
-    function AuthInterceptor($state, $q) {
-        //$log.debug('$log is here to show you that this is a regular factory with injection');
+    AuthInterceptor.$inject = ['$log', '$state', '$q'];
+    function AuthInterceptor($log, $state, $q) {
+        $log.debug('$log is here to show you that this is a regular factory with injection');
 
         var authInterceptor = {
             request: function (config) {
                 var accessToken = sessionStorage.getItem('accessToken');
+                console.log(accessToken);
                 if (accessToken === null || accessToken === "undefined") {
+                    console.log('token null');
                     $state.go("login");
                 }
                 else {
+                    console.log('config auth');
                     config.headers["Authorization"] = "bearer " + accessToken;
                 }
                 return config;
