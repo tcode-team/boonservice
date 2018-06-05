@@ -13,6 +13,7 @@ using boonservice.api.Models;
 
 namespace boonservice.api.Controllers
 {
+    [RoutePrefix("user")]
     public class UserController : ApiController
     {
 
@@ -28,16 +29,22 @@ namespace boonservice.api.Controllers
         /// <response code="200"></response>
         /// <response code="404">Data not found</response>
         [ResponseType(typeof(IEnumerable<UserDetail>))]
-        [Route("user/getall")]
-        public HttpResponseMessage Get()
+        [Authorize]
+        [Route("getall")]
+        public HttpResponseMessage Get(fetchdata fetchdata)
         {
+            fetchdata = fetchdata == null ? new fetchdata() : fetchdata;
+
             try
             {
                 using (var context = new LoadContext())
                 {
                     var userdetails = new List<UserDetail>();
-                    //var users = context.B3G_USERS.ToList();
-                    foreach (var r in context.B3G_USERS.ToList()) {
+
+                    foreach (var r in context.B3G_USERS.OrderBy(t => t.USER_ID)
+                            .Skip(fetchdata.after == 0 ? 0 : fetchdata.after)
+                            .Take(fetchdata.size == 0 ? 100 : fetchdata.size)
+                            .ToList()) {
                         var userd = context.B3G_USER_DESC
                              .Where(t => t.USER_ID == r.USER_ID && t.LANG_CODE == "TH")
                              .FirstOrDefault();
@@ -63,22 +70,28 @@ namespace boonservice.api.Controllers
         }
 
         /// <summary>
-        /// Get user authorization
+        /// Get user detail
         /// </summary>
         /// <remarks>
-        /// ดึงข้อมูล user โดย Username/Password
+        /// ข้อมูล user
         /// </remarks>
         /// <returns></returns>
         /// <response code="200"></response>
-        [ResponseType(typeof(UserDetail))]     
-        [Route("user/PostCheckUserAuthor")]
-        public HttpResponseMessage PostCheckUserAuthor(string username, string pwd)
+        /// <response code="404">Data not found</response>
+        [ResponseType(typeof(UserDetail))]
+        [Authorize]
+        [Route("detail")]
+        public HttpResponseMessage detail(int id)
         {
             using (var context = new LoadContext())
             {
                 var user = context.B3G_USERS
-                            .Where(b => b.USER_NAME.ToUpper() == username.ToUpper() && b.PASSWORD == pwd)
+                            .Where(b => b.USER_ID == id)
                             .FirstOrDefault();
+                if (user == null)
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.NotFound, "User not found");
+                }
 
                 var userd = context.B3G_USER_DESC
                              .Where(t => t.USER_ID == user.USER_ID && t.LANG_CODE == "TH")
@@ -92,6 +105,7 @@ namespace boonservice.api.Controllers
                     userdetail.firstname = userd.FIRST_NAME;
                     userdetail.lastname = userd.LAST_NAME;
                 }
+
                 return user == null
                     ? Request.CreateErrorResponse(HttpStatusCode.NotFound, "User not found")
                     : Request.CreateResponse(HttpStatusCode.OK, userdetail);

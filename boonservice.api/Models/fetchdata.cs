@@ -13,7 +13,7 @@ namespace boonservice.api.Models
         public Int16 after { get; set; }
         
         /// <summary>
-        /// Size (default 500)
+        /// Size (default 100)
         /// </summary>
         public int size { get; set; }        
     }

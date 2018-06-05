@@ -13,6 +13,9 @@
 
     HomeController.$inject = ['$scope', '$http', '$rootScope', '$location'];
     function HomeController($scope, $http, $rootScope, $location) {        
+
+        $scope.prgurl = 'http://localhost:56468/blank';
+
         $scope.init = function () {
 
         };

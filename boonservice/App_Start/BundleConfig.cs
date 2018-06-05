@@ -39,6 +39,7 @@ namespace boonservice
                         "~/content/vendor/angular/angular-touch.min.js",
                         "~/content/vendor/angular/angular-route.min.js",
                         "~/content/vendor/angular/angular-idle.min.js",
+                        "~/content/vendor/angular/angular-ui-router.min.js",
                         "~/content/vendor/ngMask/ngMask.js"));
         }
     }

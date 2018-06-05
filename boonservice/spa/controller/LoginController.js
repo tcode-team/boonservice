@@ -5,29 +5,55 @@
         .module('app')
         .controller('LoginController', LoginController)
 
-    LoginController.$inject = ['$scope', '$rootScope','$cookies','$http','$location'];
-    function LoginController($scope,$rootScope,$cookies,$http,$location) {        
-        $scope.init = function () {
-
-        };
+    LoginController.$inject = ['$scope', '$state','LoginService'];
+    function LoginController($scope, $state, LoginService) {        
 
         $scope.login = function() {
-            // store user details and jwt token in local storage to keep user logged in between page refreshes
-            localStorage.setItem('currentUser', JSON.stringify({ username: 'chalutpun' })); // token: result   
-                       
-            $rootScope.globals = {
-                currentUser: {
-                    userid: 1234,
-                    username: 'CHALUTPUN'
-                }
+            $scope.user = {
+                grant_type: 'password',
+                username: $scope.userName,
+                password: $scope.password
             };
+            if ($scope.userName === "" || $scope.password === "") {
+                $scope.isAuthenticated = false;
+                $state.go("login");
+            }
+            else {
+                var promise = LoginService.Login($scope.user);
 
-            // store user details in globals cookie that keeps user logged in for 1 week (or until they logout)
-            var cookieExp = new Date();
-            cookieExp.setDate(cookieExp.getDate() + 1);
-            $cookies.putObject('globals', $rootScope.globals, { expires: cookieExp, path: '/' });
-            
-            $location.path('/home');
+                promise.then(function (resp) {
+                    if (resp.data !== null) {
+                        if (resp.data.error === "invalid_grant") {
+                            $scope.isAuthenticated = false;
+                            $state.go("login");
+                        }
+                        else {
+                            $scope.isAuthenticated = true;
+                            sessionStorage.setItem('userName', $scope.userName)
+                            sessionStorage.setItem('accessToken', resp.data.access_token)
+                            sessionStorage.setItem('userName', $scope.userName)
+                            $state.go("home");
+                        }
+                    } else {
+                        $scope.isAuthenticated = false;
+                        $state.go("login");
+                    }
+                }, function () {
+                    $scope.isAuthenticated = false;
+                    $state.go("login");
+                }, function () {
+                    console.log("C");
+                    $scope.isAuthenticated = false;
+                    $state.go("login");
+                });
+
+            } 
+        }
+
+        $scope.logout = function () {
+            console.log('logout');
+            sessionStorage.clear();
+            $state.go("login");
         }
     };
 

@@ -277,6 +277,7 @@
     <Content Include="Content\vendor\angular\angular-scenario.js" />
     <Content Include="Content\vendor\angular\angular-touch.js" />
     <Content Include="Content\vendor\angular\angular-touch.min.js" />
+    <Content Include="Content\vendor\angular\angular-ui-router.min.js" />
     <Content Include="Content\vendor\angular\angular.js" />
     <Content Include="Content\vendor\angular\angular.min.js" />
     <Content Include="Content\vendor\animate.css\animate.css" />
@@ -1057,7 +1058,7 @@
     <Content Include="spa\controller\LoginController.js" />
     <Content Include="spa\controller\HomeController.js" />
     <Content Include="spa\controller\ShipmentListController.js" />
-    <Content Include="spa\service\AuthenticationService.js" />
+    <Content Include="spa\service\LoginService.js" />
     <Content Include="spa\view\home.html" />
     <Content Include="spa\view\login.html" />
     <Content Include="Web.config" />

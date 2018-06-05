@@ -15,6 +15,7 @@ using boonservice.api.Models;
 namespace boonservice.api.Controllers
 {
 
+    [RoutePrefix("shipment")]
     public class ShipmentController : ApiController
     {
         string client = System.Configuration.ConfigurationManager.AppSettings["client"];
@@ -29,7 +30,8 @@ namespace boonservice.api.Controllers
         /// <returns></returns>
         /// <response code="200"></response>
         [ResponseType(typeof(IEnumerable<ShipmentDetailModel>))]
-        [Route("shipment/search")]
+        [Authorize]
+        [Route("search")]
         public async Task<HttpResponseMessage> PostShipmentSearh(ShipmentSearchModel searchvalue)
         {
             searchvalue.fetchdata = searchvalue.fetchdata == null ? new fetchdata() : searchvalue.fetchdata;
@@ -103,7 +105,8 @@ namespace boonservice.api.Controllers
         /// <returns></returns>
         /// <response code="200"></response>
         [ResponseType(typeof(IEnumerable<ShipmentDetailModel>))]
-        [Route("shipment/getall")]
+        [Authorize]
+        [Route("getall")]
         public async Task<HttpResponseMessage> Get(fetchdata fetchdata)
         {
             fetchdata = fetchdata == null ? new fetchdata() : fetchdata;
@@ -115,7 +118,7 @@ namespace boonservice.api.Controllers
                     .Where(w => w.MANDT == client)
                     .OrderBy(t => t.TKNUM)
                     .Skip(fetchdata.after == 0 ? 0 : fetchdata.after)
-                    .Take(fetchdata.size == 0 ? 500 : fetchdata.size)
+                    .Take(fetchdata.size == 0 ? 100 : fetchdata.size)
                     .ToList();
                 Shipments = MappingShipmentDetail(vttks);
                 return Shipments == null

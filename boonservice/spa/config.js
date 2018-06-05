@@ -10,9 +10,8 @@
 
         var config = {};
 
-        config.rootpath = 'qas';
         config.api = {
-            url: 'http://bss.boonthavorn.com:8080/ords/bsssan'
+            url: 'http://dotnet64-test.boonthavorn.com/boon.api/'
         }
         
         return config;
