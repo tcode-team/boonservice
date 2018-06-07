@@ -189,6 +189,23 @@ namespace boonservice.api.Models
         /// </summary>
         [StringLength(10)]
         public string forwarding { get; set; }
+
+        /// <summary>
+        /// Transport amount
+        /// </summary>
+        public decimal transport_amount { get; set; }
+
+        /// <summary>
+        /// Status
+        /// </summary>
+        [StringLength(2)]
+        public string status_code { get; set; }
+
+        /// <summary>
+        /// Status description
+        /// </summary>
+        [StringLength(80)]
+        public string status_desc { get; set; }
     }    
 
 }

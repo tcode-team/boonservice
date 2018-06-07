@@ -10,66 +10,66 @@ namespace boonservice.api.Models
     /// <summary>
     /// Table afs_carries_point
     /// </summary>
-    [Table("afs_carries_point")]
+    [Table("AFS_CARRIES_POINT")]
     public class afs_carries_point
     {
         /// <summary>
         /// รหัส
         /// </summary>
         [Key]
-        public Int16 point_id { get; set; }
+        public Int16 POINT_ID { get; set; }
 
         /// <summary>
         /// รหัสกลุ่มรถ
         /// </summary>
         [StringLength(2)]
-        public string cargroup_code { get; set; }
+        public string CARGROUP_CODE { get; set; }
 
         /// <summary>
         /// ระยะทาง
         /// </summary>
         [StringLength(250)]
-        public string tier_desc { get; set; }
+        public string TIER_DESC { get; set; }
 
         /// <summary>
         /// พนักงานขับรถ 1
         /// </summary>
-        public decimal dpoint1_amount { get; set; }
+        public decimal DPOINT1_AMOUNT { get; set; }
 
         /// <summary>
         /// พนักงานขับรถ 2
         /// </summary>
-        public decimal dpoint2_amount { get; set; }
+        public decimal DPOINT2_AMOUNT { get; set; }
 
         /// <summary>
         /// เด็กรถ 1
         /// </summary>
-        public decimal spoint1_amount { get; set; }
+        public decimal SPOINT1_AMOUNT { get; set; }
 
         /// <summary>
         /// เด็กรถ 2
         /// </summary>
-        public decimal spoint2_amount { get; set; }
+        public decimal SPOINT2_AMOUNT { get; set; }
 
         /// <summary>
         /// รหัสผู้สร้าง
         /// </summary>
-        public int created_by { get; set; }
+        public int CREATED_BY { get; set; }
 
         /// <summary>
         /// วันที่สร้าง
         /// </summary>
-        public DateTime? created_date { get; set; }
+        public DateTime? CREATED_DATE { get; set; }
 
         /// <summary>
         /// รหัสผู้อัพเดท
         /// </summary>
-        public int update_by { get; set; }
+        public int UPDATE_BY { get; set; }
 
         /// <summary>
         /// วันที่อัพเดท
         /// </summary>
-        public DateTime? update_date { get; set; }
+        public DateTime? UPDATE_DATE { get; set; }
     }
 
 }

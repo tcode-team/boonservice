@@ -10,25 +10,25 @@ namespace boonservice.api.Models
     /// <summary>
     /// Table afs_expense  
     /// </summary>
-    [Table("afs_expense")]
+    [Table("AFS_EXPENSE")]
     public class afs_expense
     {
         /// <summary>
         /// รหัสค่าใช้จ่าย
         /// </summary>
         [Key]
-        public int expense_id { get; set; }
+        public int EXPENSE_ID { get; set; }
 
         /// <summary>
         /// รายละเอียดค่าใช้จ่าย
         /// </summary>
         [StringLength(80)]
-        public string expense_desc { get; set; }
+        public string EXPENSE_DESC { get; set; }
 
         /// <summary>
         /// มูลค่า
         /// </summary>
-        public decimal expense_amount { get; set; }
+        public decimal EXPENSE_AMOUNT { get; set; }
     }
 
 }

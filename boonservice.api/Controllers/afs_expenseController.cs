@@ -69,7 +69,7 @@ namespace boonservice.api.Controllers
             {
                 using (var context = new SAPContext())
                 {
-                    var afs_expense = context.afs_expense.Where(t => t.expense_id == id).FirstOrDefault();
+                    var afs_expense = context.afs_expense.Where(t => t.EXPENSE_ID == id).FirstOrDefault();
                     return afs_expense == null
                         ? Request.CreateErrorResponse(HttpStatusCode.NotFound, "afs_expense not found")
                         : Request.CreateResponse(HttpStatusCode.OK, afs_expense);
@@ -99,10 +99,11 @@ namespace boonservice.api.Controllers
                 using (var context = new SAPContext())
                 {
                     afs_expense data = new afs_expense();
-                    data.expense_id = post_afs_expense.expense_id;
-                    data.expense_desc = post_afs_expense.expense_desc;
-                    data.expense_amount = post_afs_expense.expense_amount;
+                    data.EXPENSE_ID = post_afs_expense.EXPENSE_ID;
+                    data.EXPENSE_DESC = post_afs_expense.EXPENSE_DESC;
+                    data.EXPENSE_AMOUNT = post_afs_expense.EXPENSE_AMOUNT;
                     context.afs_expense.Add(data);
+                    context.SaveChanges();
 
                     return Request.CreateResponse(HttpStatusCode.OK, data);
                 }
@@ -128,12 +129,13 @@ namespace boonservice.api.Controllers
             {
                 using (var context = new SAPContext())
                 {
-                    var existing = context.afs_expense.Where(t => t.expense_id == put_afs_expense.expense_id).FirstOrDefault();
+                    var existing = context.afs_expense.Where(t => t.EXPENSE_ID == put_afs_expense.EXPENSE_ID).FirstOrDefault();
                     if (existing == null)
                         return Request.CreateErrorResponse(HttpStatusCode.NotFound, "afs_expense not found");
 
                     context.afs_expense.Remove(existing);
                     context.afs_expense.Add(put_afs_expense);
+                    context.SaveChanges();
 
                     return Request.CreateResponse(HttpStatusCode.OK, put_afs_expense);
                 }
@@ -159,11 +161,12 @@ namespace boonservice.api.Controllers
             {
                 using (var context = new SAPContext())
                 {
-                    var existing = context.afs_expense.Where(t => t.expense_id == expense_id).FirstOrDefault();
+                    var existing = context.afs_expense.Where(t => t.EXPENSE_ID == expense_id).FirstOrDefault();
                     if (existing == null)
                         return Request.CreateErrorResponse(HttpStatusCode.NotFound, "afs_expense not found");
 
                     context.afs_expense.Remove(existing);
+                    context.SaveChanges();
 
                     return Request.CreateResponse(HttpStatusCode.OK);
                 }

@@ -8,23 +8,23 @@ using System.Web;
 namespace boonservice.api.Models
 {
     /// <summary>
-    /// Table afs_car_group  
+    /// Table afs_shipment_status  
     /// </summary>
-    [Table("AFS_CAR_GROUP")]
-    public class afs_car_group
+    [Table("AFS_SHIPMENT_STATUS")]
+    public class afs_shipment_status
     {
         /// <summary>
-        /// รหัสกลุ่มรถ
+        /// รหัสสถานะ
         /// </summary>
         [Key]
         [StringLength(2)]
-        public string CARGROUP_CODE { get; set; }
+        public string STATUS_CODE { get; set; }
 
         /// <summary>
-        /// รายละเอียดกลุ่มรถ
+        /// รายละเอียดสถานะ
         /// </summary>
         [StringLength(50)]
-        public string CARGROUP_DESC { get; set; }
+        public string STATUS_DESC { get; set; }
     }
 
 }

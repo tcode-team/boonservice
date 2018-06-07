@@ -13,6 +13,12 @@ using boonservice.api.Models;
 
 namespace boonservice.api.Controllers
 {
+    /// <summary>
+    /// For Table afs_carries_point
+    /// </summary>
+    /// <remarks>
+    /// Method about table of afs_carries_point
+    /// </remarks>
     [RoutePrefix("afs_carries_point")]
     public class afs_carries_pointController : ApiController
     {
@@ -63,7 +69,7 @@ namespace boonservice.api.Controllers
             {
                 using (var context = new SAPContext())
                 {
-                    var afs_carries_point = context.afs_carries_point.Where(t => t.point_id == id).FirstOrDefault();
+                    var afs_carries_point = context.afs_carries_point.Where(t => t.POINT_ID == id).FirstOrDefault();
                     return afs_carries_point == null
                         ? Request.CreateErrorResponse(HttpStatusCode.NotFound, "afs_car_group not found")
                         : Request.CreateResponse(HttpStatusCode.OK, afs_carries_point);
@@ -93,18 +99,19 @@ namespace boonservice.api.Controllers
                 using (var context = new SAPContext())
                 {
                     afs_carries_point data = new afs_carries_point();
-                    data.point_id = post_afs_carries_point.point_id;
-                    data.cargroup_code = post_afs_carries_point.cargroup_code;
-                    data.tier_desc = post_afs_carries_point.tier_desc;
-                    data.dpoint1_amount = post_afs_carries_point.dpoint1_amount;
-                    data.dpoint2_amount = post_afs_carries_point.dpoint2_amount;
-                    data.spoint1_amount = post_afs_carries_point.spoint1_amount;
-                    data.spoint2_amount = post_afs_carries_point.spoint2_amount;
-                    data.created_by = post_afs_carries_point.created_by;
-                    data.created_date = DateTime.Now;
-                    data.update_by = post_afs_carries_point.update_by;
-                    data.update_date = DateTime.Now;
+                    data.POINT_ID = post_afs_carries_point.POINT_ID;
+                    data.CARGROUP_CODE = post_afs_carries_point.CARGROUP_CODE;
+                    data.TIER_DESC = post_afs_carries_point.TIER_DESC;
+                    data.DPOINT1_AMOUNT = post_afs_carries_point.DPOINT1_AMOUNT;
+                    data.DPOINT2_AMOUNT = post_afs_carries_point.DPOINT2_AMOUNT;
+                    data.SPOINT1_AMOUNT = post_afs_carries_point.SPOINT1_AMOUNT;
+                    data.SPOINT2_AMOUNT = post_afs_carries_point.SPOINT2_AMOUNT;
+                    data.CREATED_BY = post_afs_carries_point.CREATED_BY;
+                    data.CREATED_DATE = DateTime.Now;
+                    data.UPDATE_BY = post_afs_carries_point.UPDATE_BY;
+                    data.UPDATE_DATE = DateTime.Now;
                     context.afs_carries_point.Add(data);
+                    context.SaveChanges();
 
                     return Request.CreateResponse(HttpStatusCode.OK, data);
                 }
@@ -130,13 +137,14 @@ namespace boonservice.api.Controllers
             {
                 using (var context = new SAPContext())
                 {
-                    var existing = context.afs_carries_point.Where(t => t.point_id == put_afs_carries_point.point_id).FirstOrDefault();
+                    var existing = context.afs_carries_point.Where(t => t.POINT_ID == put_afs_carries_point.POINT_ID).FirstOrDefault();
                     if (existing == null)
                         return Request.CreateErrorResponse(HttpStatusCode.NotFound, "afs_carries_point not found");
 
                     context.afs_carries_point.Remove(existing);
-                    put_afs_carries_point.update_date = DateTime.Now;
+                    put_afs_carries_point.UPDATE_DATE = DateTime.Now;
                     context.afs_carries_point.Add(put_afs_carries_point);
+                    context.SaveChanges();
 
                     return Request.CreateResponse(HttpStatusCode.OK, put_afs_carries_point);
                 }
@@ -162,11 +170,12 @@ namespace boonservice.api.Controllers
             {
                 using (var context = new SAPContext())
                 {
-                    var existing = context.afs_carries_point.Where(t => t.point_id == point_id).FirstOrDefault();
+                    var existing = context.afs_carries_point.Where(t => t.POINT_ID == point_id).FirstOrDefault();
                     if (existing == null)
                         return Request.CreateErrorResponse(HttpStatusCode.NotFound, "afs_carries_point not found");
 
                     context.afs_carries_point.Remove(existing);
+                    context.SaveChanges();
 
                     return Request.CreateResponse(HttpStatusCode.OK);
                 }

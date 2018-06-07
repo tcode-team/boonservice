@@ -14,7 +14,10 @@ using boonservice.api.Models;
 
 namespace boonservice.api.Controllers
 {
-
+    /// <summary>
+    /// Shipment
+    /// </summary>
+    /// <remarks></remarks>
     [RoutePrefix("shipment")]
     public class ShipmentController : ApiController
     {
@@ -32,13 +35,30 @@ namespace boonservice.api.Controllers
         [ResponseType(typeof(IEnumerable<ShipmentDetailModel>))]
         [Authorize]
         [Route("search")]
-        public async Task<HttpResponseMessage> PostShipmentSearh(ShipmentSearchModel searchvalue)
+        public HttpResponseMessage PostShipmentSearh(ShipmentSearchModel searchvalue)
         {
             searchvalue.fetchdata = searchvalue.fetchdata == null ? new fetchdata() : searchvalue.fetchdata;
 
+            var result = new List<ShipmentDetailModel>();
             var Shipments = new List<ShipmentDetailModel>();
-            var datefrom = DateTime.ParseExact(searchvalue.ShipmentDateFrom, "dd/MM/yyyy", null).Date.ToString("yyyyMMdd");
-            var dateto = DateTime.ParseExact(searchvalue.ShipmentDateTo, "dd/MM/yyyy", null).Date.ToString("yyyyMMdd");            
+
+            Expression<Func<VTTK, bool>> ShipmentDateFromExpression;
+            if (searchvalue.ShipmentDateFrom != null)
+            {
+                var datefrom = DateTime.ParseExact(searchvalue.ShipmentDateFrom, "dd/MM/yyyy", null).Date.ToString("yyyyMMdd");
+                ShipmentDateFromExpression = gto => gto.ERDAT.CompareTo(datefrom) >= 0;
+            }
+            else
+                ShipmentDateFromExpression = gto => 1 == 1;
+
+            Expression<Func<VTTK, bool>> ShipmentDateToExpression;
+            if (searchvalue.ShipmentDateFrom != null)
+            {
+                var dateto = DateTime.ParseExact(searchvalue.ShipmentDateTo, "dd/MM/yyyy", null).Date.ToString("yyyyMMdd");
+                ShipmentDateToExpression = gto => gto.ERDAT.CompareTo(dateto) <= 0;
+            }
+            else
+                ShipmentDateToExpression = gto => 1 == 1;
 
             Expression<Func<VTTK, bool>> forwardingExpression;
             if (searchvalue.forwarding != null)
@@ -73,14 +93,21 @@ namespace boonservice.api.Controllers
             else
                 CarLicenseExpression = gto => 1 == 1;
 
+            Expression<Func<afs_shipment_h, bool>> ShipmentStatusExpression;
+            if (searchvalue.ShipmentStatus != "ALL" && searchvalue.ShipmentStatus != null)
+            {
+                ShipmentStatusExpression = gto => gto.STATUS == searchvalue.ShipmentStatus;
+            }
+            else
+                ShipmentStatusExpression = gto => 1 == 1;
+
             using (var context = new SAPSR3Context())
             {
                 var vttks = context.VTTK
+                    .Where(t => t.MANDT == client)
                     .Where(ShipmentNumberExpression)
-                    .Where(t =>
-                        t.MANDT == client &&
-                        t.ERDAT.CompareTo(datefrom) >= 0 &&
-                        t.ERDAT.CompareTo(dateto) <= 0)
+                    .Where(ShipmentDateFromExpression)
+                    .Where(ShipmentDateToExpression)
                     .Where(ShipmentTypeExpression)
                     .Where(forwardingExpression)
                     .Where(CarLicenseExpression)
@@ -90,9 +117,48 @@ namespace boonservice.api.Controllers
                     .ToList();
                 Shipments = MappingShipmentDetail(vttks);
 
-                return Shipments == null
+                foreach (ShipmentDetailModel r in Shipments)
+                {
+                    using (var sapcontext = new SAPContext())
+                    {
+                        var shipment_h = sapcontext.afs_shipment_h.Where(t => 
+                                            t.CLIENT == r.client && 
+                                            t.SHIPMENT_NUMBER == r.shipment_number)
+                                         .FirstOrDefault();
+                        if (shipment_h == null && (searchvalue.ShipmentStatus != "ALL" && searchvalue.ShipmentStatus != "01" && searchvalue.ShipmentStatus != null))
+                        {
+                            continue;
+                        } else
+                        {
+                            if (shipment_h == null && (searchvalue.ShipmentStatus == "ALL" || searchvalue.ShipmentStatus == "01" || searchvalue.ShipmentStatus == null))
+                            {
+                                var status = sapcontext.afs_shipment_status.Where(t =>
+                                                    t.STATUS_CODE == "01").FirstOrDefault();
+                                r.status_code = "01";
+                                r.status_desc = status.STATUS_DESC;
+                                result.Add(r);
+                            } else
+                            {
+                                if (shipment_h.STATUS == searchvalue.ShipmentStatus)
+                                {
+                                    var status = sapcontext.afs_shipment_status.Where(t =>
+                                                    t.STATUS_CODE == shipment_h.STATUS).FirstOrDefault();
+                                    r.status_code = shipment_h.STATUS;
+                                    r.status_desc = status.STATUS_DESC;
+                                    result.Add(r);
+                                } else
+                                {
+                                    continue;
+                                }
+                            }
+                            
+                        }
+                    }
+                }  
+
+                return result == null || result.Count == 0
                     ? Request.CreateErrorResponse(HttpStatusCode.NotFound, "Shipment List not found")
-                    : Request.CreateResponse(HttpStatusCode.OK, Shipments);
+                    : Request.CreateResponse(HttpStatusCode.OK, result);
             }
         }
 
@@ -107,7 +173,7 @@ namespace boonservice.api.Controllers
         [ResponseType(typeof(IEnumerable<ShipmentDetailModel>))]
         [Authorize]
         [Route("getall")]
-        public async Task<HttpResponseMessage> Get(fetchdata fetchdata)
+        public HttpResponseMessage Get(fetchdata fetchdata)
         {
             fetchdata = fetchdata == null ? new fetchdata() : fetchdata;
 
@@ -121,6 +187,32 @@ namespace boonservice.api.Controllers
                     .Take(fetchdata.size == 0 ? 100 : fetchdata.size)
                     .ToList();
                 Shipments = MappingShipmentDetail(vttks);
+
+                foreach (ShipmentDetailModel r in Shipments)
+                {
+                    using (var sapcontext = new SAPContext())
+                    {
+                        var shipment_h = sapcontext.afs_shipment_h.Where(t =>
+                                            t.CLIENT == r.client &&
+                                            t.SHIPMENT_NUMBER == r.shipment_number)
+                                         .FirstOrDefault();
+                        if (shipment_h == null)
+                        {
+                            var status = sapcontext.afs_shipment_status.Where(t =>
+                                                t.STATUS_CODE == "01").FirstOrDefault();
+                            r.status_code = "01";
+                            r.status_desc = status.STATUS_DESC;
+                        }
+                        else
+                        {
+                            var status = sapcontext.afs_shipment_status.Where(t =>
+                                            t.STATUS_CODE == shipment_h.STATUS).FirstOrDefault();
+                            r.status_code = shipment_h.STATUS;
+                            r.status_desc = status.STATUS_DESC;
+                        }
+                    }
+                }
+
                 return Shipments == null
                     ? Request.CreateErrorResponse(HttpStatusCode.NotFound, "Shipment not found")
                     : Request.CreateResponse(HttpStatusCode.OK, Shipments);

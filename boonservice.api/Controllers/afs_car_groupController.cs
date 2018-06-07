@@ -13,6 +13,12 @@ using boonservice.api.Models;
 
 namespace boonservice.api.Controllers
 {
+    /// <summary>
+    /// For Table afs_car_group
+    /// </summary>
+    /// <remarks>
+    /// Method about table of afs_car_group
+    /// </remarks>
     [RoutePrefix("afs_car_group")]
     public class afs_car_groupController : ApiController
     {
@@ -63,7 +69,7 @@ namespace boonservice.api.Controllers
             {
                 using (var context = new SAPContext())
                 {
-                    var afs_car_group = context.afs_car_group.Where(t => t.cargroup_code == id).FirstOrDefault();
+                    var afs_car_group = context.afs_car_group.Where(t => t.CARGROUP_CODE == id).FirstOrDefault();
                     return afs_car_group == null
                         ? Request.CreateErrorResponse(HttpStatusCode.NotFound, "afs_car_group not found")
                         : Request.CreateResponse(HttpStatusCode.OK, afs_car_group);
@@ -93,16 +99,17 @@ namespace boonservice.api.Controllers
                 using (var context = new SAPContext())
                 {
                     afs_car_group data = new afs_car_group();
-                    data.cargroup_code = post_afs_car_group.cargroup_code;
-                    data.cargroup_desc = post_afs_car_group.cargroup_desc;
+                    data.CARGROUP_CODE = post_afs_car_group.CARGROUP_CODE;
+                    data.CARGROUP_DESC = post_afs_car_group.CARGROUP_DESC;
                     context.afs_car_group.Add(data);
+                    context.SaveChanges();
 
                     return Request.CreateResponse(HttpStatusCode.OK, data);
                 }
             }
             catch (Exception ex)
             {
-                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.InnerException.InnerException.Message);
             }
         }
 
@@ -121,12 +128,13 @@ namespace boonservice.api.Controllers
             {
                 using (var context = new SAPContext())
                 {
-                    var existing = context.afs_car_group.Where(t => t.cargroup_code == put_afs_car_group.cargroup_code).FirstOrDefault();
+                    var existing = context.afs_car_group.Where(t => t.CARGROUP_CODE == put_afs_car_group.CARGROUP_DESC).FirstOrDefault();
                     if (existing == null)
                         return Request.CreateErrorResponse(HttpStatusCode.NotFound, "afs_car_group not found");
 
                     context.afs_car_group.Remove(existing);
                     context.afs_car_group.Add(put_afs_car_group);
+                    context.SaveChanges();
 
                     return Request.CreateResponse(HttpStatusCode.OK, put_afs_car_group);
                 }
@@ -152,11 +160,12 @@ namespace boonservice.api.Controllers
             {
                 using (var context = new SAPContext())
                 {
-                    var existing = context.afs_car_group.Where(t => t.cargroup_code == cargroup_code).FirstOrDefault();
+                    var existing = context.afs_car_group.Where(t => t.CARGROUP_CODE == cargroup_code).FirstOrDefault();
                     if (existing == null)
                         return Request.CreateErrorResponse(HttpStatusCode.NotFound, "afs_car_group not found");
 
                     context.afs_car_group.Remove(existing);
+                    context.SaveChanges();
 
                     return Request.CreateResponse(HttpStatusCode.OK);
                 }

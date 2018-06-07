@@ -63,7 +63,7 @@ namespace boonservice.api.Controllers
             {
                 using (var context = new SAPContext())
                 {
-                    var afs_car_identity_card = context.afs_car_identity_card.Where(t => t.people_id == id).FirstOrDefault();
+                    var afs_car_identity_card = context.afs_car_identity_card.Where(t => t.PEOPLE_ID == id).FirstOrDefault();
                     return afs_car_identity_card == null
                         ? Request.CreateErrorResponse(HttpStatusCode.NotFound, "afs_car_identity_card not found")
                         : Request.CreateResponse(HttpStatusCode.OK, afs_car_identity_card);
@@ -93,14 +93,15 @@ namespace boonservice.api.Controllers
                 using (var context = new SAPContext())
                 {
                     afs_car_identity_card data = new afs_car_identity_card();
-                    data.people_id = post_afs_car_identity_card.people_id;
-                    data.name = post_afs_car_identity_card.name;
-                    data.card_code = post_afs_car_identity_card.card_code;
-                    data.passport_code = post_afs_car_identity_card.passport_code;
-                    data.nation = post_afs_car_identity_card.nation;
-                    data.driver_flag = post_afs_car_identity_card.driver_flag;
-                    data.staff_flag = post_afs_car_identity_card.staff_flag;
+                    data.PEOPLE_ID = post_afs_car_identity_card.PEOPLE_ID;
+                    data.NAME = post_afs_car_identity_card.NAME;
+                    data.CARD_CODE = post_afs_car_identity_card.CARD_CODE;
+                    data.PASSPORT_CODE = post_afs_car_identity_card.PASSPORT_CODE;
+                    data.NATION = post_afs_car_identity_card.NATION;
+                    data.DRIVER_FLAG = post_afs_car_identity_card.DRIVER_FLAG;
+                    data.STAFF_FLAG = post_afs_car_identity_card.STAFF_FLAG;
                     context.afs_car_identity_card.Add(data);
+                    context.SaveChanges();
 
                     return Request.CreateResponse(HttpStatusCode.OK, data);
                 }
@@ -126,12 +127,13 @@ namespace boonservice.api.Controllers
             {
                 using (var context = new SAPContext())
                 {
-                    var existing = context.afs_car_identity_card.Where(t => t.people_id == put_afs_car_identity_card.people_id).FirstOrDefault();
+                    var existing = context.afs_car_identity_card.Where(t => t.PEOPLE_ID == put_afs_car_identity_card.PEOPLE_ID).FirstOrDefault();
                     if (existing == null)
                         return Request.CreateErrorResponse(HttpStatusCode.NotFound, "afs_car_group not found");
 
                     context.afs_car_identity_card.Remove(existing);
                     context.afs_car_identity_card.Add(put_afs_car_identity_card);
+                    context.SaveChanges();
 
                     return Request.CreateResponse(HttpStatusCode.OK, put_afs_car_identity_card);
                 }
@@ -157,11 +159,12 @@ namespace boonservice.api.Controllers
             {
                 using (var context = new SAPContext())
                 {
-                    var existing = context.afs_car_identity_card.Where(t => t.people_id == people_id).FirstOrDefault();
+                    var existing = context.afs_car_identity_card.Where(t => t.PEOPLE_ID == people_id).FirstOrDefault();
                     if (existing == null)
                         return Request.CreateErrorResponse(HttpStatusCode.NotFound, "afs_car_identity_card not found");
 
                     context.afs_car_identity_card.Remove(existing);
+                    context.SaveChanges();
 
                     return Request.CreateResponse(HttpStatusCode.OK);
                 }

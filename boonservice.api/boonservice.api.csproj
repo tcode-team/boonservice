@@ -213,6 +213,10 @@
     <Compile Include="Context\SAPContext.cs" />
     <Compile Include="Context\SAPSR3Context.cs" />
     <Compile Include="Context\LoadContext.cs" />
+    <Compile Include="Controllers\afs_shipment_statusController.cs" />
+    <Compile Include="Controllers\afs_shipment_hController.cs" />
+    <Compile Include="Controllers\afs_shipment_expenseController.cs" />
+    <Compile Include="Controllers\afs_shipment_carriesController.cs" />
     <Compile Include="Controllers\afs_expenseController.cs" />
     <Compile Include="Controllers\afs_carries_pointController.cs" />
     <Compile Include="Controllers\afs_car_identity_cardController.cs" />
@@ -225,6 +229,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\afs_carries_point.cs" />
+    <Compile Include="Models\afs_shipment_status.cs" />
     <Compile Include="Models\afs_shipment_expense.cs" />
     <Compile Include="Models\afs_shipment_carries.cs" />
     <Compile Include="Models\afs_shipment_h.cs" />
