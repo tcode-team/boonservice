@@ -11,7 +11,6 @@ namespace boonservice.api
     {
         public static void Configure()
         {
-            Mapper.Initialize(cfg => cfg.AddProfile(new SuperheroAutoMapperProfile()));
             Mapper.Initialize(cfg => cfg.AddProfile(new UserAutoMapperProfile()));
         }
     }

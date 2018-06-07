@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('app', ['ngCookies', 'ngSanitize', 'ngTouch', 'ngAnimate', 'ngIdle', 'ui.router'])
+        .module('app', ['ngCookies', 'ngSanitize', 'ngTouch', 'ngAnimate', 'ngIdle', 'ui.router', 'angular-loading-bar'])
         .config(config)
         .factory('AuthInterceptor', AuthInterceptor);
         //.run(run);    
@@ -14,13 +14,10 @@
         var authInterceptor = {
             request: function (config) {
                 var accessToken = sessionStorage.getItem('accessToken');
-                console.log(accessToken);
                 if (accessToken === null || accessToken === "undefined") {
-                    console.log('token null');
                     $state.go("login");
                 }
                 else {
-                    console.log('config auth');
                     config.headers["Authorization"] = "bearer " + accessToken;
                 }
                 return config;
@@ -57,8 +54,8 @@
     };  
 
     /************************** config **************************/
-    config.$inject = ['$stateProvider', '$urlRouterProvider', '$locationProvider', '$httpProvider', '$qProvider'];
-    function config($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, $qProvider) {
+    config.$inject = ['$stateProvider', '$urlRouterProvider', '$locationProvider', '$httpProvider', '$qProvider', 'cfpLoadingBarProvider'];
+    function config($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, $qProvider, cfpLoadingBarProvider) {
         $urlRouterProvider.otherwise('/home');
         $locationProvider.hashPrefix('');  
 
@@ -83,6 +80,9 @@
         $httpProvider.interceptors.push('AuthInterceptor');
 
         $qProvider.errorOnUnhandledRejections(false);   
+
+        //loading bar
+        cfpLoadingBarProvider.includeSpinner = true;
     }
     /************************** config **************************/
 

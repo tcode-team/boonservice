@@ -9,7 +9,7 @@
     function BlankController($scope, $http) {        
         $scope.title = 'Blank Page';
 
-        //
+        $scope.user = JSON.parse(sessionStorage.getItem('userDetail'));
     };
 
 })();

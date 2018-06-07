@@ -1,4 +1,5 @@
 ﻿using boonservice.api.Context;
+using boonservice.api.Models;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.OAuth;
 using System;
@@ -33,7 +34,7 @@ namespace boonservice.api
                             .FirstOrDefault();
                     if (user != null)
                     {
-                        if (!string.IsNullOrEmpty(user.USER_NAME))
+                        if (!string.IsNullOrEmpty(user.USER_NAME) && user.INACTIVE == "N")
                         {
                             identity.AddClaim(new Claim("UserAuth", "auth@boonthavorn.com"));
 
@@ -49,21 +50,27 @@ namespace boonservice.api
 
                             var ticket = new AuthenticationTicket(identity, props);
                             context.Validated(ticket);
-                        }
-                        else
-                        {
-                            context.SetError("invalid_grant", "Provided username and password is incorrect");
+                        } else if (!string.IsNullOrEmpty(user.USER_NAME) && user.INACTIVE == "Y") {
+                            context.SetError("inactive_user");
+                            context.Rejected();
+                        } else {
+                            context.SetError("invalid_user");
                             context.Rejected();
                         }
+                    } else
+                    {
+                        context.SetError("invalid_user");
+                        context.Rejected();
                     }
                 }
                 else
                 {
-                    context.SetError("invalid_grant", "Provided username and password is incorrect");
+                    context.SetError("invalid_db");
                     context.Rejected();
                 }
                 return;
             }
         }
+
     }
 }

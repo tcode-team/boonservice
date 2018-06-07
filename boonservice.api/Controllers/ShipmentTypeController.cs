@@ -31,7 +31,7 @@ namespace boonservice.api.Controllers
             var ShipmentTypes = new List<ShipmentTypeModel>();
             try
             {
-                using (var context = new SapContext())
+                using (var context = new SAPSR3Context())
                 {
                     var t173ts = context.T173T.Where(t => t.SPRAS == "2").ToList();
                     foreach (var r in t173ts)
@@ -70,7 +70,7 @@ namespace boonservice.api.Controllers
         {
             try
             {
-                using (var context = new SapContext())
+                using (var context = new SAPSR3Context())
                 {
                     var t173t = context.T173T.Where(t => t.MANDT == "900" && t.SPRAS == "2" && t.VSART == id).FirstOrDefault();
                     ShipmentTypeModel ShipmentType = new ShipmentTypeModel();

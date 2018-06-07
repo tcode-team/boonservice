@@ -15,6 +15,7 @@ namespace boonservice
                       "~/content/vendor/pnotify/pnotify.custom.min.css",
                       "~/content/vendor/nvd3/build/nv.d3.min.css",
                       "~/content/vendor/perfect-scrollbar/css/perfect-scrollbar.min.css",
+                      "~/content/vendor/angular/loading-bar.css",
                       "~/content/vendor/fuse-html/fuse-html.min.css",
                       "~/content/css/main.css",
                       "~/content/site.css"));
@@ -40,6 +41,7 @@ namespace boonservice
                         "~/content/vendor/angular/angular-route.min.js",
                         "~/content/vendor/angular/angular-idle.min.js",
                         "~/content/vendor/angular/angular-ui-router.min.js",
+                        "~/content/vendor/angular/loading-bar.js",
                         "~/content/vendor/ngMask/ngMask.js"));
         }
     }

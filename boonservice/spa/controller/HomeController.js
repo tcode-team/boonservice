@@ -11,14 +11,10 @@
             };
         }])
 
-    HomeController.$inject = ['$scope', '$http', '$state'];
-    function HomeController($scope, $http, $state) {        
+    HomeController.$inject = ['$scope', '$http', '$state', 'UserService'];
+    function HomeController($scope, $http, $state, UserService) {        
 
-        $scope.prgurl = 'http://localhost:56468/blank';
-
-        $scope.init = function () {
-
-        };
+        $scope.user = JSON.parse(sessionStorage.getItem('userDetail'));
 
         $scope.UrlChange = function (url) {
             //url += 'userid=' + $scope.user.userid + '&username=' + $scope.user.username + '&position=' + $scope.user.position;

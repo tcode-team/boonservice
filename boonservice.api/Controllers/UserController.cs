@@ -81,12 +81,12 @@ namespace boonservice.api.Controllers
         [ResponseType(typeof(UserDetail))]
         [Authorize]
         [Route("detail")]
-        public HttpResponseMessage detail(int id)
+        public HttpResponseMessage detail(string username)
         {
             using (var context = new LoadContext())
             {
                 var user = context.B3G_USERS
-                            .Where(b => b.USER_ID == id)
+                            .Where(b => b.USER_NAME == username.ToUpper())
                             .FirstOrDefault();
                 if (user == null)
                 {

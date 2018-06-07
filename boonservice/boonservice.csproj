@@ -280,6 +280,8 @@
     <Content Include="Content\vendor\angular\angular-ui-router.min.js" />
     <Content Include="Content\vendor\angular\angular.js" />
     <Content Include="Content\vendor\angular\angular.min.js" />
+    <Content Include="Content\vendor\angular\loading-bar.css" />
+    <Content Include="Content\vendor\angular\loading-bar.js" />
     <Content Include="Content\vendor\animate.css\animate.css" />
     <Content Include="Content\vendor\animate.css\animate.min.css" />
     <Content Include="Content\vendor\animate.css\gulpfile.js" />
@@ -1058,6 +1060,7 @@
     <Content Include="spa\controller\LoginController.js" />
     <Content Include="spa\controller\HomeController.js" />
     <Content Include="spa\controller\ShipmentListController.js" />
+    <Content Include="spa\service\UserService.js" />
     <Content Include="spa\service\LoginService.js" />
     <Content Include="spa\view\home.html" />
     <Content Include="spa\view\login.html" />
@@ -1077,6 +1080,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
+    <Folder Include="spa\directive\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\icons\fuse-icon-font\fonts\fuse-iconfont.ttf" />

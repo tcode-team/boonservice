@@ -73,7 +73,7 @@ namespace boonservice.api.Controllers
             else
                 CarLicenseExpression = gto => 1 == 1;
 
-            using (var context = new SapContext())
+            using (var context = new SAPSR3Context())
             {
                 var vttks = context.VTTK
                     .Where(ShipmentNumberExpression)
@@ -112,7 +112,7 @@ namespace boonservice.api.Controllers
             fetchdata = fetchdata == null ? new fetchdata() : fetchdata;
 
             var Shipments = new List<ShipmentDetailModel>();
-            using (var context = new SapContext())
+            using (var context = new SAPSR3Context())
             {
                 var vttks = context.VTTK
                     .Where(w => w.MANDT == client)
@@ -130,7 +130,7 @@ namespace boonservice.api.Controllers
         private List<ShipmentDetailModel> MappingShipmentDetail(List<VTTK> vttks)
         {
             var Shipments = new List<ShipmentDetailModel>();
-            using (var context = new SapContext())
+            using (var context = new SAPSR3Context())
             {
                 foreach (var r in vttks)
                 {
