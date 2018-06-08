@@ -2,62 +2,16 @@
     'use strict';
 
     angular
-        .module('app', ['ngCookies', 'ngSanitize', 'ngTouch', 'ngAnimate', 'ngIdle', 'ui.router', 'angular-loading-bar'])
-        .config(config)
-        .factory('AuthInterceptor', AuthInterceptor);
+        .module('app', ['ngRoute', 'ngCookies', 'ngSanitize', 'ngTouch', 'ngAnimate', 'ngIdle', 'ui.router', 'angular-loading-bar'])
+        .config(config);
         //.run(run);    
 
-    AuthInterceptor.$inject = ['$log', '$state', '$q'];
-    function AuthInterceptor($log, $state, $q) {
-        $log.debug('$log is here to show you that this is a regular factory with injection');
-
-        var authInterceptor = {
-            request: function (config) {
-                var accessToken = sessionStorage.getItem('accessToken');
-                if (accessToken === null || accessToken === "undefined") {
-                    $state.go("login");
-                }
-                else {
-                    config.headers["Authorization"] = "bearer " + accessToken;
-                }
-                return config;
-            },
-
-            requestError: function (config) {
-                $state.go("login");
-                return config;
-            },
-
-            response: function (res) {
-                return res;
-            },
-
-            responseError: function (res) {
-                if (res.status === "401") {
-                    $state.go("login");
-                }
-                if (res.status === "400") {
-                    $state.go("login");
-                }
-                if (res.status === "403") {
-                    $state.go("login");
-                }
-                if (res.status === "404") {
-                    $state.go("login");
-                }
-                $q.reject(res)
-                return res;
-            }
-        };
-
-        return authInterceptor;
-    };  
-
     /************************** config **************************/
-    config.$inject = ['$stateProvider', '$urlRouterProvider', '$locationProvider', '$httpProvider', '$qProvider', 'cfpLoadingBarProvider'];
-    function config($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, $qProvider, cfpLoadingBarProvider) {
+    config.$inject = ['$stateProvider', '$routeProvider', '$urlRouterProvider', '$locationProvider', '$httpProvider', '$qProvider', 'cfpLoadingBarProvider'];
+    function config($stateProvider, $routeProvider, $urlRouterProvider, $locationProvider, $httpProvider, $qProvider, cfpLoadingBarProvider) {
         $urlRouterProvider.otherwise('/home');
         $locationProvider.hashPrefix('');  
+        //$locationProvider.html5Mode(true);
 
         $stateProvider
             .state('default', {
@@ -74,11 +28,20 @@
                 url: '/login',
                 templateUrl: 'spa/view/login.html',
                 controller: 'LoginController'
-            });  
+            })
+            .state('blank', {
+                url: '/blank',
+                templateUrl: 'spa/view/blank.html',
+                controller: 'BlankController'
+            })
+            .state('shipmentlist', {
+                url: '/shipmentlist',
+                templateUrl: 'spa/view/ShipmentList.html',
+                controller: 'ShipmentListController'
+            });
 
         //Authorize check
         $httpProvider.interceptors.push('AuthInterceptor');
-
         $qProvider.errorOnUnhandledRejections(false);   
 
         //loading bar

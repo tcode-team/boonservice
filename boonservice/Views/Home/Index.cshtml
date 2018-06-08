@@ -2,13 +2,21 @@
     ViewBag.Title = "Home Page";
 }
 @section apps {
-    <!-- Controller -->
     <script src="~/spa/app.js"></script>
     <script src="~/spa/config.js"></script>
+
+    <!-- Service -->
+    <script src="~/spa/service/AuthInterceptor.js"></script>
     <script src="~/spa/service/LoginService.js"></script>
     <script src="~/spa/service/UserService.js"></script>
+
+    <!-- Controller -->
     <script src="~/spa/controller/HomeController.js"></script>
+    <script src="~/spa/controller/leftNavigatorController.js"></script>
     <script src="~/spa/controller/LoginController.js"></script>
+    <script src="~/spa/controller/BlankController.js"></script>
+    <script src="~/spa/controller/ShipmentListController.js"></script>
+    <script src="~/spa/controller/ProfileController.js"></script>
 }
 
 <main ng-app="app">

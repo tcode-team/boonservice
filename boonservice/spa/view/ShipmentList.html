@@ -1,0 +1,242 @@
+﻿<div id="wrapper">
+    <!-- Left Navigator -->
+    <aside id="aside" class="aside aside-left" ng-include="'spa/view/leftNavigator.html'"
+           data-fuse-bar="aside" data-fuse-bar-media-step="md" data-fuse-bar-position="left"></aside>
+
+    <!-- Content -->
+    <div class="content-wrapper" ng-controller="ShipmentListController">
+        <!-- NavBar -->
+        <nav id="toolbar" class="bg-white" ng-include="'spa/view/navbar.html'"></nav>
+
+        <!-- Content Page -->
+        <div class="content custom-scrollbar">
+            <div id="maincontent" class="page-layout" style="overflow:auto;flex-direction: column;">
+                <div class="content-wrapper">
+
+                    <div class="content custom-scrollbar">
+                        <div class="page-layout simple left-sidebar-floating">
+
+                            <div class="page-header bg-secondary text-auto row no-gutters align-items-center justify-content-between p-4 p-sm-6">
+                                <div class="col">
+                                    <!-- APP TITLE -->
+                                    <div class="row no-gutters align-items-center flex-nowrap">
+                                        <div class="logo row no-gutters align-items-center flex-nowrap">
+                                            <span class="logo-text h4">{{title}}</span>
+                                        </div>
+                                    </div>
+                                    <!-- / APP TITLE -->
+                                </div>
+
+                            </div>
+
+                            <div class="page-content-wrapper">
+                                <div class="col">
+                                    <br />
+                                    <!-- Criteria -->
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <form>
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-6">
+                                                        <label class="form-control-label col-md-3">วันที่ Shipment</label>
+                                                        <div class="col-md-3">
+                                                            <input class="form-control" type="date" id="ShipmentDateS">
+                                                            <!--    <label class="form-control-label mb-3" for="ShipmentDateS">วันที่ Shipment</label>-->
+                                                        </div>
+                                                        <label class="form-control-label col-md-2">ถึงวันที่</label>
+                                                        <div class="col-md-3">
+                                                            <input class="form-control" type="date" id="ShipmentDateE">
+                                                            <!--<label class="form-control-label" for="ShipmentDateE">ถึงวันที่</label>-->
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group col-md-6">
+                                                        <label class="form-control-label col-md-3" for="ShipmentNo">Shipment NO</label>
+                                                        <div class="col-md-6">
+                                                            <input type="text" class="form-control" id="ShipmentNo" placeholder="">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-6">
+                                                        <label for="CarType" class="col-form-label col-md-3">ประเภทรถ</label>
+                                                        <div class="col-md-9">
+                                                            <select id="CarType" class="form-control">
+                                                                <option value="ALL" selected>ทั้งหมด</option>
+                                                                <option value="ENTRY">ยังไม่ได้ระบุค่าขนส่ง</option>
+                                                                <option value="WAIT">ยังไม่ได้ Confirm</option>
+                                                                <option value="CONFIRM">Confirm แล้ว</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label for="CarGroup" class="col-form-label col-md-3">กลุ่มรถ</label>
+                                                        <div class="col-md-9">
+                                                            <select id="CarGroup" class="form-control">
+                                                                <option value="ALL" selected>ทั้งหมด</option>
+                                                                <option value="ENTRY">ยังไม่ได้ระบุค่าขนส่ง</option>
+                                                                <option value="WAIT">ยังไม่ได้ Confirm</option>
+                                                                <option value="CONFIRM">Confirm แล้ว</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-6">
+                                                        <label class="form-control-label col-md-3" for="CarNo">ทะเบียนรถ</label>
+                                                        <div class="col-md-9">
+                                                            <input type="text" class="form-control" id="CarNo">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label for="Status" class="col-form-label col-md-3">สถานะ</label>
+                                                        <div class="col-md-9">
+                                                            <select id="Status" class="form-control">
+                                                                <option value="ALL" selected>ทั้งหมด</option>
+                                                                <option value="ENTRY">ยังไม่ได้ระบุค่าขนส่ง</option>
+                                                                <option value="WAIT">ยังไม่ได้ Confirm</option>
+                                                                <option value="CONFIRM">Confirm แล้ว</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </form>
+                                        </div>
+                                    </div>
+
+                                    <br />
+                                    <!-- Table List -->
+
+                                    <div class="card">
+                                        <div class="card-body">
+
+                                            <div class="row">
+                                                <div class="col-auto">
+                                                    <button type="submit" class="btn btn-primary">Confirm</button>
+                                                </div>
+                                            </div>
+                                            <div class="preview">
+                                                <div class="preview-elements">
+
+                                                    <table id="sample-data-table" class="table dataTable">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>
+                                                                    <div class="table-header">
+                                                                        <span class="column-title">วันที่</span>
+                                                                    </div>
+                                                                </th>
+                                                                <th>
+                                                                    <div class="table-header">
+                                                                        <span class="column-title">Shipment</span>
+                                                                    </div>
+                                                                </th>
+                                                                <th>
+                                                                    <div class="table-header">
+                                                                        <span class="column-title">Route</span>
+                                                                    </div>
+                                                                </th>
+                                                                <th>
+                                                                    <div class="table-header">
+                                                                        <span class="column-title">Container ID</span>
+                                                                    </div>
+                                                                </th>
+                                                                <th>
+                                                                    <div class="table-header">
+                                                                        <span class="column-title">กลุ่มรถ</span>
+                                                                    </div>
+                                                                </th>
+                                                                <th>
+                                                                    <div class="table-header">
+                                                                        <span class="column-title">ประเภทรถ</span>
+                                                                    </div>
+                                                                </th>
+                                                                <th>
+                                                                    <div class="table-header">
+                                                                        <span class="column-title">ทะเบียนรถ</span>
+                                                                    </div>
+                                                                </th>
+                                                                <th>
+                                                                    <div class="table-header">
+                                                                        <span class="column-title">รวมค่าขนส่ง</span>
+                                                                    </div>
+                                                                </th>
+                                                                <th>
+                                                                    <div class="table-header">
+                                                                        <span class="column-title">สถานะ</span>
+                                                                    </div>
+                                                                </th>
+                                                            </tr>
+                                                        </thead>
+
+                                                        <tbody>
+
+                                                            <tr>
+                                                                <td>2015/03/28</td>
+                                                                <td>1902032330</td>
+                                                                <td>Diana Carpenter</td>
+                                                                <td>Speech Pathologist</td>
+                                                                <td>Pajapita</td>
+                                                                <td>25</td>
+                                                                <td>2015/03/28</td>
+                                                                <td>$954517.23</td>
+                                                                <td><span class="badge badge-info">Confirm แล้ว</span></td>
+                                                            </tr>
+
+                                                            <tr>
+                                                                <td>2015/04/21</td>
+                                                                <td>1902032334</td>
+                                                                <td>Virginia Garrett</td>
+                                                                <td>Systems Administrator III</td>
+                                                                <td>Kuala Lumpur</td>
+                                                                <td>33</td>
+                                                                <td>2015/02/01</td>
+                                                                <td>$698280.06</td>
+                                                                <td><span class="badge badge-success">ยังไม่ได้ Confirm</span></td>
+                                                            </tr>
+
+                                                            <tr>
+                                                                <td>2015/04/21</td>
+                                                                <td>1902032334</td>
+                                                                <td>Virginia Garrett</td>
+                                                                <td>Systems Administrator III</td>
+                                                                <td>Kuala Lumpur</td>
+                                                                <td>33</td>
+                                                                <td>2015/02/01</td>
+                                                                <td>$698280.06</td>
+                                                                <td><span class="badge badge-warning">ยังไม่ได้ระบุค่าขนส่ง</span></td>
+                                                            </tr>
+
+                                                        </tbody>
+                                                    </table>
+
+                                                    <!--<script type="text/javascript">
+                                        $('#sample-data-table').DataTable({
+                                            responsive: true
+                                        });
+                                    </script> -->
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <!-- / Table List -->
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/content/vendor/fuse-html/fuse-html.min.js" type="text/javascript"></script>
+<script src="/content/js/main.js" type="text/javascript"></script>
+

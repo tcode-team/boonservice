@@ -227,24 +227,24 @@ a {
     -webkit-text-decoration-skip: objects
 }
 
-    a:hover {
-        color: #1c1e26;
-        text-decoration: underline
-    }
+a:hover {
+    color: #1c1e26;
+    text-decoration: underline
+}
 
-    a:not([href]):not([tabindex]) {
-        color: inherit;
-        text-decoration: none
-    }
+a:not([href]):not([tabindex]) {
+    color: inherit;
+    text-decoration: none
+}
 
-        a:not([href]):not([tabindex]):hover, a:not([href]):not([tabindex]):focus {
-            color: inherit;
-            text-decoration: none
-        }
+a:not([href]):not([tabindex]):hover, a:not([href]):not([tabindex]):focus {
+    color: inherit;
+    text-decoration: none
+}
 
-        a:not([href]):not([tabindex]):focus {
-            outline: 0
-        }
+a:not([href]):not([tabindex]):focus {
+    outline: 0
+}
 
 pre, code, kbd, samp {
     font-family: monospace, monospace;
@@ -3513,24 +3513,24 @@ tbody.collapse.show {
     box-shadow: 0 1px 0 0 rgba(0,0,0,0.42)
 }
 
-    .custom-file-label::after {
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        z-index: 3;
-        display: block;
-        height: -webkit-calc(3.6rem - 0px * 2);
-        height: calc(3.6rem - 0px * 2);
-        padding: 0rem 1.6rem;
-        line-height: 3.6rem;
-        color: #fff;
-        content: "Browse";
-        background-color: #3C4252;
-        border-left: 0px solid transparent;
-        -webkit-border-radius: 0 0 0 0;
-        border-radius: 0 0 0 0
-    }
+.custom-file-label::after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 3;
+    display: block;
+    height: -webkit-calc(3.6rem - 0px * 2);
+    height: calc(3.6rem - 0px * 2);
+    padding: 0rem 1.6rem;
+    line-height: 3.6rem;
+    color: #fff;
+    content: "Browse";
+    background-color: #3C4252;
+    border-left: 0px solid transparent;
+    -webkit-border-radius: 0 0 0 0;
+    border-radius: 0 0 0 0
+}
 
 .nav {
     display: -webkit-box;
@@ -3550,63 +3550,63 @@ tbody.collapse.show {
     padding: 0 2.4rem
 }
 
-    .nav-link:hover, .nav-link:focus {
-        text-decoration: none
-    }
+.nav-link:hover, .nav-link:focus {
+    text-decoration: none
+}
 
-    .nav-link.disabled {
-        color: #6C757D
-    }
+.nav-link.disabled {
+    color: #6C757D
+}
 
 .nav-tabs {
     border-bottom: 0px solid #DDD
 }
 
-    .nav-tabs .nav-item {
-        margin-bottom: 0px
-    }
+.nav-tabs .nav-item {
+    margin-bottom: 0px
+}
 
-    .nav-tabs .nav-link {
-        border: 0px solid transparent;
-        -webkit-border-top-left-radius: 2px;
-        border-top-left-radius: 2px;
-        -webkit-border-top-right-radius: 2px;
-        border-top-right-radius: 2px
-    }
+.nav-tabs .nav-link {
+    border: 0px solid transparent;
+    -webkit-border-top-left-radius: 2px;
+    border-top-left-radius: 2px;
+    -webkit-border-top-right-radius: 2px;
+    border-top-right-radius: 2px
+}
 
-        .nav-tabs .nav-link:hover, .nav-tabs .nav-link:focus {
-            border-color: #E9ECEF
-        }
+.nav-tabs .nav-link:hover, .nav-tabs .nav-link:focus {
+    border-color: #E9ECEF
+}
 
-        .nav-tabs .nav-link.disabled {
-            color: #6C757D;
-            background-color: transparent;
-            border-color: transparent
-        }
+.nav-tabs .nav-link.disabled {
+    color: #6C757D;
+    background-color: transparent;
+    border-color: transparent
+}
 
-        .nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
-            color: #495057;
-            background-color: #fff;
-            border-color: #DDD
-        }
+.nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
+    color: #495057;
+    background-color: #fff;
+    border-color: #DDD
+}
 
-    .nav-tabs .dropdown-menu {
-        margin-top: 0px;
-        -webkit-border-top-left-radius: 0;
-        border-top-left-radius: 0;
-        -webkit-border-top-right-radius: 0;
-        border-top-right-radius: 0
-    }
+.nav-tabs .dropdown-menu {
+    margin-top: 0px;
+    -webkit-border-top-left-radius: 0;
+    border-top-left-radius: 0;
+    -webkit-border-top-right-radius: 0;
+    border-top-right-radius: 0
+}
 
 .nav-pills .nav-link {
     -webkit-border-radius: 2px;
     border-radius: 2px
 }
 
-    .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-        color: #fff;
-        background-color: #3C4252
-    }
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+    color: #fff;
+    background-color: #3C4252
+}
 
 .nav-fill .nav-item {
     -webkit-box-flex: 1;
@@ -18975,169 +18975,169 @@ html, body {
     overflow: hidden
 }
 
-    .layout #wrapper > .content-wrapper {
-        display: -webkit-box;
-        display: -webkit-flex;
-        display: -ms-flexbox;
-        display: flex;
-        min-height: 100%;
-        -webkit-box-orient: vertical;
-        -webkit-box-direction: normal;
-        -webkit-flex-direction: column;
-        -ms-flex-direction: column;
-        flex-direction: column;
-        width: 100%
-    }
+.layout #wrapper > .content-wrapper {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    min-height: 100%;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    width: 100%
+}
 
-        .layout #wrapper > .content-wrapper > .content {
-            display: -webkit-box;
-            display: -webkit-flex;
-            display: -ms-flexbox;
-            display: flex;
-            -webkit-box-flex: 1;
-            -webkit-flex: 1 1 auto;
-            -ms-flex: 1 1 auto;
-            flex: 1 1 auto;
-            -webkit-box-orient: vertical;
-            -webkit-box-direction: normal;
-            -webkit-flex-direction: column;
-            -ms-flex-direction: column;
-            flex-direction: column;
-            overflow: auto
-        }
+.layout #wrapper > .content-wrapper > .content {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-flex: 1;
+    -webkit-flex: 1 1 auto;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    overflow: auto
+}
 
-        .layout #wrapper > .content-wrapper > .content {
-            position: relative
-        }
+.layout #wrapper > .content-wrapper > .content {
+    position: relative
+}
 
-    .layout #wrapper > .aside {
-        z-index: 1000
-    }
+.layout #wrapper > .aside {
+    z-index: 1000
+}
 
-        .layout #wrapper > .aside > .aside-content-wrapper {
-            overflow: hidden;
-            width: 25.6rem;
-            min-width: 25.6rem;
-            height: 100%;
-            -webkit-transition: all 300ms ease;
-            -o-transition: all 300ms ease;
-            transition: all 300ms ease;
-            position: relative
-        }
+.layout #wrapper > .aside > .aside-content-wrapper {
+    overflow: hidden;
+    width: 25.6rem;
+    min-width: 25.6rem;
+    height: 100%;
+    -webkit-transition: all 300ms ease;
+    -o-transition: all 300ms ease;
+    transition: all 300ms ease;
+    position: relative
+}
 
-            .layout #wrapper > .aside > .aside-content-wrapper > .aside-content {
-                -webkit-box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12);
-                box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12);
-                background: white;
-                position: fixed;
-                width: 25.6rem;
-                top: 0;
-                bottom: 0;
-                display: -webkit-box;
-                display: -webkit-flex;
-                display: -ms-flexbox;
-                display: flex;
-                -webkit-box-orient: vertical;
-                -webkit-box-direction: normal;
-                -webkit-flex-direction: column;
-                -ms-flex-direction: column;
-                flex-direction: column;
-                -webkit-transition: all 300ms ease;
-                -o-transition: all 300ms ease;
-                transition: all 300ms ease;
-                overflow: hidden
-            }
+.layout #wrapper > .aside > .aside-content-wrapper > .aside-content {
+    -webkit-box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12);
+    box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12);
+    background: white;
+    position: fixed;
+    width: 25.6rem;
+    top: 0;
+    bottom: 0;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-transition: all 300ms ease;
+    -o-transition: all 300ms ease;
+    transition: all 300ms ease;
+    overflow: hidden
+}
 
-                .layout #wrapper > .aside > .aside-content-wrapper > .aside-content > .aside-toolbar {
-                    display: -webkit-box;
-                    display: -webkit-flex;
-                    display: -ms-flexbox;
-                    display: flex;
-                    padding-left: 2.4rem;
-                    padding-right: 1.6rem;
-                    -webkit-box-pack: justify;
-                    -webkit-justify-content: space-between;
-                    -ms-flex-pack: justify;
-                    justify-content: space-between;
-                    -webkit-box-align: center;
-                    -webkit-align-items: center;
-                    -ms-flex-align: center;
-                    align-items: center;
-                    height: 6.4rem;
-                    min-height: 6.4rem;
-                    background-color: rgba(255,255,255,0.05);
-                    -webkit-box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12);
-                    box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)
-                }
+.layout #wrapper > .aside > .aside-content-wrapper > .aside-content > .aside-toolbar {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    padding-left: 2.4rem;
+    padding-right: 1.6rem;
+    -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    height: 6.4rem;
+    min-height: 6.4rem;
+    background-color: rgba(255,255,255,0.05);
+    -webkit-box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12);
+    box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)
+}
 
-                    .layout #wrapper > .aside > .aside-content-wrapper > .aside-content > .aside-toolbar .logo {
-                        display: -webkit-box;
-                        display: -webkit-flex;
-                        display: -ms-flexbox;
-                        display: flex;
-                        -webkit-box-align: center;
-                        -webkit-align-items: center;
-                        -ms-flex-align: center;
-                        align-items: center
-                    }
+.layout #wrapper > .aside > .aside-content-wrapper > .aside-content > .aside-toolbar .logo {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center
+}
 
-                        .layout #wrapper > .aside > .aside-content-wrapper > .aside-content > .aside-toolbar .logo .logo-icon {
-                            display: block;
-                            background: #039BE5;
-                            width: 32px;
-                            min-width: 32px;
-                            height: 32px;
-                            line-height: 32px;
-                            text-align: center;
-                            font-size: 16px;
-                            font-weight: 500;
-                            color: #FFF;
-                            -webkit-border-radius: 2px;
-                            border-radius: 2px
-                        }
+.layout #wrapper > .aside > .aside-content-wrapper > .aside-content > .aside-toolbar .logo .logo-icon {
+    display: block;
+    background: #039BE5;
+    width: 32px;
+    min-width: 32px;
+    height: 32px;
+    line-height: 32px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 500;
+    color: #FFF;
+    -webkit-border-radius: 2px;
+    border-radius: 2px
+}
 
-                        .layout #wrapper > .aside > .aside-content-wrapper > .aside-content > .aside-toolbar .logo .logo-text {
-                            margin-left: 16px;
-                            font-size: 1.6rem
-                        }
+.layout #wrapper > .aside > .aside-content-wrapper > .aside-content > .aside-toolbar .logo .logo-text {
+    margin-left: 16px;
+    font-size: 1.6rem
+}
 
-                .layout #wrapper > .aside > .aside-content-wrapper > .aside-content > #sidenav {
-                    overflow-x: hidden;
-                    overflow-y: auto;
-                    -webkit-flex-wrap: nowrap;
-                    -ms-flex-wrap: nowrap;
-                    flex-wrap: nowrap
-                }
+.layout #wrapper > .aside > .aside-content-wrapper > .aside-content > #sidenav {
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-flex-wrap: nowrap;
+    -ms-flex-wrap: nowrap;
+    flex-wrap: nowrap
+}
 
-                    .layout #wrapper > .aside > .aside-content-wrapper > .aside-content > #sidenav .subheader {
-                        white-space: nowrap
-                    }
+.layout #wrapper > .aside > .aside-content-wrapper > .aside-content > #sidenav .subheader {
+    white-space: nowrap
+}
 
-                    .layout #wrapper > .aside > .aside-content-wrapper > .aside-content > #sidenav .nav-link {
-                        color: inherit
-                    }
+.layout #wrapper > .aside > .aside-content-wrapper > .aside-content > #sidenav .nav-link {
+    color: inherit
+}
 
-                        .layout #wrapper > .aside > .aside-content-wrapper > .aside-content > #sidenav .nav-link.active {
-                            background-color: #2196F3;
-                            color: #fff
-                        }
+.layout #wrapper > .aside > .aside-content-wrapper > .aside-content > #sidenav .nav-link.active {
+    background-color: #2196F3;
+    color: #fff
+}
 
-                            .layout #wrapper > .aside > .aside-content-wrapper > .aside-content > #sidenav .nav-link.active > i {
-                                color: #fff
-                            }
+.layout #wrapper > .aside > .aside-content-wrapper > .aside-content > #sidenav .nav-link.active > i {
+    color: #fff
+}
 
-                        .layout #wrapper > .aside > .aside-content-wrapper > .aside-content > #sidenav .nav-link > span {
-                            white-space: nowrap
-                        }
+.layout #wrapper > .aside > .aside-content-wrapper > .aside-content > #sidenav .nav-link > span {
+    white-space: nowrap
+}
 
-    .layout #wrapper .quick-panel-sidebar {
-        z-index: 1050;
-        width: 320px
-    }
+.layout #wrapper .quick-panel-sidebar {
+    z-index: 1050;
+    width: 320px
+}
 
-    .layout #wrapper .fuse-bar-backdrop-quick-panel-sidebar {
-        z-index: 1049
-    }
+.layout #wrapper .fuse-bar-backdrop-quick-panel-sidebar {
+    z-index: 1049
+}
 
 #toolbar {
     -webkit-box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12);
@@ -19151,36 +19151,36 @@ html, body {
     position: relative
 }
 
-    #toolbar .toolbar-separator {
-        height: 6.4rem;
-        width: 1px;
-        background: rgba(0,0,0,0.12)
-    }
+#toolbar .toolbar-separator {
+    height: 6.4rem;
+    width: 1px;
+    background: rgba(0,0,0,0.12)
+}
 
-    #toolbar .shortcuts-wrapper .add-shortcut-menu-button > .dropdown-toggle:after {
-        display: none
-    }
+#toolbar .shortcuts-wrapper .add-shortcut-menu-button > .dropdown-toggle:after {
+    display: none
+}
 
-    #toolbar .user-menu-button > .dropdown-toggle {
-        height: 6.4rem;
-        position: relative;
-        cursor: pointer
-    }
+#toolbar .user-menu-button > .dropdown-toggle {
+    height: 6.4rem;
+    position: relative;
+    cursor: pointer
+}
 
-        #toolbar .user-menu-button > .dropdown-toggle .avatar-wrapper {
-            position: relative
-        }
+#toolbar .user-menu-button > .dropdown-toggle .avatar-wrapper {
+    position: relative
+}
 
-            #toolbar .user-menu-button > .dropdown-toggle .avatar-wrapper .status {
-                position: absolute;
-                bottom: -.4rem;
-                right: -.4rem
-            }
+#toolbar .user-menu-button > .dropdown-toggle .avatar-wrapper .status {
+    position: absolute;
+    bottom: -.4rem;
+    right: -.4rem
+}
 
-    #toolbar .toggle-aside-button, #toolbar .search-button, #toolbar .quick-panel-button {
-        height: 6.4rem;
-        width: 6.4rem
-    }
+#toolbar .toggle-aside-button, #toolbar .search-button, #toolbar .quick-panel-button {
+    height: 6.4rem;
+    width: 6.4rem
+}
 
 @media (max-width: 575.98px) {
     #toolbar .toggle-aside-button, #toolbar .search-button, #toolbar .quick-panel-button {
@@ -44203,9 +44203,12 @@ input[type=checkbox]:disabled ~ .checkbox-icon, input[type=checkbox]:disabled ~ 
 }
 
 #profile .page-header {
-    height: 32rem;
+    /*height: 32rem;
     min-height: 32rem;
-    max-height: 32rem;
+    max-height: 32rem;*/
+    height: 7.6rem;
+    min-height: 7.6rem;
+    max-height: 7.6rem;
     background: url("../../content/images/backgrounds/dark-material-bg.jpg") no-repeat;
     -webkit-background-size: cover;
     background-size: cover

@@ -1,0 +1,35 @@
+﻿<!-- Left Navigator -->
+<div class="aside-content-wrapper" ng-controller="leftNavigatorController">
+    <div class="aside-content bg-primary-700 text-auto">
+        <div class="aside-toolbar">
+            <div class="logo">
+                <span class="logo-icon">S</span>
+                <span class="logo-text">SERVICES</span>
+            </div>
+            <button id="toggle-fold-aside-button" type="button" class="btn btn-icon d-none d-lg-block" data-fuse-aside-toggle-fold>
+                <i class="icon icon-backburger"></i>
+            </button>
+        </div>
+        <ul class="nav flex-column custom-scrollbar" id="sidenav" data-children=".nav-item">
+            <li class="nav-item" role="tab" id="heading-dashboards">
+                <a class="nav-link ripple with-arrow collapsed" data-toggle="collapse" data-target="#collapse-dashboards" href="#" aria-expanded="false" aria-controls="collapse-dashboards">
+                    <i class="icon s-4 icon-tile-four"></i>
+                    <span>ระบบคำนวณค่าขนส่ง</span>
+                </a>
+                <ul id="collapse-dashboards" class='collapse' role="tabpanel" aria-labelledby="heading-dashboards" data-children=".nav-item">
+                    <li class="nav-item">
+                        <a class="nav-link ripple" ng-class="{'active': navactive=='shipmentlist'}" ng-click="nav_active('shipmentlist')" ui-sref="shipmentlist">
+                            <span>Shipment List</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link ripple" ng-class="{'active': navactive=='blank'}" ng-click="nav_active('blank')" ui-sref="blank">
+                    <i class="icon s-4 icon-calendar-today"></i>
+                    <span>Blank</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
