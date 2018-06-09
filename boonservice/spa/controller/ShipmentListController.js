@@ -19,6 +19,7 @@
             $scope.Get_CarGroup();
             $scope.Get_Status();
             // $scope.Get_List();
+            $scope.ShipSearchErr = "";
         }
 
         $scope.Get_ShipmentType = function () {
@@ -52,27 +53,45 @@
             });
         }
 
-        $scope.Get_List = function (SearchData) {
+        $scope.Get_List = function (SearchData, DateFrom, DateTo) {
+            $scope.ShipSearchErr = "";
             console.log(typeof SearchData);
-            //  console.log(SearchData.Status);
-            if (SearchData !== undefined) {
-                try {
-                    console.log("all " + SearchData); 
-                    console.log("xx " + JSON.stringify(SearchData));  
+            console.log(typeof DateFrom + " Fromtext " +  DateFrom);
+            console.log(typeof DateTo + " Totext " + DateTo);
 
-                    var res = {};
-                    var textObject = JSON.stringify(SearchData);
+             
+            var res = {};  
+            var textObject = JSON.stringify(SearchData);
+            console.log("text " + textObject); 
 
-                    console.log("type " + typeof textObject); 
+
+            if (DateFrom == undefined || DateTo == undefined) {
+                if (SearchData ==  undefined) {
+                    $scope.ShipSearchErr = "กรุณาระบุเงื่อนไขในการค้นหา (วันที่ Shipment)";
+
+                    console.log($scope.ShipSearchErr);
+                    return;
+                }
+            }
+
+            var Df = getFormattedDate(DateFrom);
+            console.log(typeof Df + " DF " + Df);
+            var Dt = getFormattedDate(DateTo);
+            console.log(typeof Dt + " DT " + Dt);
+
+            //  console.log(SearchData.Status); 
+
+                   // console.log("text in " + textObject.indexOf("ShipmentDate"));
+                   // console.log("text in " + textObject.indexOf("ShipmentNo")); 
                     if (textObject === '{}') {
-                        res = JSON.parse('{"forwarding":"1910"}');
+                        textObject = JSON.parse('{"forwarding":"1910"}');
                     } else {
 
-                        console.log("text " + textObject.substring(1, textObject.length - 1)); 
-                        textObject =  '{' + textObject.substring(1, textObject.length - 1) + ',"forwarding":"1910"}';
-                        console.log("textObjectX " + textObject); 
+                        console.log("text " + textObject.substring(1, textObject.length - 1));
+                        textObject = '{' + textObject.substring(1, textObject.length - 1) + ',"forwarding":"1910"}';
+                        console.log("textObjectX " + textObject);
                     }
-                     
+
 
                     $http({
                         url: config.api.url + 'shipment/search',
@@ -91,9 +110,18 @@
                         console.log(response);
                         $scope.DocList = response.data;
                     });
-                }
-                catch{ }
-            } // if
+        }
+
+        function getFormattedDate(date) {
+            var year = date.getFullYear();
+
+            var month = (1 + date.getMonth()).toString();
+            month = month.length > 1 ? month : '0' + month;
+
+            var day = date.getDate().toString();
+            day = day.length > 1 ? day : '0' + day;
+
+            return day + '/'+ month + '/'  + year;
         }
 
     };
