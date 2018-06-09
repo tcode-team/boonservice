@@ -9,36 +9,24 @@
     /************************** config **************************/
     config.$inject = ['$stateProvider', '$routeProvider', '$urlRouterProvider', '$locationProvider', '$httpProvider', '$qProvider', 'cfpLoadingBarProvider'];
     function config($stateProvider, $routeProvider, $urlRouterProvider, $locationProvider, $httpProvider, $qProvider, cfpLoadingBarProvider) {
-        $urlRouterProvider.otherwise('/home');
-        $locationProvider.hashPrefix('');  
-        //$locationProvider.html5Mode(true);
+        //$urlRouterProvider.otherwise('/home');
+        //$locationProvider.hashPrefix('');  
+        $locationProvider.html5Mode(true);
 
-        $stateProvider
-            .state('default', {
-                url: '/',
-                templateUrl: 'spa/view/home.html',
-                controller: 'HomeController'
-            })
-            .state('home', {
-                url: '/home',
-                templateUrl: 'spa/view/home.html',
-                controller: 'HomeController'
-            })
-            .state('login', {
-                url: '/login',
-                templateUrl: 'spa/view/login.html',
-                controller: 'LoginController'
-            })
-            .state('blank', {
-                url: '/blank',
+        $routeProvider
+            .when('/blank', {
                 templateUrl: 'spa/view/blank.html',
                 controller: 'BlankController'
             })
-            .state('shipmentlist', {
-                url: '/shipmentlist',
-                templateUrl: 'spa/view/ShipmentList.html',
+            .when('/profile', {
+                templateUrl: 'spa/view/profile.html',
+                controller: 'ProfileController'
+            })
+            .when('/shipmentlist', {
+                templateUrl: 'spa/view/shipmentlist.html',
                 controller: 'ShipmentListController'
-            });
+            })
+            .otherwise({ redirectTo: '/' });
 
         //Authorize check
         $httpProvider.interceptors.push('AuthInterceptor');

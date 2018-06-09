@@ -18,14 +18,14 @@
                 </a>
                 <ul id="collapse-dashboards" class='collapse' role="tabpanel" aria-labelledby="heading-dashboards" data-children=".nav-item">
                     <li class="nav-item">
-                        <a class="nav-link ripple" ng-class="{'active': navactive=='shipmentlist'}" ng-click="nav_active('shipmentlist')" ui-sref="shipmentlist">
+                        <a class="nav-link ripple" ng-class="{'active': navactive=='shipmentlist'}" ng-click="nav_active('shipmentlist')" href="shipmentlist">
                             <span>Shipment List</span>
                         </a>
                     </li>
                 </ul>
             </li>
             <li class="nav-item">
-                <a class="nav-link ripple" ng-class="{'active': navactive=='blank'}" ng-click="nav_active('blank')" ui-sref="blank">
+                <a class="nav-link ripple" ng-class="{'active': navactive=='blank'}" ng-click="navactive='blank'" href="blank">
                     <i class="icon s-4 icon-calendar-today"></i>
                     <span>Blank</span>
                 </a>

@@ -4,13 +4,14 @@
            data-fuse-bar="aside" data-fuse-bar-media-step="md" data-fuse-bar-position="left"></aside>
 
     <!-- Content -->
-    <div class="content-wrapper" ng-controller="HomeController">
+    <div class="content-wrapper">
         <!-- NavBar -->
         <nav id="toolbar" class="bg-white" ng-include="'spa/view/navbar.html'"></nav>
 
         <!-- Content Page -->
         <div class="content custom-scrollbar">
             <div id="maincontent" class="page-layout" style="overflow:auto;flex-direction: column;">
+                <ng-view></ng-view>
             </div>
         </div>
     </div>

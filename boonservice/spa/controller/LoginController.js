@@ -2,11 +2,11 @@
     'use strict';
 
     angular
-        .module('app')
+        .module('app', ['angular-loading-bar'])
         .controller('LoginController', LoginController)
 
-    LoginController.$inject = ['$scope', '$state','LoginService', 'UserService'];
-    function LoginController($scope, $state, LoginService, UserService) {        
+    LoginController.$inject = ['$scope' ,'LoginService', 'UserService'];
+    function LoginController($scope, LoginService, UserService) {        
         $scope.loading = false;
 
         $scope.login = function() {
@@ -33,13 +33,15 @@
                         $scope.login_again();
                     } else {
                         $scope.isAuthenticated = true;
+                        sessionStorage.setItem('userName', $scope.userName);
                         sessionStorage.setItem('accessToken', resp.data.access_token);
-
-                        //get user detail
-                        UserService.userdetail($scope.userName).then(function (resp) {
-                            sessionStorage.setItem('userDetail', JSON.stringify(resp.data));
-                            $state.go("home");
-                        });
+                        window.location.href = '/home';
+                        ////get user detail
+                        //UserService.userdetail($scope.userName).then(function (resp) {
+                        //    sessionStorage.setItem('userDetail', JSON.stringify(resp.data));
+                        //    //$state.go("home");
+                            
+                        //});
                     }
                 } else {
                     $scope.AuthenMessage = "เกิดข้อผิดพลาดในการเชื่อมต่อ โปรดลองใหม่อีกครั้ง";
@@ -57,7 +59,8 @@
         $scope.login_again = function () {
             $scope.loading = false;
             $scope.isAuthenticated = false;
-            $state.go("login");
+            //$state.go("login");
+            //window.location.href = 'login';
         }
 
     };
