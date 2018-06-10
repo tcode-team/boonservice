@@ -11,10 +11,16 @@
             };
         }])
 
-    HomeController.$inject = ['$scope', '$http', '$state', 'UserService'];
-    function HomeController($scope, $http, $state, UserService) {        
+    HomeController.$inject = ['$scope', '$http', 'UserService'];
+    function HomeController($scope, $http, UserService) {        
 
-        $scope.user = JSON.parse(sessionStorage.getItem('userDetail'));
+        //get user detail
+        $scope.userName = sessionStorage.getItem('userName');
+        UserService.userdetail($scope.userName).then(function (resp) {
+            sessionStorage.setItem('userDetail', JSON.stringify(resp.data));
+            $scope.user = resp.data;
+        });
+        //$scope.user = JSON.parse(sessionStorage.getItem('userDetail'));
 
         $scope.UrlChange = function (url) {
             //url += 'userid=' + $scope.user.userid + '&username=' + $scope.user.username + '&position=' + $scope.user.position;
@@ -27,7 +33,7 @@
             angular.forEach(sessionStorage, function (item, key) {
                 sessionStorage.removeItem(key);
             });
-            $state.go("login");
+            window.location.href = '/login';
         }
         
     };

@@ -141,7 +141,11 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\BlankController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+<<<<<<< HEAD
     <Compile Include="Controllers\ShipmentEditController.cs" />
+=======
+    <Compile Include="Controllers\LoginController.cs" />
+>>>>>>> 740120e1b0d196028ec5b3c2652d277654106775
     <Compile Include="Controllers\ShipmentListController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -1154,6 +1158,7 @@
     <Content Include="Content\vendor\perfect-scrollbar\src\css\themes.scss" />
     <Content Include="Content\vendor\perfect-scrollbar\src\css\variables.scss" />
     <None Include="packages.config" />
+    <Content Include="Views\Login\index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Content\vendor\mobile-detect\mobile-detect.d.ts" />
