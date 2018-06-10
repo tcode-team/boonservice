@@ -7,8 +7,8 @@
         .module('app')
         .controller('ShipmentListController', ShipmentListController)
 
-    ShipmentListController.$inject = ['$scope', '$http', '$q', 'config'];
-    function ShipmentListController($scope, $http, $q, config) {          
+    ShipmentListController.$inject = ['$scope', '$http', '$q', 'config', '$rootScope','$location'];
+    function ShipmentListController($scope, $http, $q, config, $rootScope, $location) {          
         $scope.title = 'คำนวณค่าขนส่ง BLF';         
 
 
@@ -19,7 +19,7 @@
             $scope.Get_CarGroup();
             $scope.Get_Status();
             // $scope.Get_List();
-            $scope.ShipSearchErr = "";
+            $scope.ShipSearchErr = ""; 
         }
 
         $scope.Get_ShipmentType = function () {
@@ -59,15 +59,17 @@
             console.log(typeof DateFrom + " Fromtext " +  DateFrom);
             console.log(typeof DateTo + " Totext " + DateTo);
 
-             
-            var res = {};  
+              
             var textObject = JSON.stringify(SearchData);
-            console.log("text " + textObject); 
+            if (SearchData == undefined) {
+                textObject = "{}";
+            } 
 
 
             if (DateFrom == undefined || DateTo == undefined) {
-                if (SearchData ==  undefined) {
-                    $scope.ShipSearchErr = "กรุณาระบุเงื่อนไขในการค้นหา (วันที่ Shipment)";
+                
+                if (textObject.indexOf("ShipmentNo") == - 1) {
+                    $scope.ShipSearchErr = "กรุณาระบุเงื่อนไขในการค้นหา (วันที่ Shipment/ Shipment No)";
 
                     console.log($scope.ShipSearchErr);
                     return;
@@ -75,25 +77,32 @@
             }
 
             var Df = getFormattedDate(DateFrom);
-            console.log(typeof Df + " DF " + Df);
             var Dt = getFormattedDate(DateTo);
-            console.log(typeof Dt + " DT " + Dt);
+            //console.log(typeof Df + " DF " + Df);
+            //console.log(typeof Dt + " DT " + Dt); 
 
-            //  console.log(SearchData.Status); 
-
-                   // console.log("text in " + textObject.indexOf("ShipmentDate"));
+            while (textObject.indexOf(':""') != - 1) { textObject = textObject.replace(':""', ':'); }
+            
+            console.log("text in " + textObject);
                    // console.log("text in " + textObject.indexOf("ShipmentNo")); 
-                    if (textObject === '{}') {
-                        textObject = JSON.parse('{"forwarding":"1910"}');
-                    } else {
+            if (textObject === '{}') {  
+                textObject =  '{"forwarding":"1910"}' ;
+            }
+            else {
+                //console.log("text " + textObject.substring(1, textObject.length - 1));
+                textObject = '{' + textObject.substring(1, textObject.length - 1) + ',"forwarding":"1910"}'; 
+            }
+            console.log("textObjectX " + textObject);
+             
+                if (Df != undefined && Df.length > 0) {
+                    textObject = '{' + textObject.substring(1, textObject.length - 1) + ',"ShipmentDateFrom":"' + Df + '"}'; 
+                }
+                if (Dt != undefined && Dt.length > 0) {
+                    textObject = '{' + textObject.substring(1, textObject.length - 1) + ',"ShipmentDateTo":"' + Dt + '"}'; 
+                } 
 
-                        console.log("text " + textObject.substring(1, textObject.length - 1));
-                        textObject = '{' + textObject.substring(1, textObject.length - 1) + ',"forwarding":"1910"}';
-                        console.log("textObjectX " + textObject);
-                    }
-
-
-                    $http({
+            console.log("textObjectX " + textObject);
+                   $http({
                         url: config.api.url + 'shipment/search',
                         method: 'POST',
                         data: textObject
@@ -109,21 +118,57 @@
                     }).then(function (response) {
                         console.log(response);
                         $scope.DocList = response.data;
-                    });
+                        if (response.status != '200') { $scope.ShipSearchErr = response.statusText;}
+                });
+            return;
         }
 
         function getFormattedDate(date) {
-            var year = date.getFullYear();
+            try {
+                var year = date.getFullYear();
 
-            var month = (1 + date.getMonth()).toString();
-            month = month.length > 1 ? month : '0' + month;
+                var month = (1 + date.getMonth()).toString();
+                month = month.length > 1 ? month : '0' + month;
 
-            var day = date.getDate().toString();
-            day = day.length > 1 ? day : '0' + day;
+                var day = date.getDate().toString();
+                day = day.length > 1 ? day : '0' + day;
 
-            return day + '/'+ month + '/'  + year;
+                return day + '/' + month + '/' + year;
+            }
+            catch
+            { return undefined;}
         }
 
+
+        $scope.disabledChkBox = function (itemStatus) { 
+            if (itemStatus == undefined) // if your going to return true
+                return true;
+
+            if (itemStatus =='02' || itemStatus == 2)
+            return false;
+
+            return true;
+        }
+
+        $scope.disabledEditBT = function (itemStatus) { 
+            if (itemStatus == undefined) // if your going to return true
+                return true;
+
+            if (itemStatus != '03' || itemStatus != 3)
+                return false;
+
+            return true;
+        }
+
+
+        $scope.navactive = $rootScope.navactive;
+        $scope.Edit_active = function (name,itemID) {
+            $rootScope.navactive = name;
+            console.log($rootScope.navactive + '.html'); 
+            $location.path($rootScope.navactive + '.html') ;
+        };
+
+        
     };
 
 })();

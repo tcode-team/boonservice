@@ -141,6 +141,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\BlankController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ShipmentEditController.cs" />
     <Compile Include="Controllers\ShipmentListController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -1061,6 +1062,7 @@
     <Content Include="spa\controller\BlankController.js" />
     <Content Include="spa\controller\LoginController.js" />
     <Content Include="spa\controller\HomeController.js" />
+    <Content Include="spa\controller\ShipmentEditController.js" />
     <Content Include="spa\controller\ShipmentListController.js" />
     <Content Include="spa\service\AuthInterceptor.js" />
     <Content Include="spa\service\UserService.js" />
@@ -1071,6 +1073,7 @@
     <Content Include="spa\view\login.html" />
     <Content Include="spa\view\navbar.html" />
     <Content Include="spa\view\profile.html" />
+    <Content Include="spa\view\ShipmentEdit.html" />
     <Content Include="spa\view\ShipmentList.html" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -1089,6 +1092,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
     <Folder Include="spa\directive\" />
+    <Folder Include="Views\ShipmentEdit\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\icons\fuse-icon-font\fonts\fuse-iconfont.ttf" />

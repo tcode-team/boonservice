@@ -103,9 +103,8 @@
 
                             </fieldset>
                         </form>
-                        {{ShipSearchErr}} <br />
-                        {{DataSearch}}   {{ShipmentDateFrom}}   {{ShipmentDateTo}}
-                    </div>
+                        <label class="h4 a-align-bottom-center text-red-700"> {{ShipSearchErr}}</label>
+</div>
                 </div>
 
                 <br />
@@ -122,9 +121,14 @@
                         <div class="preview">
                             <div class="preview-elements">
 
-                                <table id="sample-data-table" class="table dataTable">
+                                <table id="sample-data-table" class="table  table-striped">
                                     <thead>
                                         <tr>
+                                            <th>
+                                                <div class="table-header">
+                                                    <span class="column-title"></span>
+                                                </div>
+                                            </th>
                                             <th>
                                                 <div class="table-header">
                                                     <span class="column-title">วันที่</span>
@@ -160,18 +164,47 @@
                                                     <span class="column-title">ทะเบียนรถ</span>
                                                 </div>
                                             </th>
+                                            <th>
+                                                <div class="table-header">
+                                                    <span class="column-title">รวมค่าขนส่ง</span>
+                                                </div>
+                                            </th>
+                                            <th>
+                                                <div class="table-header">
+                                                    <span class="column-title">สถานะ</span>
+                                                </div>
+                                            </th>
+                                            <th>
+                                                <div class="table-header">
+                                                    <span class="column-title"></span>
+                                                </div>
+                                            </th>
                                         </tr>
                                     </thead>
 
                                     <tbody>
                                         <tr ng-repeat="x in DocList | orderBy : 'shipment_number'">
+                                            <td>
+                                                <input type="checkbox"  class="form-check-input" ng-hide="disabledChkBox({{ x.status_code}})" ng-value="{{ x.shipment_number}}" />
+                                            </td>
                                             <td>{{ x.shipment_date | date:'dd/MM/yyyy' }}</td>
-                                            <td>{{ x.shipment_number }}</td>
-                                            <td>{{ x.route_desc }}</td>
-                                            <td>{{ x.container_id }}</td>
-                                            <td>{{ x.shipmenttype_desc }}</td>
-                                            <td>{{ x.shipmenttype_desc }}</td>
-                                            <td>{{ x.car_license }}</td>
+                                            <td>{{ x.shipment_number}}</td>
+                                            <td>{{ x.route_desc}}</td>
+                                            <td>{{ x.container_id}}</td>
+                                            <td>{{ x.shipmenttype_desc}}</td>
+                                            <td>{{ x.shipmenttype_desc}}</td>
+                                            <td>{{ x.car_license}}</td>
+                                            <td>{{ x.transport_amount | number : 4}}</td>
+                                            <td>{{ x.status_code}} {{ x.status_desc}}</td>
+                                            <td>
+                                                <!-- <input type="button" ng-hide="disabledEditBT({{ x.status_code}})"  value="ปรับปรุง"
+                                                    class="btn btn-warning"
+                                                    ng-class="{'active': navactive=='shipmentEdit'}"
+                                                    ng-click="Edit_active('shipmentEdit')" ui-sref="shipmentEdit"/> -->
+                                                <input type="button" ng-hide="disabledEditBT({{ x.status_code}})" value="ปรับปรุง"
+                                                       class="btn btn-warning" 
+                                                        />
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
