@@ -11,7 +11,7 @@
     function config($stateProvider, $routeProvider, $urlRouterProvider, $locationProvider, $httpProvider, $qProvider, cfpLoadingBarProvider) {
         //$urlRouterProvider.otherwise('/home');
         //$locationProvider.hashPrefix('');  
-        $locationProvider.html5Mode(true);
+        //$locationProvider.html5Mode(true);
 
         $routeProvider
             .when('/blank', {
