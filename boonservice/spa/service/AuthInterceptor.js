@@ -14,8 +14,8 @@
                 var accessToken = sessionStorage.getItem('accessToken');
                 if (accessToken === null || accessToken === "undefined") {
                     //$state.go("login");
-                    //$location.path('/login');
-                    window.location.href = 'login';
+                    $location.path('/login');
+                    //window.location.href = 'login';
                 }
                 else {
                     config.headers["Authorization"] = "bearer " + accessToken;
@@ -25,8 +25,8 @@
 
             requestError: function (config) {
                 //$state.go("login");
-                //$location.path('/login');
-                window.location.href = 'login';
+                $location.path('/login');
+                //window.location.href = 'login';
                 return config;
             },
 
@@ -37,23 +37,23 @@
             responseError: function (res) {
                 if (res.status === "401") {
                     //$state.go("login");
-                    //$location.path('/login');
-                    window.location.href = 'login';
+                    $location.path('/login');
+                    //window.location.href = 'login';
                 }
                 if (res.status === "400") {
                     //$state.go("login");
-                    //$location.path('/login');
-                    window.location.href = 'login';
+                    $location.path('/login');
+                    //window.location.href = 'login';
                 }
                 if (res.status === "403") {
                     //$state.go("login");
-                    //$location.path('/login');
-                    window.location.href = 'login';
+                    $location.path('/login');
+                    //window.location.href = 'login';
                 }
                 if (res.status === "404") {
                     //$state.go("login");
-                    //$location.path('/login');
-                    window.location.href = 'login';
+                    $location.path('/login');
+                    //window.location.href = 'login';
                 }
                 $q.reject(res)
                 return res;

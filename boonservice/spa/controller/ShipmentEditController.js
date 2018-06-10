@@ -5,15 +5,18 @@
         .module('app')
         .controller('ShipmentEditController', ShipmentEditController)
 
-    ShipmentListController.$inject = ['$scope', '$http', '$q', 'config'];
-    function ShipmentListController($scope, $http, $q, config) {          
+    ShipmentEditController.$inject = ['$scope', '$http', '$location', '$q', 'config'];
+    function ShipmentEditController($scope, $http, $location, $q, config) {          
         $scope.title = 'ปรับปรุงค่าขนส่ง BLF';         
-
 
         $scope.user = JSON.parse(sessionStorage.getItem('userDetail'));
 
         $scope.init = function () { 
             $scope.ShipEditErr = ""; 
+        }
+
+        $scope.back = function () {
+            $location.path('/shipmentlist');
         }
 
 

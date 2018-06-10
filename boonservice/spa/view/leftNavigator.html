@@ -1,5 +1,5 @@
 ﻿<!-- Left Navigator -->
-<div class="aside-content-wrapper" ng-controller="leftNavigatorController">
+<div class="aside-content-wrapper">
     <div class="aside-content bg-primary-700 text-auto">
         <div class="aside-toolbar">
             <div class="logo">
@@ -12,20 +12,21 @@
         </div>
         <ul class="nav flex-column custom-scrollbar" id="sidenav" data-children=".nav-item">
             <li class="nav-item" role="tab" id="heading-dashboards">
-                <a class="nav-link ripple with-arrow collapsed" data-toggle="collapse" data-target="#collapse-dashboards" href="#" aria-expanded="false" aria-controls="collapse-dashboards">
+                <a class="nav-link ripple with-arrow" data-toggle="collapse" data-target="#collapse-shipment" aria-controls="collapse-shipment" href="" 
+                    aria-expanded="false" >
                     <i class="icon s-4 icon-tile-four"></i>
                     <span>ระบบคำนวณค่าขนส่ง</span>
                 </a>
-                <ul id="collapse-dashboards" class='collapse' role="tabpanel" aria-labelledby="heading-dashboards" data-children=".nav-item">
+                <ul id="collapse-shipment" class='collapse' role="tabpanel" aria-labelledby="heading-shipment" data-children=".nav-item">
                     <li class="nav-item">
-                        <a class="nav-link ripple" ng-class="{'active': navactive=='shipmentlist'}" ng-click="navactive='shipmentlist'" href="shipmentlist">
+                        <a class="nav-link ripple" ng-class="{'active': navactive=='shipmentlist'}" ng-click="MenuClick('shipmentlist')" href="">
                             <span>Shipment List</span>
                         </a>
                     </li>
                 </ul>
             </li>
             <li class="nav-item">
-                <a class="nav-link ripple" ng-class="{'active': navactive=='blank'}" ng-click="navactive='blank'" ng-href="#/blank">
+                <a class="nav-link ripple" ng-class="{'active': navactive=='blank'}" ng-click="MenuClick('blank')" href="">
                     <i class="icon s-4 icon-calendar-today"></i>
                     <span>Blank</span>
                 </a>

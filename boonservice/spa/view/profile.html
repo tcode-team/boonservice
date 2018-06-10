@@ -1,19 +1,30 @@
-﻿<div class="content-wrapper" ng-controller="ProfileController">
-    <div class="content custom-scrollbar">
-        <div id="profile" class="page-layout simple left-sidebar-floating">
-            <!-- HEADER -->
-            <div class="page-header light-fg d-flex flex-column justify-content-center justify-content-lg-end p-6">
-                <div class="flex-column row flex-lg-row align-items-center align-items-lg-end no-gutters justify-content-between">
-                    <div class="user-info flex-column row flex-lg-row no-gutters align-items-center">
-                        <div class="name h2">{{user.firstname}} {{user.lastname}}</div>
+﻿<div id="wrapper">
+    <!-- Left Navigator -->
+    <aside id="aside" class="aside aside-left" ng-include="'spa/view/leftNavigator.html'"
+           data-fuse-bar="aside" data-fuse-bar-media-step="md" data-fuse-bar-position="left"></aside>
+
+    <!-- Content -->
+    <div class="content-wrapper">
+        <!-- NavBar -->
+        <nav id="toolbar" class="bg-white" ng-include="'spa/view/navbar.html'"></nav>
+
+        <!-- Content Page -->
+        <div class="content custom-scrollbar" ng-controller="ProfileController">
+            <div id="profile" class="page-layout simple left-sidebar-floating">
+                <!-- HEADER -->
+                <div class="page-header light-fg d-flex flex-column justify-content-center justify-content-lg-end p-6">
+                    <div class="flex-column row flex-lg-row align-items-center align-items-lg-end no-gutters justify-content-between">
+                        <div class="user-info flex-column row flex-lg-row no-gutters align-items-center">
+                            <div class="name h2">{{user.firstname}} {{user.lastname}}</div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <!-- / HEADER -->
+                <!-- / HEADER -->
 
-            <div class="page-content-wrapper">
-                <h2>{{title}}</h2>
-                <h3>{{user.firstname}} {{user.lastname}}</h3>
+                <div class="page-content-wrapper">
+                    <h2>{{title}}</h2>
+                    <h3>{{user.firstname}} {{user.lastname}}</h3>
+                </div>
             </div>
         </div>
     </div>

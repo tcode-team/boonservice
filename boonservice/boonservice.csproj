@@ -141,8 +141,6 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\BlankController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\ShipmentEditController.cs" />
-    <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\ShipmentListController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -1091,9 +1089,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
-    <Folder Include="spa\directive\" />
-    <Folder Include="Views\ShipmentEdit\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\icons\fuse-icon-font\fonts\fuse-iconfont.ttf" />
@@ -1155,7 +1150,6 @@
     <Content Include="Content\vendor\perfect-scrollbar\src\css\themes.scss" />
     <Content Include="Content\vendor\perfect-scrollbar\src\css\variables.scss" />
     <None Include="packages.config" />
-    <Content Include="Views\Login\index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Content\vendor\mobile-detect\mobile-detect.d.ts" />

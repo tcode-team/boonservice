@@ -14,6 +14,14 @@
         //$locationProvider.html5Mode(true);
 
         $routeProvider
+            .when('/home', {
+                templateUrl: 'spa/view/home.html',
+                controller: 'HomeController'
+            })
+            .when('/login', {
+                templateUrl: 'spa/view/login.html',
+                controller: 'BlankController'
+            })
             .when('/blank', {
                 templateUrl: 'spa/view/blank.html',
                 controller: 'BlankController'
@@ -26,7 +34,11 @@
                 templateUrl: 'spa/view/shipmentlist.html',
                 controller: 'ShipmentListController'
             })
-            .otherwise({ redirectTo: '/' });
+            .when('/shipmentedit', {
+                templateUrl: 'spa/view/shipmentedit.html',
+                controller: 'ShipmentEditController'
+            })
+            .otherwise({ redirectTo: '/home' });
 
         //Authorize check
         $httpProvider.interceptors.push('AuthInterceptor');

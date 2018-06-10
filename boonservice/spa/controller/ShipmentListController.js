@@ -54,6 +54,7 @@
         }
 
         $scope.Get_List = function (SearchData, DateFrom, DateTo) {
+            $scope.loading = true;
             $scope.ShipSearchErr = "";
             console.log(typeof SearchData);
             console.log(typeof DateFrom + " Fromtext " +  DateFrom);
@@ -117,8 +118,12 @@
                         //ShipmentStatus: SearchData.Status 
                     }).then(function (response) {
                         console.log(response);
+                        $scope.loading = false;
                         $scope.DocList = response.data;
-                        if (response.status != '200') { $scope.ShipSearchErr = response.statusText;}
+                        if (response.status != '200') {
+                            $scope.loading = false;
+                            $scope.ShipSearchErr = response.statusText;
+                        }
                 });
             return;
         }
@@ -160,6 +165,9 @@
             return true;
         }
 
+        $scope.ShipmentForm = function (shipment_number) {
+            $location.path('/shipmentedit');
+        };
 
         $scope.navactive = $rootScope.navactive;
         $scope.Edit_active = function (name,itemID) {

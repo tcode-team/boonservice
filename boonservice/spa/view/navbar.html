@@ -16,14 +16,14 @@
                     <span class="username mx-3 d-none d-md-block">{{user.firstname}} {{user.lastname}}</span>
                 </div>
                 <div class="dropdown-menu" aria-labelledby="dropdownUserMenu">
-                    <a class="dropdown-item" href="profile">
+                    <a class="dropdown-item" href="" ng-click="MenuClick('profile')">
                         <div class="row no-gutters align-items-center flex-nowrap">
                             <i class="icon-account"></i>
                             <span class="px-3">บัญชีของฉัน</span>
                         </div>
                     </a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href ng-click="logout()">
+                    <a class="dropdown-item" href="" ng-click="logout()">
                         <div class="row no-gutters align-items-center flex-nowrap">
                             <i class="icon-logout"></i>
                             <span class="px-3">ออกจากระบบ</span>
