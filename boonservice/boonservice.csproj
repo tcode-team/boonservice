@@ -149,6 +149,19 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\css\main.css" />
+    <Content Include="Content\vendor\ocLazyLoad\modules\ocLazyLoad.core.js" />
+    <Content Include="Content\vendor\ocLazyLoad\modules\ocLazyLoad.directive.js" />
+    <Content Include="Content\vendor\ocLazyLoad\modules\ocLazyLoad.loaders.common.js" />
+    <Content Include="Content\vendor\ocLazyLoad\modules\ocLazyLoad.loaders.core.js" />
+    <Content Include="Content\vendor\ocLazyLoad\modules\ocLazyLoad.loaders.cssLoader.js" />
+    <Content Include="Content\vendor\ocLazyLoad\modules\ocLazyLoad.loaders.jsLoader.js" />
+    <Content Include="Content\vendor\ocLazyLoad\modules\ocLazyLoad.loaders.requireJSLoader.js" />
+    <Content Include="Content\vendor\ocLazyLoad\modules\ocLazyLoad.loaders.templatesLoader.js" />
+    <Content Include="Content\vendor\ocLazyLoad\modules\ocLazyLoad.polyfill.ie8.js" />
+    <Content Include="Content\vendor\ocLazyLoad\ocLazyLoad.js" />
+    <Content Include="Content\vendor\ocLazyLoad\ocLazyLoad.min.js" />
+    <Content Include="Content\vendor\ocLazyLoad\ocLazyLoad.require.js" />
+    <Content Include="Content\vendor\ocLazyLoad\ocLazyLoad.require.min.js" />
     <Content Include="Content\favicon.ico" />
     <Content Include="Content\icons\fuse-icon-font\demo-files\demo.css" />
     <Content Include="Content\icons\fuse-icon-font\demo-files\demo.js" />
@@ -1056,7 +1069,7 @@
     </Content>
     <Content Include="spa\app.js" />
     <Content Include="spa\config.js" />
-    <Content Include="spa\controller\leftNavigatorController.js" />
+    <Content Include="spa\controller\RepairListController.js" />
     <Content Include="spa\controller\ProfileController.js" />
     <Content Include="spa\controller\BlankController.js" />
     <Content Include="spa\controller\LoginController.js" />
@@ -1072,6 +1085,7 @@
     <Content Include="spa\view\login.html" />
     <Content Include="spa\view\navbar.html" />
     <Content Include="spa\view\profile.html" />
+    <Content Include="spa\view\repairlist.html" />
     <Content Include="spa\view\ShipmentEdit.html" />
     <Content Include="spa\view\ShipmentList.html" />
     <Content Include="Web.config" />

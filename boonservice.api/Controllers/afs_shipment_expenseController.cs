@@ -62,7 +62,7 @@ namespace boonservice.api.Controllers
         /// <returns></returns>
         /// <response code="200">afs_shipment_expense found</response>
         /// <response code="404">afs_shipment_expense not foundd</response>
-        [ResponseType(typeof(afs_expense))]
+        [ResponseType(typeof(afs_shipment_expense))]
         public HttpResponseMessage GetById(afs_shipment_expense postdata)
         {
             try

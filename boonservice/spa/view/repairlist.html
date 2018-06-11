@@ -9,7 +9,7 @@
         <nav id="toolbar" class="bg-white" ng-include="'spa/view/navbar.html'"></nav>
 
         <!-- Content Page -->
-        <div class="content custom-scrollbar" ng-controller="BlankController">
+        <div class="content custom-scrollbar" ng-controller="RepairListController">
             <div id="maincontent" class="page-layout" style="overflow:auto;flex-direction: column;">
                 <div class="page-layout simple left-sidebar-floating">
                     <div class="page-header bg-secondary text-auto row no-gutters align-items-center justify-content-between p-4 p-sm-6">
@@ -26,7 +26,6 @@
 
                     <div class="page-content-wrapper">
                         <h2>{{title}}</h2>
-                        <h3>{{user.firstname}} {{user.lastname}}</h3>
                     </div>
                 </div>
             </div>

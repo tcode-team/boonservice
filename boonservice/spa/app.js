@@ -2,16 +2,21 @@
     'use strict';
 
     angular
-        .module('app', ['ngRoute', 'ngCookies', 'ngSanitize', 'ngTouch', 'ngAnimate', 'ngIdle', 'ui.router', 'angular-loading-bar'])
+        .module('app', ['ngRoute', 'ngCookies', 'ngSanitize', 'ngTouch', 'ngAnimate', 'ngIdle', 'ui.router', 'angular-loading-bar', 'oc.lazyLoad'])
         .config(config);
         //.run(run);    
 
     /************************** config **************************/
     config.$inject = ['$stateProvider', '$routeProvider', '$urlRouterProvider', '$locationProvider', '$httpProvider', '$qProvider', 'cfpLoadingBarProvider'];
     function config($stateProvider, $routeProvider, $urlRouterProvider, $locationProvider, $httpProvider, $qProvider, cfpLoadingBarProvider) {
-        //$urlRouterProvider.otherwise('/home');
-        //$locationProvider.hashPrefix('');  
-        //$locationProvider.html5Mode(true);
+        // Resolver to load controller, service, directive
+        var resolveController = function (dependencies) {
+            return {
+                loadMyCtrl: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load(dependencies);;
+                }]
+            }
+        };
 
         $routeProvider
             .when('/home', {
@@ -20,23 +25,33 @@
             })
             .when('/login', {
                 templateUrl: 'spa/view/login.html',
-                controller: 'BlankController'
+                controller: 'LoginController',
+                resolve: resolveController('spa/controller/LoginController.js')
             })
             .when('/blank', {
                 templateUrl: 'spa/view/blank.html',
-                controller: 'BlankController'
+                controller: 'BlankController',
+                resolve: resolveController('spa/controller/BlankController.js')
             })
             .when('/profile', {
                 templateUrl: 'spa/view/profile.html',
-                controller: 'ProfileController'
+                controller: 'ProfileController',
+                resolve: resolveController('spa/controller/ProfileController.js')
             })
             .when('/shipmentlist', {
                 templateUrl: 'spa/view/shipmentlist.html',
-                controller: 'ShipmentListController'
+                controller: 'ShipmentListController',
+                resolve: resolveController('spa/controller/ShipmentListController.js')
             })
             .when('/shipmentedit', {
                 templateUrl: 'spa/view/shipmentedit.html',
-                controller: 'ShipmentEditController'
+                controller: 'ShipmentEditController',
+                resolve: resolveController('spa/controller/ShipmentEditController.js')
+            })
+            .when('/repairlist', {
+                templateUrl: 'spa/view/repairlist.html',
+                controller: 'RepairListController',
+                resolve: resolveController('spa/controller/RepairListController.js')
             })
             .otherwise({ redirectTo: '/home' });
 

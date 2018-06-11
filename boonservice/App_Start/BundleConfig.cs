@@ -42,7 +42,8 @@ namespace boonservice
                         "~/content/vendor/angular/angular-idle.min.js",
                         "~/content/vendor/angular/angular-ui-router.min.js",
                         "~/content/vendor/angular/loading-bar.js",
-                        "~/content/vendor/ngMask/ngMask.js"));
+                        "~/content/vendor/ngMask/ngMask.js",
+                        "~/content/vendor/ocLazyLoad/ocLazyLoad.min.js"));
         }
     }
 }

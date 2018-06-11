@@ -8,7 +8,7 @@
     LoginController.$inject = ['$scope', '$location', 'LoginService', 'UserService'];
     function LoginController($scope, $location, LoginService, UserService) {        
         $scope.loading = false;
-
+       
         $scope.login = function() {
             if ($scope.userName === "" || $scope.userName === undefined || $scope.password === "" || $scope.password === undefined) {
                 $scope.isAuthenticated = false;
@@ -35,13 +35,10 @@
                         $scope.isAuthenticated = true;
                         sessionStorage.setItem('userName', $scope.userName);
                         sessionStorage.setItem('accessToken', resp.data.access_token);
-                        //window.location.href = '/home';
-                        //$location.path = '/home';
 
                         ////get user detail
                         UserService.userdetail($scope.userName).then(function (resp) {
                             sessionStorage.setItem('userDetail', JSON.stringify(resp.data));
-                            //$state.go("home");
                             $location.path('/home');
                         });
                     }
@@ -61,8 +58,6 @@
         $scope.login_again = function () {
             $scope.loading = false;
             $scope.isAuthenticated = false;
-            //$state.go("login");
-            //window.location.href = 'login';
         }
 
     };
