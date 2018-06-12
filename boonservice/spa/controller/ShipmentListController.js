@@ -7,8 +7,8 @@
         .module('app')
         .controller('ShipmentListController', ShipmentListController)
 
-    ShipmentListController.$inject = ['$scope', '$http', '$q', 'config', '$rootScope','$location'];
-    function ShipmentListController($scope, $http, $q, config, $rootScope, $location) {          
+    ShipmentListController.$inject = ['$scope', '$http', '$q', 'config', '$rootScope', '$location','$routeParams'];
+    function ShipmentListController($scope, $http, $q, config, $rootScope, $location, $routeParams) {          
         $scope.title = 'คำนวณค่าขนส่ง BLF';         
 
 
@@ -165,16 +165,11 @@
             return true;
         }
 
-        $scope.ShipmentForm = function (shipment_number) {
-            $location.path('/shipmentedit');
-        };
+        $scope.ShipmentForm = function (shipment_number) { 
 
-        $scope.navactive = $rootScope.navactive;
-        $scope.Edit_active = function (name,itemID) {
-            $rootScope.navactive = name;
-            console.log($rootScope.navactive + '.html'); 
-            $location.path($rootScope.navactive + '.html') ;
+            $location.path('/shipmentedit/' + shipment_number );
         };
+         
 
         
     };

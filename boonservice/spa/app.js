@@ -13,7 +13,7 @@
         var resolveController = function (dependencies) {
             return {
                 loadMyCtrl: ['$ocLazyLoad', function ($ocLazyLoad) {
-                    return $ocLazyLoad.load(dependencies);;
+                    return $ocLazyLoad.load(dependencies);
                 }]
             }
         };
@@ -44,6 +44,11 @@
                 resolve: resolveController('spa/controller/ShipmentListController.js')
             })
             .when('/shipmentedit', {
+                templateUrl: 'spa/view/shipmentedit.html',
+                controller: 'ShipmentEditController',
+                resolve: resolveController('spa/controller/ShipmentEditController.js')
+            })
+            .when('/shipmentedit/:param1', { 
                 templateUrl: 'spa/view/shipmentedit.html',
                 controller: 'ShipmentEditController',
                 resolve: resolveController('spa/controller/ShipmentEditController.js')
