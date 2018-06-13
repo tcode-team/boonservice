@@ -13,7 +13,7 @@
         var resolveController = function (dependencies) {
             return {
                 loadMyCtrl: ['$ocLazyLoad', 'config', function ($ocLazyLoad, config) {
-                    return $ocLazyLoad.load('spa/controller/' + dependencies + '.js?v=' + config.version);;
+                    return $ocLazyLoad.load('spa/controller/' + dependencies + '.js?v=' + config.version);
                 }]
             }
         };
@@ -43,10 +43,15 @@
                 controller: 'ShipmentListController',
                 resolve: resolveController('ShipmentListController')
             })
-            .when('/shipmentedit', {
+            .when('/shipmentedit/:param1', {
                 templateUrl: 'spa/view/shipmentedit.html',
                 controller: 'ShipmentEditController',
                 resolve: resolveController('ShipmentEditController')
+            })
+            .when('/repairlist', {
+                templateUrl: 'spa/view/repairlist.html',
+                controller: 'RepairListController',
+                resolve: resolveController('RepairListController')
             })
             .when('/repairform', {
                 templateUrl: 'spa/view/repairform.html',
