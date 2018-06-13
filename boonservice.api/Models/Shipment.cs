@@ -149,6 +149,11 @@ namespace boonservice.api.Models
         public DateTime? shipment_date { get; set; }
 
         /// <summary>
+        /// วันที่ส่ง
+        /// </summary>
+        public string transport_date { get; set; }
+
+        /// <summary>
         /// Shipment Type
         /// </summary>
         [StringLength(2)]
@@ -173,6 +178,18 @@ namespace boonservice.api.Models
         public string route_desc { get; set; }
 
         /// <summary>
+        /// รหัสกลุ่มรถ
+        /// </summary>
+        [StringLength(2)]
+        public string cargroup_code { get; set; }
+
+        /// <summary>
+        /// รายละเอียดกลุ่มรถ
+        /// </summary>
+        [StringLength(50)]
+        public string cargroup_desc { get; set; }
+
+        /// <summary>
         /// Container ID
         /// </summary>
         [StringLength(60)]
@@ -183,6 +200,26 @@ namespace boonservice.api.Models
         /// </summary>
         [StringLength(10)]
         public string car_license { get; set; }
+
+        /// <summary>
+        /// รหัสคนขับ afs_car_identity_card
+        /// </summary>
+        public Int16 driver_id { get; set; }
+
+        /// <summary>
+        /// รหัสเด็กรถ 1 afs_car_identity_card
+        /// </summary>
+        public Int16 staff1_id { get; set; }
+
+        /// <summary>
+        /// รหัสเด็กรถ 2 afs_car_identity_card
+        /// </summary>
+        public Int16 staff2_id { get; set; }
+
+        /// <summary>
+        /// จุดส่ง
+        /// </summary>
+        public Int16 point_id { get; set; }
 
         /// <summary>
         /// Number of forwarding agent
@@ -206,6 +243,32 @@ namespace boonservice.api.Models
         /// </summary>
         [StringLength(80)]
         public string status_desc { get; set; }
+
+        /// <summary>
+        /// หมายเหตุ
+        /// </summary>
+        [StringLength(250)]
+        public string remark { get; set; }
+
+        /// <summary>
+        /// รหัสผู้สร้าง
+        /// </summary>
+        public int created_by { get; set; }
+
+        /// <summary>
+        /// วันที่สร้าง
+        /// </summary>
+        public DateTime? created_date { get; set; }
+
+        /// <summary>
+        /// รหัสผู้อัพเดท
+        /// </summary>
+        public int update_by { get; set; }
+
+        /// <summary>
+        /// วันที่อัพเดท
+        /// </summary>
+        public DateTime? update_date { get; set; }
     }    
 
 }

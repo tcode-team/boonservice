@@ -230,6 +230,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\afs_carries_point.cs" />
+    <Compile Include="Models\afs_repair_header.cs" />
     <Compile Include="Models\afs_shipment_status.cs" />
     <Compile Include="Models\afs_shipment_expense.cs" />
     <Compile Include="Models\afs_shipment_carries.cs" />

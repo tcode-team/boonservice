@@ -11,7 +11,7 @@ using AutoMapper;
 using boonservice.api.Context;
 using boonservice.api.Models;
 
-namespace boonservice.api.Controllers
+namespace boonservice.api.Controllers 
 {
     /// <summary>
     /// For Table afs_car_group

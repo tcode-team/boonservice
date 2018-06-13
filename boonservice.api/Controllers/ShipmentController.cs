@@ -145,6 +145,12 @@ namespace boonservice.api.Controllers
                                                     t.STATUS_CODE == shipment_h.STATUS).FirstOrDefault();
                                     r.status_code = shipment_h.STATUS;
                                     r.status_desc = status.STATUS_DESC;
+                                    r.cargroup_code = shipment_h.CARGROUP_CODE;
+                                    if (r.cargroup_code != null)
+                                    {
+                                        var cargroup = sapcontext.afs_car_group.Where(t => t.CARGROUP_CODE == r.cargroup_code).FirstOrDefault();
+                                        r.cargroup_desc = cargroup.CARGROUP_DESC;
+                                    }
                                     result.Add(r);
                                 } else
                                 {
@@ -219,6 +225,66 @@ namespace boonservice.api.Controllers
             }
         }
 
+        /// <summary>
+        /// บันทึกคำนวณค่าขนส่ง
+        /// </summary>
+        /// <remarks>
+        /// บันทึกคำนวณค่าขนส่ง
+        /// </remarks>
+        /// <returns></returns>
+        /// <response code="200"></response>
+        [ResponseType(typeof(IEnumerable<ShipmentDetailModel>))]
+        [Authorize]
+        [Route("save")]
+        public HttpResponseMessage Save(ShipmentDetailModel postdata)
+        {
+            try
+            {
+                using (var context = new SAPContext())
+                {
+                    afs_shipment_h data = new afs_shipment_h();
+                    data.CLIENT = postdata.client;
+                    data.SHIPMENT_NUMBER = postdata.shipment_number;
+                    data.TRANSPORT_DATE = DateTime.ParseExact(postdata.transport_date, "dd/MM/yyyy", null);
+                    data.CARGROUP_CODE = postdata.cargroup_code;
+                    data.DRIVER_ID = postdata.driver_id;
+                    data.STAFF1_ID = postdata.staff1_id;
+                    data.STAFF2_ID = postdata.staff2_id;
+                    data.STATUS = postdata.status_code;
+                    data.REMARK = postdata.remark;
+                    data.POINT_ID = postdata.point_id;
+                    var shipment_h = context.afs_shipment_h.Where(t => t.CLIENT == postdata.client && t.SHIPMENT_NUMBER == postdata.shipment_number).FirstOrDefault();
+                    if (shipment_h == null)
+                    {
+                        data.CREATED_BY = postdata.created_by;
+                        data.CREATED_DATE = DateTime.Now;
+                        data.UPDATE_BY = postdata.update_by;
+                        data.UPDATE_DATE = DateTime.Now;
+                        context.afs_shipment_h.Add(data);
+                        context.SaveChanges();
+                    }
+                    else
+                    {
+                        context.afs_shipment_h.Remove(shipment_h);
+                        data.CREATED_BY = shipment_h.CREATED_BY;
+                        data.CREATED_DATE = shipment_h.CREATED_DATE;
+                        data.UPDATE_BY = postdata.update_by;
+                        data.UPDATE_DATE = DateTime.Now;
+                        context.afs_shipment_h.Add(data);
+                        context.SaveChanges();
+                    }
+
+                    return Request.CreateResponse(HttpStatusCode.OK, data);
+                }
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex);
+            }
+           
+        }
+
+
         private List<ShipmentDetailModel> MappingShipmentDetail(List<VTTK> vttks)
         {
             var Shipments = new List<ShipmentDetailModel>();
@@ -250,6 +316,8 @@ namespace boonservice.api.Controllers
                 return Shipments;
             }
         }
+
+
         
     }
 }

@@ -1079,6 +1079,7 @@
     <Content Include="spa\controller\HomeController.js" />
     <Content Include="spa\controller\ShipmentEditController.js" />
     <Content Include="spa\controller\ShipmentListController.js" />
+    <Content Include="spa\directive\directive.js" />
     <Content Include="spa\service\AuthInterceptor.js" />
     <Content Include="spa\service\UserService.js" />
     <Content Include="spa\service\LoginService.js" />

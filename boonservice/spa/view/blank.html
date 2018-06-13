@@ -25,8 +25,30 @@
                     </div>
 
                     <div class="page-content-wrapper">
-                        <h2>{{title}}</h2>
-                        <h3>{{user.firstname}} {{user.lastname}}</h3>
+                        <div class="row">
+                            <div class="form-row col-md-12">
+                                <h2>{{title}}</h2>
+                                <br />
+                                <h3>{{user.firstname}} {{user.lastname}}</h3>
+                            </div>
+                        </div>
+                        
+                        <br />
+                        <div class="row">
+                            <div class="form-row col-md-12">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" ng-model="driver_id" />
+                                    <button ng-click="toggleModal('พนักงานขับรถ')" class="btn btn-default">Cancel</button>
+                                </div>
+                                <modal-select visible="showModal">
+                                    <div class="list-group" role="tablist" style="height:450px;overflow-x:auto">
+                                        <a ng-repeat="row in drivers" class="list-group-item list-group-item-action" href=""
+                                           ng-click="selected_driver(row.PEOPLE_ID)" data-toggle="tab"
+                                           ng-class="{'active':driver_id==row.PEOPLE_ID, '':driver_id!=row.PEOPLE_ID}">{{row.PEOPLE_ID}}:{{row.NAME}}</a>
+                                    </div>
+                                </modal-select>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

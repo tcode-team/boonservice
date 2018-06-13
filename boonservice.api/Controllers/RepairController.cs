@@ -34,7 +34,7 @@ namespace boonservice.api.Controllers
         /// <param name="search">criteria</param>
         /// <returns name="RepairHeader">Repair data</returns>
         /// <response code="200"></response>
-        [ResponseType(typeof(RepairHeader))]
+        [ResponseType(typeof(RepairForm))]
         [Route("searchso")]
         public HttpResponseMessage PostSearh(RepairSearchModel search)
         {
@@ -43,7 +43,9 @@ namespace boonservice.api.Controllers
             var sapBilling = new sapBilling();
 
             search.fetchdata = search.fetchdata == null ? new fetchdata() : search.fetchdata;
-            var result = new RepairHeader();
+            var result = new RepairForm();
+            var rh = new RepairHeader();
+            ICollection<RepairItems> ri = new List<RepairItems>();
             try
             {
                 var vbak = sapSaleOrder.GetVBAK(client, search.sonumber);
@@ -51,46 +53,62 @@ namespace boonservice.api.Controllers
                 {
                     return Request.CreateErrorResponse(HttpStatusCode.NotFound, "VBAK not found");
                 };
-                result.sonumber = vbak.VBELN;
-                result.sodate = vbak.ERDAT;
-                result.customercode = vbak.KUNNR;
+                rh.so_number = vbak.VBELN;
+                rh.so_date = DateTime.ParseExact(vbak.ERDAT, "yyyyMMdd", null);
+                rh.soldto_code = vbak.KUNNR;
 
                 //Get Customer Detail
                 var kna1 = sapCustomer.GetKNA1(vbak.MANDT, vbak.KUNNR);
-                result.customername = kna1.NAME1 + kna1.NAME2;
+                rh.soldto_name = kna1.NAME1 + kna1.NAME2;
 
                 //Get Customer Address 
                 var adrc = sapCustomer.GetADRC(kna1.MANDT, kna1.ADRNR);
-                result.customeraddress = sapCustomer.ConcateAddress(adrc.Where(w => w.NATION == " ").FirstOrDefault());
+                rh.soldto_address = sapCustomer.ConcateAddress(adrc.Where(w => w.NATION == " ").FirstOrDefault());
 
                 //Get Partner Customer
                 var vbpa = sapSaleOrder.GetVBPA(vbak.MANDT, vbak.VBELN, "000000");
 
                 //Ship-To Address
-                var partner = vbpa.Where(w => w.PARVW == "WE").FirstOrDefault(); 
+                var partner = vbpa.Where(w => w.PARVW == "WE").FirstOrDefault();
+                rh.shipto_code = partner.KUNNR;
                 kna1 = sapCustomer.GetKNA1(vbak.MANDT, partner.KUNNR);
                 adrc = sapCustomer.GetADRC(kna1.MANDT, kna1.ADRNR);
-                result.transportaddress = sapCustomer.ConcateAddress(adrc.Where(w => w.NATION == " ").FirstOrDefault());
+                rh.shipto_address = sapCustomer.ConcateAddress(adrc.Where(w => w.NATION == " ").FirstOrDefault());
 
                 //Get Sale Rep name
                 partner = vbpa.Where(w => w.PARVW == "ZR").FirstOrDefault();
+                rh.salerep_code = partner.KUNNR;
                 var salerep = sapCustomer.GetKNA1(partner.MANDT, partner.KUNNR);
-                result.salerep = salerep.NAME1 + salerep.NAME2;
+                rh.salerep_name = salerep.NAME1 + salerep.NAME2;
 
                 //Get Sale Order item
                 var vbap = sapSaleOrder.GetVBAP(vbak.MANDT, vbak.VBELN);
+                foreach (var item in vbap)
+                {
+                    ri.Add(new RepairItems
+                    {
+                        so_number = item.VBELN,
+                        so_item = item.POSNR,
+                        article_number = item.MATNR,
+                        article_name = item.ARKTX,
+                        qty = item.KWMENG
+                    });
+                }
 
                 //Get Billing
                 var vbrks = sapBilling.GetVBRKbySONumber(vbak.MANDT, vbak.VBELN);
-                if (vbrks == null)
+                if (vbrks == null || vbrks.Count == 0)
                 {
                     return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Billing not found");
                 }
                 var vbrk = vbrks.OrderBy(o => o.FKDAT).FirstOrDefault();
-                result.transportdate = vbrk.FKDAT;
+                rh.billing_date = DateTime.ParseExact(vbrk.FKDAT, "yyyyMMdd", null);
 
-                return result == null
-                         ? Request.CreateErrorResponse(HttpStatusCode.NotFound, "VBAK not found")
+                result.header = rh;
+                result.items = ri;
+
+                return result.header == null || result.items == null
+                         ? Request.CreateErrorResponse(HttpStatusCode.NotFound, "Sale Order not found")
                          : Request.CreateResponse(HttpStatusCode.OK, result);
             }
             catch (Exception ex)
