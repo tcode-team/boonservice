@@ -101,7 +101,6 @@ namespace boonservice.api.Controllers
                     afs_shipment_carries data = new afs_shipment_carries();
                     data.CLIENT = post_afs_shipment_carries.CLIENT;
                     data.SHIPMENT_NUMBER = post_afs_shipment_carries.SHIPMENT_NUMBER;
-                    data.POINT_ID = post_afs_shipment_carries.POINT_ID;
                     data.SALEORDER_NUMBER = post_afs_shipment_carries.SALEORDER_NUMBER;
                     data.DRIVER_AMOUNT = post_afs_shipment_carries.DRIVER_AMOUNT;
                     data.STAFF_AMOUNT = post_afs_shipment_carries.STAFF_AMOUNT;

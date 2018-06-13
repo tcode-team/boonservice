@@ -1,0 +1,173 @@
+﻿<div id="wrapper">
+    <!-- Left Navigator -->
+    <aside id="aside" class="aside aside-left" ng-include="'spa/view/leftNavigator.html'"
+           data-fuse-bar="aside" data-fuse-bar-media-step="md" data-fuse-bar-position="left"></aside>
+
+    <!-- Content -->
+    <div class="content-wrapper">
+        <!-- NavBar -->
+        <nav id="toolbar" class="bg-white" ng-include="'spa/view/navbar.html'"></nav>
+
+        <!-- Content Page -->
+        <div class="content custom-scrollbar" ng-controller="RepairFormController">
+            <div id="maincontent" class="page-layout" style="overflow:auto;flex-direction: column;">
+                <div class="page-layout simple left-sidebar-floating">
+                    <div class="page-header bg-secondary text-auto row no-gutters align-items-center justify-content-between p-4 p-sm-6">
+                        <div class="col">
+                            <!-- APP TITLE -->
+                            <div class="row no-gutters align-items-center flex-nowrap">
+                                <div class="logo row no-gutters align-items-center flex-nowrap">
+                                    <span class="logo-icon mr-4"><i class="icon-settings s-6"></i></span>
+                                    <span class="logo-text h4">{{title}}</span>
+                                </div>
+                            </div>
+                            <!-- / APP TITLE -->
+                        </div>
+                    </div>
+                    <br />
+                    <div class="page-content-wrapper">
+                        <div class="col">
+                            <!-- Form -->
+                            <div class="card">
+                                <div class="card-body">
+                                    <form name="FormSearch" novalidate>
+                                        <fieldset ng-disabled="loading">
+                                            <div class="row">
+                                                <div class="col-md-8">
+                                                    <div class="form-row">
+                                                        <div class="form-group col-md-6">
+                                                            <label class="form-control-label col-md-4" for="iSoNumber">SO:</label>
+                                                            <div class="col-md-8">
+                                                                <input class="form-control" type="text" ng-model="SoNumber" id="iSoNumber">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-md-6">
+                                                            <label class="form-control-label col-md-4" for="iCustomerName">ชื่อลูกค้า</label>
+                                                            <div class="col-md-8">
+                                                                <input class="form-control-plaintext" readonly type="text" ng-model="CustomerName" id="iCustomerName">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-row">
+                                                        <div class="form-group col-md-6">
+                                                            <label class="form-control-label col-md-4" for="iAddress">ที่อยู่:</label>
+                                                            <div class="col-md-8">
+                                                                <input class="form-control-plaintext" readonly type="text" ng-model="Address" id="iAddress">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-md-6">
+                                                            <label class="form-control-label col-md-4" for="iTrasportAddress">ที่อยู่จัดส่ง</label>
+                                                            <div class="col-md-8">
+                                                                <input class="form-control-plaintext" readonly type="text" ng-model="TransportAddress" id="iTrasportAddress">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-row">
+                                                        <div class="form-group col-md-6">
+                                                            <label class="form-control-label col-md-4" for="iSaleRep">พนักงานขาย:</label>
+                                                            <div class="col-md-8">
+                                                                <input class="form-control-plaintext" readonly type="text" ng-model="SaleRep" id="iSaleRep">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-md-6">
+                                                            <label class="form-control-label col-md-4" for="iTransportDate">วันที่ส่งสินค้า:</label>
+                                                            <div class="col-md-8">
+                                                                <input class="form-control-plaintext" readonly type="text" ng-model="TransportDate" id="iTransportDate">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-row">
+                                                        <div class="form-group col-md-6">
+                                                            <label class="form-control-label col-md-4" for="iTransportAmount">SO ค่าขนส่ง:</label>
+                                                            <div class="col-md-8">
+                                                                <input class="form-control" type="text" ng-model="TransportAmount" id="iTransportAmount">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-md-6">
+                                                            <label class="form-control-label col-md-4" for="iTel">เบอร์ติดต่อ:</label>
+                                                            <div class="col-md-8">
+                                                                <input class="form-control" type="text" ng-model="CustomerTel" id="iTel">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-row">
+                                                        <div class="form-group col-md-12">
+                                                            <label class="form-control-label" for="iRemark">หมายเหตุ หน้าร้าน:</label>
+                                                            <textarea class="form-control" type="text" ng-model="Remark" id="iRemark" rows="4"></textarea>
+                                                        </div>
+                                                        <div class="form-group col-md-12">
+                                                            <button type="button" class="btn btn-secondary fuse-ripple-ready">
+                                                                <i class="icon icon-content-save"></i> บันทึก
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                           <div class="form-group col-sm-12">
+                                               <div class="table table-responsive">
+                                                   <table class="table table-bordered">
+                                                       <thead>
+                                                           <tr>
+                                                               <th></th>
+                                                               <th>Article</th>
+                                                               <th>Article Desc</th>
+                                                               <th>ประเภทสินค้า</th>
+                                                               <th style="width:80px;">QTY</th>
+                                                               <th>รายละเอียด</th>
+                                                               <th>ตำแหน่งชำรุด</th>
+                                                               <th>การดำเนินการ</th>
+                                                               <th>ประกัน</th>
+                                                               <th>รูป</th>
+                                                           </tr>
+                                                       </thead>
+                                                       <tbody>
+                                                           <tr>
+                                                               <td>
+                                                                   <div class="form-check">
+                                                                       <label class="form-check-label">
+                                                                           <input class="form-check-input" type="checkbox" value="">
+                                                                           <span class="checkbox-icon"></span>
+                                                                       </label>
+                                                                   </div>
+                                                               </td>
+                                                               <td>Article</td>
+                                                               <td>Article Desc</td>
+                                                               <td>ประเภทสินค้า</td>
+                                                               <td><input tye="text" class="form-control" /></td>
+                                                               <td><input tye="text" class="form-control" /></td>
+                                                               <td><input tye="text" class="form-control" /></td>
+                                                               <td>
+                                                                   <select class="form-control">
+                                                                       <option>แจ้งซ่อม</option>
+                                                                       <option>เปลี่ยนใหม่</option>
+                                                                   </select>
+                                                               </td>
+                                                               <td>
+                                                                   <div class="form-check">
+                                                                       <label class="form-check-label">
+                                                                           <input class="form-check-input" type="checkbox" value="">
+                                                                           <span class="checkbox-icon"></span>
+                                                                       </label>
+                                                                   </div>
+                                                               </td>
+                                                               <td></td>
+                                                           </tr>
+                                                       </tbody>
+                                                   </table>
+                                               </div>
+                                           </div>
+                                           
+                                        </fieldset>
+                                    </form>
+                                </div>
+                            </div>
+                            <!-- Form -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

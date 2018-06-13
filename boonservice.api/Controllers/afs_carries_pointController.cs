@@ -62,7 +62,7 @@ namespace boonservice.api.Controllers
         /// <returns></returns>
         /// <response code="200">afs_carries_point found</response>
         /// <response code="404">afs_carries_point not foundd</response>
-        [ResponseType(typeof(afs_car_group))]
+        [ResponseType(typeof(afs_carries_point))]
         public HttpResponseMessage GetById(Int16 id)
         {
             try
@@ -70,6 +70,35 @@ namespace boonservice.api.Controllers
                 using (var context = new SAPContext())
                 {
                     var afs_carries_point = context.afs_carries_point.Where(t => t.POINT_ID == id).FirstOrDefault();
+                    return afs_carries_point == null
+                        ? Request.CreateErrorResponse(HttpStatusCode.NotFound, "afs_car_group not found")
+                        : Request.CreateResponse(HttpStatusCode.OK, afs_carries_point);
+                }
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Get afs_carries_point by id
+        /// </summary>
+        /// <remarks>
+        /// Get a afs_carries_point by id
+        /// </remarks>
+        /// <param name="cargroup">afs_carries_point-cargroup</param>
+        /// <returns>afs_carries_point of row</returns>
+        /// <response code="200">afs_carries_point found</response>
+        /// <response code="404">afs_carries_point not foundd</response>
+        [ResponseType(typeof(IEnumerable<afs_carries_point>))]
+        public HttpResponseMessage GetByCarGroup(string cargroup)
+        {
+            try
+            {
+                using (var context = new SAPContext())
+                {
+                    var afs_carries_point = context.afs_carries_point.Where(t => t.CARGROUP_CODE == cargroup).ToList();
                     return afs_carries_point == null
                         ? Request.CreateErrorResponse(HttpStatusCode.NotFound, "afs_car_group not found")
                         : Request.CreateResponse(HttpStatusCode.OK, afs_carries_point);

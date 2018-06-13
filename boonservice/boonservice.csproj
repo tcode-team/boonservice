@@ -148,6 +148,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\css\bootstrap.css" />
+    <Content Include="Content\css\bootstrap.min.css" />
     <Content Include="Content\css\main.css" />
     <Content Include="Content\vendor\ocLazyLoad\modules\ocLazyLoad.core.js" />
     <Content Include="Content\vendor\ocLazyLoad\modules\ocLazyLoad.directive.js" />
@@ -1069,6 +1071,7 @@
     </Content>
     <Content Include="spa\app.js" />
     <Content Include="spa\config.js" />
+    <Content Include="spa\controller\RepairFormController.js" />
     <Content Include="spa\controller\RepairListController.js" />
     <Content Include="spa\controller\ProfileController.js" />
     <Content Include="spa\controller\BlankController.js" />
@@ -1085,6 +1088,7 @@
     <Content Include="spa\view\login.html" />
     <Content Include="spa\view\navbar.html" />
     <Content Include="spa\view\profile.html" />
+    <Content Include="spa\view\repairform.html" />
     <Content Include="spa\view\repairlist.html" />
     <Content Include="spa\view\ShipmentEdit.html" />
     <Content Include="spa\view\ShipmentList.html" />

@@ -222,6 +222,7 @@
     <Compile Include="Controllers\afs_car_identity_cardController.cs" />
     <Compile Include="Controllers\afs_car_groupController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\RepairController.cs" />
     <Compile Include="Controllers\ShipmentTypeController.cs" />
     <Compile Include="Controllers\ShipmentController.cs" />
     <Compile Include="Controllers\UserController.cs" />
@@ -238,6 +239,7 @@
     <Compile Include="Models\Message.cs" />
     <Compile Include="Models\fetchdata.cs" />
     <Compile Include="Models\sap.cs" />
+    <Compile Include="Models\Repair.cs" />
     <Compile Include="Models\Superhero.cs" />
     <Compile Include="Models\Shipment.cs" />
     <Compile Include="Models\afs_car_group.cs" />
@@ -245,6 +247,9 @@
     <Compile Include="Models\Universe.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\sapBilling.cs" />
+    <Compile Include="Services\sapSaleOrder.cs" />
+    <Compile Include="Services\sapCustomer.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>

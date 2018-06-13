@@ -34,11 +34,6 @@ namespace boonservice.api.Models
         public int ITEM_NO { get; set; }
 
         /// <summary>
-        /// รหัส afs_carries_point
-        /// </summary>
-        public Int16 POINT_ID { get; set; }
-
-        /// <summary>
         /// ช่วงเวลา
         /// </summary>
         [StringLength(50)]

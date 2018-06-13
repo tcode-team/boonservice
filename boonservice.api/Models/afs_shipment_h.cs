@@ -60,6 +60,11 @@ namespace boonservice.api.Models
         public Int16 STAFF2_ID { get; set; }
 
         /// <summary>
+        /// จุดส่ง
+        /// </summary>
+        public Int16 POINT_ID { get; set; }
+
+        /// <summary>
         /// หมายเหตุ
         /// </summary>
         [StringLength(250)]

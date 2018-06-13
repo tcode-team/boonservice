@@ -12,8 +12,8 @@
         // Resolver to load controller, service, directive
         var resolveController = function (dependencies) {
             return {
-                loadMyCtrl: ['$ocLazyLoad', function ($ocLazyLoad) {
-                    return $ocLazyLoad.load(dependencies);;
+                loadMyCtrl: ['$ocLazyLoad', 'config', function ($ocLazyLoad, config) {
+                    return $ocLazyLoad.load('spa/controller/' + dependencies + '.js?v=' + config.version);;
                 }]
             }
         };
@@ -26,32 +26,32 @@
             .when('/login', {
                 templateUrl: 'spa/view/login.html',
                 controller: 'LoginController',
-                resolve: resolveController('spa/controller/LoginController.js')
+                resolve: resolveController('LoginController')
             })
             .when('/blank', {
                 templateUrl: 'spa/view/blank.html',
                 controller: 'BlankController',
-                resolve: resolveController('spa/controller/BlankController.js')
+                resolve: resolveController('BlankController')
             })
             .when('/profile', {
                 templateUrl: 'spa/view/profile.html',
                 controller: 'ProfileController',
-                resolve: resolveController('spa/controller/ProfileController.js')
+                resolve: resolveController('ProfileController')
             })
             .when('/shipmentlist', {
                 templateUrl: 'spa/view/shipmentlist.html',
                 controller: 'ShipmentListController',
-                resolve: resolveController('spa/controller/ShipmentListController.js')
+                resolve: resolveController('ShipmentListController')
             })
             .when('/shipmentedit', {
                 templateUrl: 'spa/view/shipmentedit.html',
                 controller: 'ShipmentEditController',
-                resolve: resolveController('spa/controller/ShipmentEditController.js')
+                resolve: resolveController('ShipmentEditController')
             })
-            .when('/repairlist', {
-                templateUrl: 'spa/view/repairlist.html',
-                controller: 'RepairListController',
-                resolve: resolveController('spa/controller/RepairListController.js')
+            .when('/repairform', {
+                templateUrl: 'spa/view/repairform.html',
+                controller: 'RepairFormController',
+                resolve: resolveController('RepairFormController')
             })
             .otherwise({ redirectTo: '/home' });
 

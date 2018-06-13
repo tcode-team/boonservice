@@ -25,7 +25,83 @@
                     </div>
 
                     <div class="page-content-wrapper">
-                        <h2>{{title}}</h2>
+
+                        <div class="col">
+                            <!-- Criteria -->
+                            <div class="card">
+                                <div class="card-body">
+                                    <form name="FormSearch" novalidate>
+                                        <fieldset ng-disabled="loading">
+                                            <div class="form-row">
+                                                <div class="form-group col-md-4">
+                                                    <label class="form-control-label col-md-4" for="RepairDateFrom">วันที่แจ้งซ่อม:</label>
+                                                    <div class="col-md-8">
+                                                        <input class="form-control" type="date" ng-model="RepairDateFrom" id="RepairDateFrom" placeholder="dd/MM/yyyy">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <label class="form-control-label col-md-4" for="RepairDateTo">ถึงวันที่</label>
+                                                    <div class="col-md-8">
+                                                        <input class="form-control" type="date" ng-model="RepairDateTo" id="RepairDateTo">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <label class="form-control-label col-md-4" for="CustomerName">ชื่อลูกค้า:</label>
+                                                    <div class="col-md-8">
+                                                        <input type="text" class="form-control" placeholder="" ng-model="CustomerName" id="CustomerName">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-row">
+                                                <div class="form-group col-md-4">
+                                                    <label class="col-form-label col-md-4" for="SoNumber">SO Number:</label>
+                                                    <div class="col-md-8">
+                                                        <input type="text" class="form-control" placeholder="" ng-model="SoNumber" id="SoNumber">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <label class="col-form-label col-md-4" for="Status">Status:</label>
+                                                    <div class="col-md-8">
+                                                        <select class="form-control" id="Status">
+                                                            <option value="NEW">New</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-row">
+                                                <div class="form-group col-md-4">
+                                                    <label class="col-form-label col-md-4" for="RepairNumber">เลขที่แจ้งซ่อม</label>
+                                                    <div class="col-md-8">
+                                                        <input type="text" class="form-control" placeholder="" ng-model="RepairNumber" id="RepairNumber">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-4">
+                                                    <label class="col-form-label col-md-4"></label>
+                                                    <button class="btn btn-primary fuse-ripple-ready" type="button" style="margin-left:15px;">
+                                                        <i class="icon icon-search-web"></i> ค้นหา
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </form>
+                                </div>
+                            </div>
+                            <!-- Criteria -->
+                            <br />
+                            <!-- List -->
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="table-responsive">
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- List -->
+                        </div>
                     </div>
                 </div>
             </div>

@@ -26867,7 +26867,7 @@ input[type=checkbox]:disabled ~ .checkbox-icon, input[type=checkbox]:disabled ~ 
 
 .form-group {
     padding-top: 1.6rem;
-    margin-bottom: 3.2rem
+    /*margin-bottom: 3.2rem*/
 }
 
     .form-group.row > label {
@@ -26878,7 +26878,7 @@ input[type=checkbox]:disabled ~ .checkbox-icon, input[type=checkbox]:disabled ~ 
 
     .form-group > label {
         width: 100%;
-        color: rgba(0,0,0,0.38);
+        /*color: rgba(0,0,0,0.38);*/
         -webkit-transform: scale(0.923, 0.923);
         -ms-transform: scale(0.923, 0.923);
         transform: scale(0.923, 0.923);

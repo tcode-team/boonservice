@@ -109,6 +109,7 @@ namespace boonservice.api.Controllers
                     data.STAFF1_ID = post_afs_shipment_h.STAFF1_ID;
                     data.STAFF2_ID = post_afs_shipment_h.STAFF2_ID;
                     data.STATUS = post_afs_shipment_h.STATUS;
+                    data.POINT_ID = post_afs_shipment_h.POINT_ID;
                     data.CREATED_BY = post_afs_shipment_h.CREATED_BY;
                     data.CREATED_DATE = DateTime.Now;
                     data.UPDATE_BY = post_afs_shipment_h.UPDATE_BY;
