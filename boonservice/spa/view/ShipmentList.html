@@ -34,8 +34,8 @@
                                         <fieldset ng-disabled="loading">
                                             <div class="form-row">
                                                 <div class="form-group col-md-8">
-                                                    <label class="form-control-label col-md-2">วันที่ Shipment</label>
-                                                    <div class="col-md-4">
+                                                    <label class="form-control-label col-md-3">วันที่ Shipment</label>
+                                                    <div class="col-md-3">
                                                         <input class="form-control" type="date" id="ShipmentDateFrom" ng-model="ShipmentDateFrom" placeholder="dd/MM/yyyy">
                                                     </div>
                                                     <label class="form-control-label col-md-2">ถึงวันที่</label>
@@ -98,9 +98,7 @@
                                         </fieldset>
                                     </form>
                                     <label class="h4 a-align-bottom-center text-red-700"> {{ShipSearchErr}}</label>
-                                </div>
-                                {{ShipSearchErr}} <br />
-                                {{DataSearch}}   {{ShipmentDateFrom}}   {{ShipmentDateTo}}
+                                </div> 
                             </div>
                             <br />
                             <!-- Table List -->
@@ -187,7 +185,7 @@
                                                                 <td>{{ x.shipmenttype_desc}}</td>
                                                                 <td>{{ x.shipmenttype_desc}}</td>
                                                                 <td>{{ x.car_license}}</td>
-                                                                <td>{{ x.transport_amount | number : 4}}</td>
+                                                                <td>{{ x.transport_amount | number : 2}}</td>
                                                                 <td>{{ x.status_code}} {{ x.status_desc}}</td>
                                                                 <td>
                                                                     <button type="button" class="btn btn-warning"

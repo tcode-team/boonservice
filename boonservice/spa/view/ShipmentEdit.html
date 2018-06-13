@@ -9,7 +9,7 @@
         <nav id="toolbar" class="bg-white" ng-include="'spa/view/navbar.html'"></nav>
 
         <!-- Content Page -->
-        <div class="content custom-scrollbar" ng-controller="ShipmentEditController">
+        <div class="content custom-scrollbar" ng-controller="ShipmentEditController" ng-init="init()">
             <div id="maincontent" class="page-layout" style="overflow:auto;flex-direction: column;">
 
                 <div class="page-layout simple left-sidebar-floating">
@@ -21,16 +21,125 @@
                                 <i class="icon icon-arrow-left"></i>
                             </a>
 
-                            <span class="logo-text h4">{{title}}</span>
+                            <span class="logo-text h4">{{title}} {{ShipmentNO}}</span>
                         </div>
                     </div>
 
                     <div class="page-content-wrapper">
-                        <h2>{{title}}</h2>
+                        <div class="col">
+                            <div class="card">
+                                <div class="card-body">
+                                    <form name="FormEdit" novalidate> 
+
+                                            <!-- Head -->
+                                            <div class="form-row">
+                                                <div class="form-group col-md-4">
+                                                    <label class="form-control-label col-md-5" for="ShipmentNo">Shipment NO</label>
+                                                    <div class="col-md-5">
+                                                        <input type="text" class="form-control" id="ShipmentNo" disabled="disabled" ng-model="FormEdit.ShipmentNo">
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group col-md-4">
+                                                    <label class="form-control-label col-md-3">วันที่ส่ง</label>
+                                                    <div class="col-md-6">
+                                                        <input class="form-control" type="date" id="ShipmentSent" ng-model="ShipmentDateSend" placeholder="dd/MM/yyyy">
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group col-md-4">
+                                                    <label for="Route" class="col-form-label col-md-3">Route</label>
+                                                    <div class="col-md-7">
+                                                        <input type="text" class="form-control" id="Route" ng-model="FormEdit.Route" disabled="disabled">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-row">
+                                                <div class="form-group col-md-4">
+                                                    <label for="ShipmentType" class="col-form-label col-md-4">ประเภทรถ</label>
+                                                    <div class="col-md-6">
+                                                        <input type="text" class="form-control" id="ShipmentType" ng-model="FormEdit.ShipmentType" disabled="disabled">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <label for="CarGroup" class="col-form-label col-md-3">กลุ่มรถ</label>
+                                                    <div class="col-md-6">
+                                                        <input type="text" class="form-control" id="CarGroup" ng-model="FormEdit.CarGroup" disabled="disabled">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <label class="form-control-label col-md-4" for="CarLicense">ทะเบียนรถ</label>
+                                                    <div class="col-md-6">
+                                                        <input type="text" class="form-control" id="CarLicense" ng-model="FormEdit.CarLicense" disabled="disabled">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="Container" class="col-form-label col-md-3">Container ID</label>
+                                                    <div class="col-md-5">
+                                                        <input type="text" class="form-control" id="Container" ng-model="FormEdit.Container" disabled="disabled">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="DRIVER_ID" class="col-form-label col-md-2">คนขับ</label>
+                                                    <div class="col-md-6">
+                                                        <input type="text" id="DRIVER_ID" class="form-control" ng-model="FormEdit.DRIVER" disabled="disabled">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="STAFF1_ID" class="col-form-label col-md-3">เด็กรถ 1</label>
+                                                    <div class="col-md-6">
+                                                        <input type="text" class="form-control" id="STAFF1_ID" ng-model="FormEdit.STAFF1" disabled="disabled">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="STAFF2_ID" class="col-form-label col-md-2">เด็กรถ 2</label>
+                                                    <div class="col-md-6">
+                                                        <input type="text" id="STAFF2_ID" class="form-control" ng-model="FormEdit.STAFF2" disabled="disabled">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Head End-->
+                                            <div class="h5">รายการปรับปรุง</div>
+
+
+                                            <!-- Add Point-->
+                                            <div class="form-row">
+                                                <div class="form-group col-md-4">
+                                                    <label for="CarriesPoint" class="col-form-label col-md-4">จุดส่ง</label>
+                                                    <div class="col-md-8">
+                                                        <select id="CarriesPoint" class="form-control" ng-model="FormEdit.CarriesPoint">
+                                                            <option selected></option>
+                                                            <option ng-repeat="optionPoint in CarriesPoint |  filter:{CarGroup:vFormEdit.CarGroup }" ng-value="optionPoint.TIER_DESC">{{optionPoint.TIER_DESC}}</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                         
+                                    </form>
+                                    <label class="h4 a-align-bottom-center text-red-700"> {{ShipEditErr}}</label>
+                                </div>
+                            </div>
+
+
+
+                        </div>
                     </div>
+
                 </div>
 
             </div>
         </div>
+
+        <!-- Content Page End-->
     </div>
+
 </div>
