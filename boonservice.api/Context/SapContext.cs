@@ -9,6 +9,9 @@ using System.Web;
 
 namespace boonservice.api.Context
 {
+    /// <summary>
+    /// DBContext to B3G owner
+    /// </summary>
     public class SAPContext: DbContext
     {
         public SAPContext() : base("SAP") {
@@ -23,6 +26,9 @@ namespace boonservice.api.Context
         public DbSet<afs_shipment_expense> afs_shipment_expense { get; set; }
         public DbSet<afs_shipment_h> afs_shipment_h { get; set; }
         public DbSet<afs_shipment_status> afs_shipment_status { get; set; }
+        public DbSet<afs_repair_header> afs_repair_header { get; set; }
+        public DbSet<afs_repair_items> afs_repair_items { get; set; }
+        public DbSet<afs_car_license> afs_car_license { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -41,12 +47,21 @@ namespace boonservice.api.Context
                 .HasKey(k => new { k.CLIENT, k.SHIPMENT_NUMBER, k.ITEM_NO });
 
             modelBuilder.Entity<afs_shipment_expense>()
-                .HasKey(k => new { k.CLIENT, k.SHIPMENT_NUMBER, k.EXPENSE_ID });
+                .HasKey(k => new { k.CLIENT, k.SHIPMENT_NUMBER, k.ITEM_NO });
 
             modelBuilder.Entity<afs_shipment_h>()
                 .HasKey(k => new { k.CLIENT, k.SHIPMENT_NUMBER });
 
             modelBuilder.Entity<afs_shipment_status>();
+
+            modelBuilder.Entity<afs_repair_header>()
+                .HasKey(k => k.repair_code);
+
+            modelBuilder.Entity<afs_repair_items>()
+                .HasKey(k => new { k.repair_code, k.repair_item });
+
+            modelBuilder.Entity<afs_car_license>()
+                .HasKey(k => k.CAR_ID);
         }
 
     }

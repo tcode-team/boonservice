@@ -12,6 +12,7 @@ namespace boonservice.api
         public static void Configure()
         {
             Mapper.Initialize(cfg => cfg.AddProfile(new UserAutoMapperProfile()));
+            Mapper.Initialize(cfg => cfg.AddProfile(new RepairAutoMapperProfile()));
         }
     }
 }

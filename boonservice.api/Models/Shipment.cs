@@ -125,6 +125,29 @@ namespace boonservice.api.Models
     }
 
     /// <summary>
+    /// Shipment Confirm 
+    /// </summary>
+    public class ShipmentConfirmModeal
+    {
+        /// <summary>
+        /// Client
+        /// </summary>
+        [StringLength(9)]
+        public string client { get; set; }
+
+        /// <summary>
+        /// Shipment Number
+        /// </summary>
+        [StringLength(30)]
+        public string shipment_number { get; set; }
+
+        /// <summary>
+        /// Confirm by userid
+        /// </summary>
+        public int confirm_by { get; set; }
+    }
+
+    /// <summary>
     /// Shipment Detail
     /// </summary>
     public class ShipmentDetailModel
@@ -251,6 +274,16 @@ namespace boonservice.api.Models
         public string remark { get; set; }
 
         /// <summary>
+        /// รหัสผู้ confirm
+        /// </summary>
+        public int confirm_by { get; set; }
+
+        /// <summary>
+        /// วันที่ confirm
+        /// </summary>
+        public DateTime? confirm_date { get; set; }
+
+        /// <summary>
         /// รหัสผู้สร้าง
         /// </summary>
         public int created_by { get; set; }
@@ -269,6 +302,158 @@ namespace boonservice.api.Models
         /// วันที่อัพเดท
         /// </summary>
         public DateTime? update_date { get; set; }
+
+        /// <summary>
+        /// Shipment รายการค่าขนส่ง 
+        /// </summary>
+        public List<ShipmentCarries> shipment_carries { get; set; }
+
+        /// <summary>
+        /// Shipment รายการค่าอื่น ๆ
+        /// </summary>
+        public List<ShipmentExpense> shipment_expense { get; set; }
     }    
 
+    /// <summary>
+    /// Shipment รายการค่าขนส่ง
+    /// </summary>
+    public class ShipmentCarries
+    {
+        /// <summary>
+        /// Client
+        /// </summary>
+        [Key, Column(Order = 0)]
+        [StringLength(9)]
+        public string client { get; set; }
+
+        /// <summary>
+        /// Shipment Number
+        /// </summary>
+        [Key, Column(Order = 1)]
+        [StringLength(30)]
+        public string shipment_number { get; set; }
+
+        /// <summary>
+        /// Item No
+        /// </summary>
+        public int itemno { get; set; }
+
+        /// <summary>
+        /// จุดส่ง
+        /// </summary>
+        [StringLength(150)]
+        public string point_desc { get; set; }
+
+        /// <summary>
+        /// ช่วงเวลา
+        /// </summary>
+        public string time_range { get; set; }
+
+        /// <summary>
+        /// Sale Order Number
+        /// </summary>
+        public string so_number { get; set; }
+
+        /// <summary>
+        /// หมายเหตุ
+        /// </summary>
+        public string remark { get; set; }
+
+        /// <summary>
+        /// คนขับ จำนวนเงิน
+        /// </summary>
+        public decimal driver_amount { get; set; }
+
+        /// <summary>
+        /// เด็กรถ จำนวนเงิน
+        /// </summary>
+        public decimal staff_amount { get; set; }
+
+        /// <summary>
+        /// รหัสผู้สร้าง
+        /// </summary>
+        public int created_by { get; set; }
+
+        /// <summary>
+        /// วันที่สร้าง
+        /// </summary>
+        public DateTime? created_date { get; set; }
+
+        /// <summary>
+        /// รหัสผู้อัพเดท
+        /// </summary>
+        public int update_by { get; set; }
+
+        /// <summary>
+        /// วันที่อัพเดท
+        /// </summary>
+        public DateTime? update_date { get; set; }
+    }
+
+    /// <summary>
+    /// Shipment รายการค่าอื่น ๆ
+    /// </summary>
+    public class ShipmentExpense
+    {
+        /// <summary>
+        /// Client
+        /// </summary>
+        [Key, Column(Order = 0)]
+        [StringLength(9)]
+        public string client { get; set; }
+
+        /// <summary>
+        /// Shipment Number
+        /// </summary>
+        [Key, Column(Order = 1)]
+        [StringLength(30)]
+        public string shipment_number { get; set; }
+
+        /// <summary>
+        /// Item No
+        /// </summary>
+        public int itemno { get; set; }
+
+        /// <summary>
+        /// รหัสค่าใช้จ่าย
+        /// </summary>
+        public int expense_id { get; set; }
+
+        /// <summary>
+        /// รายละเอียดค่าใช้จ่าย
+        /// </summary>
+        [StringLength(80)]
+        public string expense_desc { get; set; }
+
+        /// <summary>
+        /// มูลค่า
+        /// </summary>
+        public decimal expense_amount { get; set; }
+
+        /// <summary>
+        /// หมายเหตุ
+        /// </summary>
+        [StringLength(250)]
+        public string remark { get; set; }
+
+        /// <summary>
+        /// รหัสผู้สร้าง
+        /// </summary>
+        public int created_by { get; set; }
+
+        /// <summary>
+        /// วันที่สร้าง
+        /// </summary>
+        public DateTime? created_date { get; set; }
+
+        /// <summary>
+        /// รหัสผู้อัพเดท
+        /// </summary>
+        public int update_by { get; set; }
+
+        /// <summary>
+        /// วันที่อัพเดท
+        /// </summary>
+        public DateTime? update_date { get; set; }
+    }
 }

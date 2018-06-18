@@ -8,46 +8,34 @@ using System.Web;
 namespace boonservice.api.Models
 {
     /// <summary>
-    /// Table afs_shipment_expense  
+    /// Table afs_car_license  
     /// </summary>
-    [Table("AFS_SHIPMENT_EXPENSE")]
-    public class afs_shipment_expense
+    [Table("AFS_CAR_LICENSE")]
+    public class afs_car_license
     {
         /// <summary>
-        /// client
+        /// รหัสรถ
         /// </summary>
         [Key]
-        [StringLength(9)]
-        public string CLIENT { get; set; }
+        public Int16 CAR_ID { get; set; }
 
         /// <summary>
-        /// shipment number
+        /// รหัสกลุ่มรถ
         /// </summary>
-        [Key] 
-        [StringLength(30)]
-        public string SHIPMENT_NUMBER { get; set; }
+        [StringLength(2)]
+        public string CARGROUP_CODE { get; set; }
 
         /// <summary>
-        /// item no
+        /// ทะเบียนรถ SAP
         /// </summary>
-        [Key]
-        public int ITEM_NO { get; set; }
+        [StringLength(40)]
+        public string CAR_SAP { get; set; }
 
         /// <summary>
-        /// รหัสค่าใช้จ่าย
+        /// สถานะ
         /// </summary>
-        public int EXPENSE_ID { get; set; }
-
-        /// <summary>
-        /// หมายเหตุ
-        /// </summary>
-        [StringLength(250)]
-        public string REMARK { get; set; }
-
-        /// <summary>
-        /// จำนวนเงิน
-        /// </summary>
-        public decimal EXPENSE_AMOUNT { get; set; }
+        [StringLength(20)]
+        public string STATUS { get; set; }
 
         /// <summary>
         /// รหัสผู้สร้าง

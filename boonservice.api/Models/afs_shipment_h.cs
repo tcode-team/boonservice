@@ -71,6 +71,16 @@ namespace boonservice.api.Models
         public string REMARK { get; set; }
 
         /// <summary>
+        /// รหัสผู้ confirm
+        /// </summary>
+        public int CONFIRM_BY { get; set; }
+
+        /// <summary>
+        /// วันที่ confirm
+        /// </summary>
+        public DateTime? CONFIRM_DATE { get; set; }
+
+        /// <summary>
         /// รหัสผู้สร้าง
         /// </summary>
         public int CREATED_BY { get; set; }

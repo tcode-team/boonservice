@@ -8,10 +8,10 @@ using System.Web;
 namespace boonservice.api.Models
 {
     /// <summary>
-    /// Table afs_repair_header  
+    /// Table afs_repair_items
     /// </summary>
-    [Table("AFS_REPAIR_HEADER")]
-    public class afs_repair_header
+    [Table("AFS_REPAIR_ITEMS")]
+    public class afs_repair_items
     {
         /// <summary>
         /// รหัสแจ้งซ่อม
@@ -21,9 +21,10 @@ namespace boonservice.api.Models
         public string repair_code { get; set; }
 
         /// <summary>
-        /// วันที่แจ้งซ่อม
+        /// Sale Order Number
         /// </summary>
-        public DateTime? repair_date { get; set; }
+        [Key]
+        public Int16 repair_item { get; set; }
 
         /// <summary>
         /// Sale Order Number
@@ -32,27 +33,38 @@ namespace boonservice.api.Models
         public string so_number { get; set; }
 
         /// <summary>
-        /// SO ค่าขนส่ง
+        /// Sale Order item
         /// </summary>
-        public decimal transport_amount { get; set; }
+        public decimal so_item { get; set; }
 
         /// <summary>
-        /// เบอร์ติดต่อ
+        /// จำนวน
         /// </summary>
-        [StringLength(50)]
-        public string contact_tel { get; set; }
+        public int repair_qty { get; set; }
 
         /// <summary>
         /// หมายเหตุ
         /// </summary>
         [StringLength(255)]
-        public string remark { get; set; }
+        public string repair_remark { get; set; }
         
         /// <summary>
-        /// สถานะ
+        /// ตำแหน่งชำรุด
         /// </summary>
-        [StringLength(20)]
-        public string status { get; set; }
+        [StringLength(255)]
+        public string repair_desc { get; set; }
+
+        /// <summary>
+        /// การดำเนินการ
+        /// </summary>
+        [StringLength(80)]
+        public string repair_type { get; set; }
+
+        /// <summary>
+        /// ประกัน
+        /// </summary>
+        [StringLength(1)]
+        public string waranty { get; set; }
 
         /// <summary>
         /// รหัสผู้สร้าง

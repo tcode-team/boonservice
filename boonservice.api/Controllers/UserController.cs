@@ -13,6 +13,10 @@ using boonservice.api.Models;
 
 namespace boonservice.api.Controllers
 {
+    /// <summary>
+    /// User
+    /// </summary>
+    /// <remarks></remarks>
     [RoutePrefix("user")]
     public class UserController : ApiController
     {

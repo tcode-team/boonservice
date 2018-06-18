@@ -2,7 +2,9 @@
     'use strict';
 
     angular
-        .module('app', ['ngRoute', 'ngCookies', 'ngSanitize', 'ngTouch', 'ngAnimate', 'ngIdle', 'ui.router', 'angular-loading-bar', 'oc.lazyLoad'])
+        .module('app', ['ngRoute', 'ngCookies', 'ngSanitize', 'ngTouch',
+            'ngAnimate', 'ngIdle', 'ui.router', 'angular-loading-bar', 'oc.lazyLoad',
+            'naif.base64'])
         .config(config);
         //.run(run);    
 
@@ -54,6 +56,11 @@
                 resolve: resolveController('RepairListController')
             })
             .when('/repairform', {
+                templateUrl: 'spa/view/repairform.html',
+                controller: 'RepairFormController',
+                resolve: resolveController('RepairFormController')
+            })
+            .when('/repairform/:param1', {
                 templateUrl: 'spa/view/repairform.html',
                 controller: 'RepairFormController',
                 resolve: resolveController('RepairFormController')

@@ -30,7 +30,8 @@ namespace boonservice
                         "~/content/vendor/nvd3/build/nv.d3.min.js",
                         "~/content/vendor/datatables.net/js/jquery.dataTables.min.js",
                         "~/content/vendor/datatables-responsive/js/dataTables.responsive.js",
-                        "~/content/vendor/pnotify/pnotify.custom.min.js"));
+                        "~/content/vendor/pnotify/pnotify.custom.min.js",
+                        "~/content/vendor/lodash/lodash.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/angular").Include(
                         "~/content/vendor/angular/angular.min.js",
@@ -43,7 +44,8 @@ namespace boonservice
                         "~/content/vendor/angular/angular-ui-router.min.js",
                         "~/content/vendor/angular/loading-bar.js",
                         "~/content/vendor/ngMask/ngMask.js",
-                        "~/content/vendor/ocLazyLoad/ocLazyLoad.min.js"));
+                        "~/content/vendor/ocLazyLoad/ocLazyLoad.min.js",
+                        "~/content/vendor/angular-base64-upload/angular-base64-upload.min.js"));
         }
     }
 }

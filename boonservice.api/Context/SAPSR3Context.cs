@@ -9,6 +9,9 @@ using System.Web;
 
 namespace boonservice.api.Context
 {
+    /// <summary>
+    /// DBContext to SAPSR3 owner
+    /// </summary>
     public class SAPSR3Context: DbContext
     {
         public SAPSR3Context() : base("SAP") {

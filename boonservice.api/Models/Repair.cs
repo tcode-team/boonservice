@@ -42,6 +42,16 @@ namespace boonservice.api.Models
     public class RepairHeader
     {
         /// <summary>
+        /// เลขที่แจ้งซ่อม
+        /// </summary>
+        public string repair_code;
+
+        /// <summary>
+        /// วันที่แจ้งซ่อม
+        /// </summary>
+        public DateTime? repair_date;
+
+        /// <summary>
         /// Sale Order Number
         /// </summary>
         public string so_number;
@@ -105,6 +115,11 @@ namespace boonservice.api.Models
         /// หมายเหตุ
         /// </summary>
         public string remark;
+
+        /// <summary>
+        /// สถานะ
+        /// </summary>
+        public string status;
     }
 
     /// <summary>
@@ -136,6 +151,16 @@ namespace boonservice.api.Models
         /// Quantity
         /// </summary>
         public decimal qty;
+
+        /// <summary>
+        /// หมายเหตุ
+        /// </summary>
+        public string repair_remark { get; set; }
+
+        /// <summary>
+        /// ตำแหน่งชำรุด
+        /// </summary>
+        public string repair_desc { get; set; }
 
 
     }

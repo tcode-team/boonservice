@@ -17,7 +17,7 @@ namespace boonservice.api.Models
         /// client
         /// </summary>
         [Key]
-        [StringLength(9)]
+        [StringLength(9)] 
         public string CLIENT { get; set; }
 
         /// <summary>
@@ -32,6 +32,12 @@ namespace boonservice.api.Models
         /// </summary>
         [Key]
         public int ITEM_NO { get; set; }
+
+        /// <summary>
+        /// จุดส่ง
+        /// </summary>
+        [StringLength(150)]
+        public string POINT_DESC { get; set; }
 
         /// <summary>
         /// ช่วงเวลา

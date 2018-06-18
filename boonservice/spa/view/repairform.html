@@ -28,23 +28,43 @@
                     <div class="page-content-wrapper">
                         <div class="col">
                             <!-- Form -->
-                            <div class="card">
-                                <div class="card-body">
-                                    <form name="FormSearch" novalidate>
-                                        <fieldset ng-disabled="loading">
+                            <form name="FormSubmit" novalidate>
+                                <fieldset ng-disabled="loading">
+                                    <div class="card">
+                                        <div class="card-body">
                                             <div class="row">
                                                 <div class="col-md-8">
                                                     <div class="form-row">
                                                         <div class="form-group col-md-6">
+                                                            <label class="form-control-label col-md-4" for="iRepairCode">เลขที่แจ้งซ่อม:</label>
+                                                            <div class="col-md-8">
+                                                                <input class="form-control-plaintext" readonly type="text" id="iRepairCode"
+                                                                       ng-model="repairh.repair_code">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-md-6">
+                                                            <label class="form-control-label col-md-4" for="iStatus">สถานะ:</label>
+                                                            <div class="col-md-8">
+                                                                <input class="form-control-plaintext" readonly type="text" id="iStatus"
+                                                                       style="padding-left:0px;padding-right:0px;"
+                                                                       value="{{repairh.status}}">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-row">
+                                                        <div class="form-group col-md-6">
                                                             <label class="form-control-label col-md-4" for="iSoNumber">SO:</label>
                                                             <div class="col-md-8">
-                                                                <input class="form-control" type="text" ng-model="SoNumber" id="iSoNumber">
+                                                                <input class="form-control" type="text" ng-model="repairh.so_number" id="iSoNumber"
+                                                                       dl-enter-key="fn_search_so()" numeric-only>
                                                             </div>
                                                         </div>
                                                         <div class="form-group col-md-6">
                                                             <label class="form-control-label col-md-4" for="iCustomerName">ชื่อลูกค้า</label>
                                                             <div class="col-md-8">
-                                                                <input class="form-control-plaintext" readonly type="text" ng-model="CustomerName" id="iCustomerName">
+                                                                <input class="form-control-plaintext" readonly type="text" id="iCustomerName"
+                                                                       style="padding-left:0px;padding-right:0px;"
+                                                                       value="{{repairh.soldto_code | removeleadingzero}} {{repairh.soldto_name}}">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -52,13 +72,17 @@
                                                         <div class="form-group col-md-6">
                                                             <label class="form-control-label col-md-4" for="iAddress">ที่อยู่:</label>
                                                             <div class="col-md-8">
-                                                                <input class="form-control-plaintext" readonly type="text" ng-model="Address" id="iAddress">
+                                                                <input class="form-control-plaintext" readonly type="text" id="iAddress"
+                                                                       style="padding-left:0px;padding-right:0px;"
+                                                                       ng-model="repairh.soldto_address">
                                                             </div>
                                                         </div>
                                                         <div class="form-group col-md-6">
                                                             <label class="form-control-label col-md-4" for="iTrasportAddress">ที่อยู่จัดส่ง</label>
                                                             <div class="col-md-8">
-                                                                <input class="form-control-plaintext" readonly type="text" ng-model="TransportAddress" id="iTrasportAddress">
+                                                                <input class="form-control-plaintext" readonly type="text" id="iTrasportAddress"
+                                                                       style="padding-left:0px;padding-right:0px;"
+                                                                       ng-model="repairh.shipto_address">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -66,13 +90,17 @@
                                                         <div class="form-group col-md-6">
                                                             <label class="form-control-label col-md-4" for="iSaleRep">พนักงานขาย:</label>
                                                             <div class="col-md-8">
-                                                                <input class="form-control-plaintext" readonly type="text" ng-model="SaleRep" id="iSaleRep">
+                                                                <input class="form-control-plaintext" readonly type="text" id="iSaleRep"
+                                                                       style="padding-left:0px;padding-right:0px;"
+                                                                       value="{{repairh.salerep_code | removeleadingzero}}  {{repairh.salerep_name}}">
                                                             </div>
                                                         </div>
                                                         <div class="form-group col-md-6">
                                                             <label class="form-control-label col-md-4" for="iTransportDate">วันที่ส่งสินค้า:</label>
                                                             <div class="col-md-8">
-                                                                <input class="form-control-plaintext" readonly type="text" ng-model="TransportDate" id="iTransportDate">
+                                                                <input class="form-control-plaintext" readonly type="text" id="iTransportDate"
+                                                                       style="padding-left:0px;padding-right:0px;"
+                                                                       value="{{repairh.billing_date | date:'dd/MM/yyyy'}}">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -80,13 +108,13 @@
                                                         <div class="form-group col-md-6">
                                                             <label class="form-control-label col-md-4" for="iTransportAmount">SO ค่าขนส่ง:</label>
                                                             <div class="col-md-8">
-                                                                <input class="form-control" type="text" ng-model="TransportAmount" id="iTransportAmount">
+                                                                <input class="form-control" type="text" ng-model="repairh.transport_amount" id="iTransportAmount">
                                                             </div>
                                                         </div>
                                                         <div class="form-group col-md-6">
                                                             <label class="form-control-label col-md-4" for="iTel">เบอร์ติดต่อ:</label>
                                                             <div class="col-md-8">
-                                                                <input class="form-control" type="text" ng-model="CustomerTel" id="iTel">
+                                                                <input class="form-control" type="text" ng-model="repairh.contact_tel" id="iTel">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -95,75 +123,132 @@
                                                     <div class="form-row">
                                                         <div class="form-group col-md-12">
                                                             <label class="form-control-label" for="iRemark">หมายเหตุ หน้าร้าน:</label>
-                                                            <textarea class="form-control" type="text" ng-model="Remark" id="iRemark" rows="4"></textarea>
+                                                            <textarea class="form-control" type="text" ng-model="repairh.remark" id="iRemark" rows="4"></textarea>
                                                         </div>
                                                         <div class="form-group col-md-12">
-                                                            <button type="button" class="btn btn-secondary fuse-ripple-ready">
+                                                            <button type="button" class="btn btn-secondary fuse-ripple-ready" ng-click="fn_save()">
                                                                 <i class="icon icon-content-save"></i> บันทึก
+                                                            </button>
+                                                            <button type="button" class="btn btn-primary fuse-ripple-ready" data-toggle="modal" data-target="#confirmNew"
+                                                                    style="margin-left:10px;">
+                                                                <i class="icon icon-sticker-emoji"></i> สร้างใหม่
                                                             </button>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                           <div class="form-group col-sm-12">
-                                               <div class="table table-responsive">
-                                                   <table class="table table-bordered">
-                                                       <thead>
-                                                           <tr>
-                                                               <th></th>
-                                                               <th>Article</th>
-                                                               <th>Article Desc</th>
-                                                               <th>ประเภทสินค้า</th>
-                                                               <th style="width:80px;">QTY</th>
-                                                               <th>รายละเอียด</th>
-                                                               <th>ตำแหน่งชำรุด</th>
-                                                               <th>การดำเนินการ</th>
-                                                               <th>ประกัน</th>
-                                                               <th>รูป</th>
-                                                           </tr>
-                                                       </thead>
-                                                       <tbody>
-                                                           <tr>
-                                                               <td>
-                                                                   <div class="form-check">
-                                                                       <label class="form-check-label">
-                                                                           <input class="form-check-input" type="checkbox" value="">
-                                                                           <span class="checkbox-icon"></span>
-                                                                       </label>
-                                                                   </div>
-                                                               </td>
-                                                               <td>Article</td>
-                                                               <td>Article Desc</td>
-                                                               <td>ประเภทสินค้า</td>
-                                                               <td><input tye="text" class="form-control" /></td>
-                                                               <td><input tye="text" class="form-control" /></td>
-                                                               <td><input tye="text" class="form-control" /></td>
-                                                               <td>
-                                                                   <select class="form-control">
-                                                                       <option>แจ้งซ่อม</option>
-                                                                       <option>เปลี่ยนใหม่</option>
-                                                                   </select>
-                                                               </td>
-                                                               <td>
-                                                                   <div class="form-check">
-                                                                       <label class="form-check-label">
-                                                                           <input class="form-check-input" type="checkbox" value="">
-                                                                           <span class="checkbox-icon"></span>
-                                                                       </label>
-                                                                   </div>
-                                                               </td>
-                                                               <td></td>
-                                                           </tr>
-                                                       </tbody>
-                                                   </table>
-                                               </div>
-                                           </div>
-                                           
-                                        </fieldset>
-                                    </form>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <ul class="nav nav-tabs" role="tablist">
+                                                <li class="nav-item">
+                                                    <a class="nav-link btn fuse-ripple-ready active" id="itemtab" data-toggle="tab" role="tab" aria-controls="itemtab" aria-expanded="true">รายการ</a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link btn fuse-ripple-ready" id="imagetab" data-toggle="tab" role="tab" aria-controls="imagetab" aria-expanded="false">รูปภาพประกอบ</a>
+                                                </li>
+                                            </ul>
+                                            <div class="tab-content">
+                                                <div role="tabpanel" class="tab-pane fade active show" id="itemtab" aria-labelledby="itemtab" aria-expanded="true">
+                                                    <div class="form-group col-sm-12" style="font-size:11px;">
+                                                        <div class="table table-responsive">
+                                                            <table class="table table-bordered">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th style="width:50px;">
+                                                                            <div class="form-check">
+                                                                                <label class="form-check-label">
+                                                                                    <input class="form-check-input" type="checkbox" ng-model="selectall" ng-click="fn_select_all(selectall)">
+                                                                                    <span class="checkbox-icon"></span>
+                                                                                </label>
+                                                                            </div>
+                                                                        </th>
+                                                                        <th>Article</th>
+                                                                        <th>ประเภทสินค้า</th>
+                                                                        <th style="width:80px;">จำนวน</th>
+                                                                        <th>รายละเอียด</th>
+                                                                        <th>ตำแหน่งชำรุด</th>
+                                                                        <th style="width:100px;">การดำเนินการ</th>
+                                                                        <th>ประกัน</th>
+                                                                        <th>รูป</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr ng-if="repairi.length==0">
+                                                                        <td colspan="10"><div class="text-center">ไม่พบข้อมูล</div></td>
+                                                                    </tr>
+                                                                    <tr ng-repeat="row in repairi">
+                                                                        <td>
+                                                                            <div class="form-check">
+                                                                                <label class="form-check-label">
+                                                                                    <input class="form-check-input" type="checkbox" ng-model="row.select">
+                                                                                    <span class="checkbox-icon"></span>
+                                                                                </label>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            {{row.article_number | removeleadingzero}}<br />
+                                                                            {{row.article_name}}
+                                                                        </td>
+                                                                        <td>ประเภทสินค้า</td>
+                                                                        <td><input tye="text" class="form-control text-right" ng-model="row.qty" numeric-only /></td>
+                                                                        <td><input tye="text" class="form-control" ng-model="row.repair_remark" /></td>
+                                                                        <td><input tye="text" class="form-control" ng-model="row.repair_desc" /></td>
+                                                                        <td>
+                                                                            <select class="form-control" style="padding-right:0px;width:100px;"
+                                                                                    ng-model="row.repair_type" required>
+                                                                                <option>แจ้งซ่อม</option>
+                                                                                <option>เปลี่ยนใหม่</option>
+                                                                            </select>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="form-check">
+                                                                                <label class="form-check-label">
+                                                                                    <input class="form-check-input" type="checkbox" value="Y" ng-model="row.waranty">
+                                                                                    <span class="checkbox-icon"></span>
+                                                                                </label>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td></td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div role="tabpanel" class="tab-pane fade" id="imagetab" aria-labelledby="imagetab" aria-expanded="false">
+                                                    <!-- Images list -->
+                                                    <input type="file" ng-model="files" name="files"
+                                                           base-sixty-four-input multiple
+                                                           accept="image/*, .zip" minsize="500" required minnum="2"
+                                                           onloadend="onLoadend" onerror="errorHandler">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </form>
+                            <!-- Form -->
+                        </div>
+                    
+                        <div id="confirmNew" class="modal fade" tabindex="-1" role="dialog"
+                             aria-labelledby="confirmNewLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="confirmNewLabel">ข้อมูลแจ้งซ่อม สร้างใหม่</h5>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>ยืนยัน สร้างใหม่ข้อมูลการแจ้งซ่อม</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">ไม่</button>
+                                        <button type="button" class="btn btn-primary" ng-click="fn_clear()">ใช่</button>
+                                    </div>
                                 </div>
                             </div>
-                            <!-- Form -->
                         </div>
                     </div>
                 </div>
