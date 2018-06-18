@@ -1,6 +1,4 @@
-﻿//import { valueOf } from "../../Content/vendor/moment/src/lib/duration/as";
-
-(function () {
+﻿(function () {
     'use strict';
 
     angular
@@ -73,6 +71,7 @@
                     $scope.ShipSearchErr = "กรุณาระบุเงื่อนไขในการค้นหา (วันที่ Shipment/ Shipment No)";
 
                     console.log($scope.ShipSearchErr);
+                    $scope.loading = false;
                     return;
                 }
             }
@@ -160,6 +159,19 @@
                 return true;
 
             if (itemStatus != '03' || itemStatus != 3)
+                return false;
+
+            return true;
+        }
+
+        
+        $scope.ShowTBL = function (DataList) {
+            //   console.log("ShowTBL DataList " + DataList);
+            if (DataList === undefined) // if your going to return true
+                return true;
+
+            //          console.log(DataList.length);
+            if (DataList.length > 0)
                 return false;
 
             return true;
