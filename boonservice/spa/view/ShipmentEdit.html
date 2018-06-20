@@ -29,101 +29,314 @@
                         <div class="col">
                             <div class="card">
                                 <div class="card-body">
-                                    <form name="FormEdit" novalidate> 
+                                    <form name="FormEdit" novalidate>
 
-                                            <!-- Head -->
-                                            <div class="form-row">
-                                                <div class="form-group col-md-4">
-                                                    <label class="form-control-label col-md-5" for="ShipmentNo">Shipment NO</label>
-                                                    <div class="col-md-5">
-                                                        <input type="text" class="form-control" id="ShipmentNo" disabled="disabled" ng-model="FormEdit.ShipmentNo">
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group col-md-4">
-                                                    <label class="form-control-label col-md-3">วันที่ส่ง</label>
-                                                    <div class="col-md-6">
-                                                        <input class="form-control" type="date" id="ShipmentSent" ng-model="ShipmentDateSend" placeholder="dd/MM/yyyy">
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group col-md-4">
-                                                    <label for="Route" class="col-form-label col-md-3">Route</label>
-                                                    <div class="col-md-7">
-                                                        <input type="text" class="form-control" id="Route" ng-model="FormEdit.Route" disabled="disabled">
-                                                    </div>
+                                        <!-- Head -->
+                                        <div class="form-row">
+                                            <div class="form-group col-md-4">
+                                                <label class="form-control-label col-md-5" for="ShipmentNo">Shipment NO</label>
+                                                <div class="col-md-5">
+                                                    <input type="text" class="form-control" id="ShipmentNumber" disabled="disabled" ng-model="DocList[0].shipment_number">
                                                 </div>
                                             </div>
 
-                                            <div class="form-row">
-                                                <div class="form-group col-md-4">
-                                                    <label for="ShipmentType" class="col-form-label col-md-4">ประเภทรถ</label>
-                                                    <div class="col-md-6">
-                                                        <input type="text" class="form-control" id="ShipmentType" ng-model="FormEdit.ShipmentType" disabled="disabled">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group col-md-4">
-                                                    <label for="CarGroup" class="col-form-label col-md-3">กลุ่มรถ</label>
-                                                    <div class="col-md-6">
-                                                        <input type="text" class="form-control" id="CarGroup" ng-model="FormEdit.CarGroup" disabled="disabled">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group col-md-4">
-                                                    <label class="form-control-label col-md-4" for="CarLicense">ทะเบียนรถ</label>
-                                                    <div class="col-md-6">
-                                                        <input type="text" class="form-control" id="CarLicense" ng-model="FormEdit.CarLicense" disabled="disabled">
-                                                    </div>
+                                            <div class="form-group col-md-4">
+                                                <label class="form-control-label col-md-3">วันที่ส่ง</label>
+                                                <div class="col-md-6">
+                                                    <input class="form-control" type="date" id="transport_date" ng-model="DocList[0].transport_date" placeholder="dd/MM/yyyy">
                                                 </div>
                                             </div>
 
-                                            <div class="form-row">
-                                                <div class="form-group col-md-6">
-                                                    <label for="Container" class="col-form-label col-md-3">Container ID</label>
-                                                    <div class="col-md-5">
-                                                        <input type="text" class="form-control" id="Container" ng-model="FormEdit.Container" disabled="disabled">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group col-md-6">
-                                                    <label for="DRIVER_ID" class="col-form-label col-md-2">คนขับ</label>
-                                                    <div class="col-md-6">
-                                                        <input type="text" id="DRIVER_ID" class="form-control" ng-model="FormEdit.DRIVER" disabled="disabled">
-                                                    </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="Route" class="form-control-label col-md-3">Route</label>
+                                                <div class="col-md-7">
+                                                    <input type="text" class="form-control" id="Route" ng-model="DocList[0].route_desc" disabled="disabled">
                                                 </div>
                                             </div>
+                                        </div>
 
-                                            <div class="form-row">
-                                                <div class="form-group col-md-6">
-                                                    <label for="STAFF1_ID" class="col-form-label col-md-3">เด็กรถ 1</label>
-                                                    <div class="col-md-6">
-                                                        <input type="text" class="form-control" id="STAFF1_ID" ng-model="FormEdit.STAFF1" disabled="disabled">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group col-md-6">
-                                                    <label for="STAFF2_ID" class="col-form-label col-md-2">เด็กรถ 2</label>
-                                                    <div class="col-md-6">
-                                                        <input type="text" id="STAFF2_ID" class="form-control" ng-model="FormEdit.STAFF2" disabled="disabled">
-                                                    </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-4">
+                                                <label for="ShipmentType" class="form-control-label col-md-4">ประเภทรถ</label>
+                                                <div class="col-md-6">
+                                                    <input type="text" class="form-control" id="ShipmentType" ng-model="DocList[0].shipmenttype_desc" disabled="disabled">
                                                 </div>
                                             </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="CarGroup" class="form-control-label col-md-3">กลุ่มรถ</label>
+                                                <div class="col-md-6">
+                                                    <input type="text" class="form-control" id="CarGroup" ng-model="DocList[0].cargroup_desc" disabled="disabled">
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label class="form-control-label col-md-4" for="CarLicense">ทะเบียนรถ</label>
+                                                <div class="col-md-6">
+                                                    <input type="text" class="form-control" id="CarLicense" ng-model="DocList[0].car_license" disabled="disabled">
+                                                </div>
+                                            </div>
+                                        </div>
 
-                                            <!-- Head End-->
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label for="Container" class="form-control-label col-md-3">Container ID</label>
+                                                <div class="col-md-5">
+                                                    <input type="text" class="form-control" id="Container" ng-model="DocList[0].container_id" disabled="disabled">
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="DRIVER_ID" class="form-control-label col-md-2">คนขับ</label>
+                                                <div class="col-md-6">
+                                                    <input type="text" id="Driver_Name" class="form-control" ng-model="Driver_Name" ng-disabled="true">
+                                                    <input type="text" ng-hide="true" id="Driver_ID" class="form-control" ng-model="DocList[0].driver_id">
+                                                </div>
+                                                <button type="button" class="btn btn-light btn-fab btn-sm" ng-click="toggleModal('พนักงานขับรถ')">
+                                                    <i class="icon-account-search"></i>
+                                                </button>
+
+
+                                            </div>
+                                        </div>
+
+                                        <modal-select visible="showModal">
+                                            <div class="list-group" role="tablist" style="height:450px;overflow-x:auto">
+                                                <a ng-repeat="row in drivers |  filter:{DRIVER_FLAG:'Y'}" class="list-group-item list-group-item-action" href=""
+                                                   ng-click="selected_driver(row.PEOPLE_ID,row.NAME)" data-toggle="tab"
+                                                   ng-class="{'active':driver_id==row.PEOPLE_ID, '':driver_id!=row.PEOPLE_ID }">{{row.PEOPLE_ID}}:{{row.NAME}}</a>
+                                            </div>
+                                        </modal-select>
+
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label for="STAFF1_ID" class="form-control-label col-md-3">เด็กรถ 1</label>
+                                                <div class="col-md-6">
+                                                    <input type="text" class="form-control" id="Staff_Name1" ng-model="Staff_Name1" ng-disabled="true">
+                                                    <input type="text" ng-hide="true" id="Staff_ID1" class="form-control" ng-model="DocList[0].staff1_id">
+                                                </div>
+                                                <button type="button" class="btn btn-light btn-fab btn-sm" ng-click="toggleModalS1('พนักงานเด็กรถ(1)')">
+                                                    <i class="icon-account-search"></i>
+                                                </button>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="STAFF2_ID" class="form-control-label col-md-2">เด็กรถ 2</label>
+                                                <div class="col-md-6">
+                                                    <input type="text" class="form-control" id="Staff_Name2" ng-model="Staff_Name2" ng-disabled="true">
+                                                    <input type="text" ng-hide="true" id="Staff_ID2" class="form-control" ng-model="DocList[0].staff2_id">
+                                                </div>
+                                                <button type="button" class="btn btn-light btn-fab btn-sm" ng-click="toggleModalS2('พนักงานเด็กรถ(2)')">
+                                                    <i class="icon-account-search"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+
+
+                                        <modal-select visible="showModalS1">
+                                            <div class="list-group" role="tablist" style="height:450px;overflow-x:auto">
+                                                <a ng-repeat="rowS1 in drivers |  filter:{STAFF_FLAG:'Y' }" class="list-group-item list-group-item-action" href=""
+                                                   ng-click="selected_Staff1(rowS1.PEOPLE_ID,rowS1.NAME)" data-toggle="tab"
+                                                   ng-class="{'active':Staff_ID1==rowS1.PEOPLE_ID, '':Staff_ID1!=rowS1.PEOPLE_ID }">{{rowS1.PEOPLE_ID}}:{{rowS1.NAME}}</a>
+                                            </div>
+                                        </modal-select>
+
+                                        <modal-select visible="showModalS2">
+                                            <div class="list-group" role="tablist" style="height:450px;overflow-x:auto">
+                                                <a ng-repeat="rowS2 in drivers |  filter:{STAFF_FLAG:'Y' }" class="list-group-item list-group-item-action" href=""
+                                                   ng-click="selected_Staff2(rowS2.PEOPLE_ID,rowS2.NAME)" data-toggle="tab"
+                                                   ng-class="{'active':Staff_ID2==rowS2.PEOPLE_ID, '':Staff_ID2!=rowS2.PEOPLE_ID }">{{rowS2.PEOPLE_ID}}:{{rowS2.NAME}}</a>
+                                            </div>
+                                        </modal-select>
+
+
+                                        <!-- Head End-->
+                                        <br />
+                                        <div class="form-row">
                                             <div class="h5">รายการปรับปรุง</div>
+                                        </div>
+
+                                        <!-- Add Point-->
+                                        <div class="form-row">
+                                            <div class="form-group col-md-1">
+                                                <button type="button" class="btn btn-secondary btn-fab btn-sm">
+                                                    <i class="icon-plus"></i>
+                                                </button>
+                                            </div>
+
+                                            <div class="form-group col-md-5">
+                                                <label for="CarriesPoint" class="form-control-label col-md-2">จุดส่ง</label>
+                                                <div class="col-md-7">
+                                                    <select id="CarriesPoint_ID" class="form-control" ng-model="DocList[0].point_id">
+                                                        <option ng-repeat="optionPoint in CarriesPoint |  filter:{CARGROUP_CODE:DocList[0].cargroup_code }" ng-value="{{optionPoint.POINT_ID}}">{{optionPoint.TIER_DESC}}</option>
+                                                    </select>
+                                                    {{CarriesPoint_ID}}
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-row">
+                                            <div class="preview">
+                                                <div class="preview-elements">
+                                                    <div class="table-responsive">
+                                                        <table id="sample-data-table" class="table table-striped" ng-hide="ShowTBL(PointList)">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>
+                                                                        <div class="table-header">
+                                                                            <span class="column-title"></span>
+                                                                        </div>
+                                                                    </th>
+                                                                    <th>
+                                                                        <div class="table-header">
+                                                                            <span class="column-title">จุดที่ส่ง</span>
+                                                                        </div>
+                                                                    </th>
+                                                                    <th>
+                                                                        <div class="table-header">
+                                                                            <span class="column-title">เวลา</span>
+                                                                        </div>
+                                                                    </th>
+                                                                    <th>
+                                                                        <div class="table-header">
+                                                                            <span class="column-title">เลขที่ SO</span>
+                                                                        </div>
+                                                                    </th>
+                                                                    <th>
+                                                                        <div class="table-header">
+                                                                            <span class="column-title">หมายเหตุ</span>
+                                                                        </div>
+                                                                    </th>
+                                                                    <th>
+                                                                        <div class="table-header">
+                                                                            <span class="column-title">คนขับ</span>
+                                                                        </div>
+                                                                    </th>
+                                                                    <th>
+                                                                        <div class="table-header">
+                                                                            <span class="column-title">เด็กรถ</span>
+                                                                        </div>
+                                                                    </th>
+
+                                                                </tr>
+                                                            </thead>
+
+                                                            <tbody>
+                                                                <tr ng-repeat="x in PointList | orderBy : 'ITEM_NO'">
+                                                                    <td>
+                                                                        <button type="button" class="btn btn-danger btn-fab btn-sm ">
+                                                                            <i class="icon-minus"></i>
+                                                                        </button>
+                                                                    </td>
+                                                                    <!-- <td>{{ x.ITEM_NO}}</td>-->
+                                                                    <td>xxx</td>
+                                                                    <td>{{ x.TIME_RANGE}}</td>
+                                                                    <td>{{ x.SALEORDER_NUMBER}}</td>
+                                                                    <td>{{ x.REMARK}}</td>
+                                                                    <td>{{ x.DRIVER_AMOUNT| number : 2}}</td>
+                                                                    <td>{{ x.STAFF_AMOUNT| number : 2}}</td>
+                                                                    <td>{{ x.transport_amount | number : 2}}</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+
+                                                </div>
+                                            </div>
 
 
-                                            <!-- Add Point-->
-                                            <div class="form-row">
-                                                <div class="form-group col-md-4">
-                                                    <label for="CarriesPoint" class="col-form-label col-md-4">จุดส่ง</label>
-                                                    <div class="col-md-8">
-                                                        <select id="CarriesPoint" class="form-control" ng-model="FormEdit.CarriesPoint">
-                                                            <option selected></option>
-                                                            <option ng-repeat="optionPoint in CarriesPoint |  filter:{CarGroup:vFormEdit.CarGroup }" ng-value="optionPoint.TIER_DESC">{{optionPoint.TIER_DESC}}</option>
-                                                        </select>
+                                        </div>
+                                        <!-- Add Point End-->
+                                        <!-- Add Expense-->
+                                        <div class="form-row">
+                                            <div class="form-group col-md-1">
+                                                <button type="button" class="btn btn-secondary btn-fab btn-sm">
+                                                    <i class="icon-plus"></i>
+                                                </button>
+                                            </div>
+
+                                            <div class="form-group col-md-5">
+                                                <label for="CarriesPoint" class="form-control-label]">อื่นๆ</label>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-row">
+                                            <div class="preview">
+                                                <div class="preview-elements">
+                                                    <div class="table-responsive">
+                                                        <table id="sample-data-table" class="table table-striped" ng-hide="ShowTBL(ExpenseList)">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>
+                                                                        <div class="table-header">
+                                                                            <span class="column-title"></span>
+                                                                        </div>
+                                                                    </th>
+                                                                    <th>
+                                                                        <div class="table-header">
+                                                                            <span class="column-title">คำอธิบาย</span>
+                                                                        </div>
+                                                                    </th>
+                                                                    <th>
+                                                                        <div class="table-header">
+                                                                            <span class="column-title">หมายเหตุ</span>
+                                                                        </div>
+                                                                    </th>
+                                                                    <th>
+                                                                        <div class="table-header">
+                                                                            <span class="column-title">มูลค่า</span>
+                                                                        </div>
+                                                                    </th>
+
+                                                                </tr>
+                                                            </thead>
+
+                                                            <tbody>
+                                                                <tr ng-repeat="x2 in Expense | orderBy : 'EXPENSE_ID'">
+                                                                    <td>
+                                                                        <button type="button" class="btn btn-danger btn-fab btn-sm ">
+                                                                            <i class="icon-minus"></i>
+                                                                        </button>
+                                                                    </td>
+                                                                    <!-- <td>{{ x2.EXPENSE_ID}}</td>-->
+                                                                    <td>xxx</td>
+                                                                    <td>{{ x2.REMARK}}</td>
+                                                                    <td>{{ x2.EXPENSE_AMOUNT| number : 2}}</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                        <!-- Add Expense End-->
+
+                                        <div class="form-group">
+                                            <button class="btn btn-secondary fuse-ripple-ready" ng-click="put_Data_Flag()">
+                                                <i class="icon icon-content-save"></i> บันทึก
+                                            </button>
+                                            <button type="button" class="btn btn-danger fuse-ripple-ready" data-toggle="modal" data-target="#CancelEdit" style="margin-left:10px;">
+                                                <i class="icon icon-cancel"></i> ยกเลิกแก้ไข
+                                            </button>
+                                        </div>
+                                        <div id="CancelEdit" class="modal fade" tabindex="-1" role="dialog"
+                                             aria-labelledby="confirmNewLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="confirmNewLabel">ข้อมูล Shipment</h5>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>ยืนยัน ยกเลิกการปรับปรุงค่าขนส่ง</p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">ไม่</button>
+                                                        <button type="button" class="btn btn-primary" ng-click="fn_clear()">ใช่</button>
                                                     </div>
                                                 </div>
-
                                             </div>
-                                         
+                                        </div>
                                     </form>
                                     <label class="h4 a-align-bottom-center text-red-700"> {{ShipEditErr}}</label>
                                 </div>
