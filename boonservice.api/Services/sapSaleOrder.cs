@@ -53,6 +53,26 @@ namespace boonservice.api.Services
         }
 
         /// <summary>
+        /// Get VBAP detail
+        /// </summary>
+        /// <remarks></remarks>
+        public VBAP GetVBAP(string mandt, string vbeln, string posnr)
+        {
+            using (var context = new SAPSR3Context())
+            {
+                OracleParameter p1 = new OracleParameter("MANDT", mandt);
+                OracleParameter p2 = new OracleParameter("VBELN", vbeln);
+                OracleParameter p3 = new OracleParameter("POSNR", posnr);
+                object[] parameters = new object[] { p1, p2, p3 };
+
+                var vbap = context.VBAP
+                    .SqlQuery("SELECT * FROM SAPSR3.VBAP WHERE MANDT=:MANDT AND VBELN=:VBELN AND POSNR=:POSNR", parameters)
+                    .FirstOrDefault();
+                return vbap;
+            }
+        }
+
+        /// <summary>
         /// Get VBPA    
         /// </summary>
         /// <remarks></remarks>

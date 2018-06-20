@@ -18,61 +18,73 @@ namespace boonservice.api.Models
         /// </summary>
         [Key]
         [StringLength(11)]
-        public string repair_code { get; set; }
+        public string REPAIR_CODE { get; set; }
 
         /// <summary>
         /// วันที่แจ้งซ่อม
         /// </summary>
-        public DateTime? repair_date { get; set; }
+        public DateTime? REPAIR_DATE { get; set; }
 
         /// <summary>
         /// Sale Order Number
         /// </summary>
         [StringLength(30)]
-        public string so_number { get; set; }
+        public string SO_NUMBER { get; set; }
+
+        /// <summary>
+        /// Sold-to Code
+        /// </summary>
+        [StringLength(30)]
+        public string SOLDTO_CODE { get; set; }
+
+        /// <summary>
+        /// Sold-to Name
+        /// </summary>
+        [StringLength(80)]
+        public string SOLDTO_NAME { get; set; }
 
         /// <summary>
         /// SO ค่าขนส่ง
         /// </summary>
-        public decimal transport_amount { get; set; }
+        public decimal TRANSPORT_AMOUNT { get; set; }
 
         /// <summary>
         /// เบอร์ติดต่อ
         /// </summary>
         [StringLength(50)]
-        public string contact_tel { get; set; }
+        public string CONTACT_TEL { get; set; }
 
         /// <summary>
         /// หมายเหตุ
         /// </summary>
         [StringLength(255)]
-        public string remark { get; set; }
+        public string REMARK { get; set; }
         
         /// <summary>
         /// สถานะ
         /// </summary>
         [StringLength(20)]
-        public string status { get; set; }
+        public string STATUS { get; set; }
 
         /// <summary>
         /// รหัสผู้สร้าง
         /// </summary>
-        public int created_by { get; set; }
+        public int CREATED_BY { get; set; }
 
         /// <summary>
         /// วันที่สร้าง
         /// </summary>
-        public DateTime? created_date { get; set; }
+        public DateTime? CREATED_DATE { get; set; }
 
         /// <summary>
         /// รหัสผู้อัพเดท
         /// </summary>
-        public int update_by { get; set; }
+        public int UPDATE_BY { get; set; }
 
         /// <summary>
         /// วันที่อัพเดท
         /// </summary>
-        public DateTime? update_date { get; set; }
+        public DateTime? UPDATE_DATE { get; set; }
     }
 
 

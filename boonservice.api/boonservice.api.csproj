@@ -213,6 +213,7 @@
     <Compile Include="Context\SAPContext.cs" />
     <Compile Include="Context\SAPSR3Context.cs" />
     <Compile Include="Context\LoadContext.cs" />
+    <Compile Include="Controllers\afs_repair_item_typeController.cs" />
     <Compile Include="Controllers\afs_car_licenseController.cs" />
     <Compile Include="Controllers\afs_shipment_statusController.cs" />
     <Compile Include="Controllers\afs_shipment_hController.cs" />
@@ -231,6 +232,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\afs_carries_point.cs" />
+    <Compile Include="Models\afs_repair_images.cs" />
+    <Compile Include="Models\afs_repair_item_type.cs" />
     <Compile Include="Models\afs_car_license.cs" />
     <Compile Include="Models\afs_repair_items.cs" />
     <Compile Include="Models\afs_repair_header.cs" />
@@ -252,6 +255,7 @@
     <Compile Include="Models\Universe.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\b3gRepair.cs" />
     <Compile Include="Services\sapBilling.cs" />
     <Compile Include="Services\sapSaleOrder.cs" />
     <Compile Include="Services\sapCustomer.cs" />

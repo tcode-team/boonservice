@@ -11,8 +11,10 @@
         $scope.user = JSON.parse(sessionStorage.getItem('userDetail'));
 
         //Global variable
+        $scope.ActiveTabName = 'itemtab'
         $scope.repairh = {};
         $scope.repairi = [];
+        $scope.repairp = [];
 
         // checkk route parameter 
         if ($routeParams.param1 === undefined || $routeParams.param1 === null) {
@@ -23,11 +25,26 @@
 
         }
 
+        //Get master
+        RepairService.get_repair_item_type().then(function (response) {
+            $scope.repair_item_types = response.data;
+        });
+
         //Select all items
         $scope.fn_select_all = function (val) {
             angular.forEach($scope.repairi, function (r) {
                 r.select = val;
+                if (val == false) {
+                    r.images = [];
+                }
             });
+        }
+
+        //Select item
+        $scope.fn_item_select = function (item) {
+            if (!item.select) {
+                item.images = [];
+            }
         }
 
         //Search Sale Order Number
@@ -40,6 +57,7 @@
                 $scope.loading = false;
                 if (response.status == "200") {
                     $scope.repairh = response.data.header;
+                    $scope.repairh.status = "NEW";
                     $scope.repairi = response.data.items;
                 } else {
                     $scope.alert($scope.repairh.so_number + ': ' + response.data.Message);
@@ -50,27 +68,67 @@
             });
         };
 
+        //Browse Image
+        $scope.currentSo = {};
+        $scope.browseImg = function (item) {
+            $scope.currentSo = item;
+            $('#files').click();
+        }
+
         //Upload images
         $scope.files = [];
-        $scope.onLoad = function (e, reader, file, fileList, fileOjects, fileObj) {
-            //console.log(fileObj);
-        };
         $scope.onLoadend = function (e, reader, file, fileList, fileOjects, fileObj) {
-            console.log(fileObj);
+            if ($scope.currentSo.images === undefined || $scope.currentSo.images == null) {
+                $scope.currentSo.images = [];
+            }
+            $scope.currentSo.images.push({
+                mode: 'new',
+                filename: fileObj.filename,
+                base64: 'data:' + fileObj.filetype + ';base64,' + fileObj.base64
+            });
         };
         $scope.errorHandler = function (event, reader, file, fileList, fileObjs, object) {
             $scope.alert("เกิดข้อผิดพลาดกับไฟล์ที่เลือก: " + file.name);
             reader.abort();
         };
 
-        //Save data
-        $scope.fn_save = function () {
+        //Before save data
+        $scope.fn_before_save = function () {
             var rows = _.filter($scope.repairi, function (v) { return v.select });
             if (rows.length === 0) {
                 $scope.alert('โปรดเลือกรายการที่ต้องการบันทึก');
                 return;
             }
+            $('#confirmSave').modal('show');
         };
+
+        //Save data
+        $scope.fn_save = function () {
+            $('#confirmSave').modal('hide');
+            $scope.loading = true;
+
+            $scope.repairh.created_by = $scope.user.userid;
+            $scope.repairh.update_by = $scope.user.userid;
+
+            RepairService.save($scope.repairh, _.filter($scope.repairi, function (i) { return i.select })).then(function (response) {
+                if (response.status == "200") {
+                    $scope.repairh = response.data.header;
+                    $scope.repairi = response.data.items;
+                } else {
+                    $scope.alert(response.data.Message);
+                }
+                $scope.loading = false;
+            });
+        }
+
+        //Convert Status
+        $scope.fn_status_desc = function (status) {
+            if (status == "NEW") return "สร้างใหม่"
+            else if (status == "PREPARE") return "จัดเตรียมคิวงานและอะไหล่"
+            else if (status == "PROCCESS") return "ทีมช่างดำเนินการ"
+            else if (status == "COMPLETE") return "สำเร็จ"
+            else return "สร้างใหม่";
+        }
 
         //clear screen
         $scope.fn_clear = function () {

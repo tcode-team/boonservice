@@ -171,6 +171,36 @@ namespace boonservice.api.Models
         /// </summary>
         [StringLength(3)]
         public string VBTYP { get; set; }
+
+        /// <summary>
+        /// Sales Organization
+        /// </summary>
+        [StringLength(12)]
+        public string VKORG { get; set; }
+
+        /// <summary>
+        /// Distribution Channel
+        /// </summary>
+        [StringLength(6)]
+        public string VTWEG { get; set; }
+
+        /// <summary>
+        /// Division
+        /// </summary>
+        [StringLength(6)]
+        public string SPART { get; set; }
+
+        /// <summary>
+        /// Sales Group
+        /// </summary>
+        [StringLength(9)]
+        public string VKGRP { get; set; }
+
+        /// <summary>
+        /// Sales Office
+        /// </summary>
+        [StringLength(12)]
+        public string VKBUR { get; set; }
     }
 
     /// <summary>

@@ -219,6 +219,7 @@ namespace boonservice.api.Controllers
                                         expense_id = item.EXPENSE_ID,
                                         expense_desc = expd != null ? expd.EXPENSE_DESC : string.Empty,
                                         expense_amount = item.EXPENSE_AMOUNT,
+                                        remark = item.REMARK,
                                         created_by = item.CREATED_BY,
                                         created_date = item.CREATED_DATE,
                                         update_by = item.UPDATE_BY,
@@ -258,7 +259,7 @@ namespace boonservice.api.Controllers
                     afs_shipment_h data = new afs_shipment_h();
                     data.CLIENT = postdata.client;
                     data.SHIPMENT_NUMBER = postdata.shipment_number;
-                    data.TRANSPORT_DATE = DateTime.ParseExact(postdata.transport_date, "dd/MM/yyyy", null);
+                    data.TRANSPORT_DATE = DateTime.ParseExact(postdata.transport_date,"dd/MM/yyyy", null);
                     data.CARGROUP_CODE = postdata.cargroup_code;
                     data.DRIVER_ID = postdata.driver_id;
                     data.STAFF1_ID = postdata.staff1_id;

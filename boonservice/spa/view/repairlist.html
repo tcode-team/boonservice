@@ -23,9 +23,8 @@
                             <!-- / APP TITLE -->
                         </div>
                     </div>
-
+                    <br />
                     <div class="page-content-wrapper">
-
                         <div class="col">
                             <!-- Criteria -->
                             <div class="card">
@@ -36,19 +35,19 @@
                                                 <div class="form-group col-md-4">
                                                     <label class="form-control-label col-md-4" for="RepairDateFrom">วันที่แจ้งซ่อม:</label>
                                                     <div class="col-md-8">
-                                                        <input class="form-control" type="date" ng-model="RepairDateFrom" id="RepairDateFrom" placeholder="dd/MM/yyyy">
+                                                        <input class="form-control" type="date" ng-model="selection.repair_date_from" id="RepairDateFrom" placeholder="dd/MM/yyyy">
                                                     </div>
                                                 </div>
                                                 <div class="form-group col-md-4">
                                                     <label class="form-control-label col-md-4" for="RepairDateTo">ถึงวันที่</label>
                                                     <div class="col-md-8">
-                                                        <input class="form-control" type="date" ng-model="RepairDateTo" id="RepairDateTo">
+                                                        <input class="form-control" type="date" ng-model="selection.repair_date_to" id="RepairDateTo">
                                                     </div>
                                                 </div>
                                                 <div class="form-group col-md-4">
                                                     <label class="form-control-label col-md-4" for="CustomerName">ชื่อลูกค้า:</label>
                                                     <div class="col-md-8">
-                                                        <input type="text" class="form-control" placeholder="" ng-model="CustomerName" id="CustomerName">
+                                                        <input type="text" class="form-control" placeholder="" ng-model="selection.soldto_name" id="CustomerName">
                                                     </div>
                                                 </div>
                                             </div>
@@ -57,14 +56,18 @@
                                                 <div class="form-group col-md-4">
                                                     <label class="col-form-label col-md-4" for="SoNumber">SO Number:</label>
                                                     <div class="col-md-8">
-                                                        <input type="text" class="form-control" placeholder="" ng-model="SoNumber" id="SoNumber">
+                                                        <input type="text" class="form-control" placeholder="" ng-model="selection.sonumber" id="SoNumber">
                                                     </div>
                                                 </div>
                                                 <div class="form-group col-md-4">
                                                     <label class="col-form-label col-md-4" for="Status">Status:</label>
                                                     <div class="col-md-8">
-                                                        <select class="form-control" id="Status">
-                                                            <option value="NEW">New</option>
+                                                        <select class="form-control" id="Status" ng-model="selection.status">
+                                                            <option value="ALL">ทั้งหมด</option>
+                                                            <option value="NEW">สร้างใหม่</option>
+                                                            <option value="PREPARE">จัดเตรียมคิวงานและอะไหล่</option>
+                                                            <option value="PROCCESS">ทีมช่างดำเนินการ</option>
+                                                            <option value="COMPLETE">สำเร็จ</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -74,14 +77,15 @@
                                                 <div class="form-group col-md-4">
                                                     <label class="col-form-label col-md-4" for="RepairNumber">เลขที่แจ้งซ่อม</label>
                                                     <div class="col-md-8">
-                                                        <input type="text" class="form-control" placeholder="" ng-model="RepairNumber" id="RepairNumber">
+                                                        <input type="text" class="form-control" placeholder="" ng-model="selection.repair_code" id="RepairNumber">
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="form-row">
                                                 <div class="form-group col-md-4">
                                                     <label class="col-form-label col-md-4"></label>
-                                                    <button class="btn btn-primary fuse-ripple-ready" type="button" style="margin-left:15px;">
+                                                    <button class="btn btn-primary fuse-ripple-ready" type="button" style="margin-left:15px;"
+                                                            ng-click="fn_search_list()">
                                                         <i class="icon icon-search-web"></i> ค้นหา
                                                     </button>
                                                 </div>
@@ -96,7 +100,41 @@
                             <div class="card">
                                 <div class="card-body">
                                     <div class="table-responsive">
-
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>วันที่แจ้งซ่อม</th>
+                                                    <th>เลขที่แจ้งซ่อม</th>
+                                                    <th>SO</th>
+                                                    <th>ชื่อลูกค้า</th>
+                                                    <th>เบอร์ติดต่อ</th>
+                                                    <th>พนักงานขาย</th>
+                                                    <th>ผู้บันทึก</th>
+                                                    <th>หมายเหตุ หน้าร้าน</th>
+                                                    <th>สถานะ</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-if="repairs.length==0">
+                                                    <td colspan="10" class="text-center">ไม่พบข้อมูล</td>
+                                                </tr>
+                                                <tr ng-repeat="row in repairs">
+                                                    <td>{{row.repair_date | date:'dd/MM/yyyy'}}</td>
+                                                    <td>{{row.repair_code}}</td>
+                                                    <td>{{row.so_number}}</td>
+                                                    <td>{{row.soldto_name}}</td>
+                                                    <td>{{row.contact_tel}}</td>
+                                                    <td></td>
+                                                    <td>{{row.created_by}}</td>
+                                                    <td>
+                                                        <textarea class="form-control" type="text" rows="3" readonly>{{row.remark}}</textarea>
+                                                    </td>
+                                                    <td>{{row.status}}</td>
+                                                    <td></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>

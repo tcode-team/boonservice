@@ -39,6 +39,7 @@
                                                             <label class="form-control-label col-md-4" for="iRepairCode">เลขที่แจ้งซ่อม:</label>
                                                             <div class="col-md-8">
                                                                 <input class="form-control-plaintext" readonly type="text" id="iRepairCode"
+                                                                       style="padding-left:0px;padding-right:0px;"
                                                                        ng-model="repairh.repair_code">
                                                             </div>
                                                         </div>
@@ -47,7 +48,7 @@
                                                             <div class="col-md-8">
                                                                 <input class="form-control-plaintext" readonly type="text" id="iStatus"
                                                                        style="padding-left:0px;padding-right:0px;"
-                                                                       value="{{repairh.status}}">
+                                                                       value="{{fn_status_desc(repairh.status)}}">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -55,8 +56,14 @@
                                                         <div class="form-group col-md-6">
                                                             <label class="form-control-label col-md-4" for="iSoNumber">SO:</label>
                                                             <div class="col-md-8">
-                                                                <input class="form-control" type="text" ng-model="repairh.so_number" id="iSoNumber"
+                                                                <input type="text" id="iSoNumber" class="form-control"
+                                                                       ng-show="repairh.repair_code==undefined"
+                                                                       ng-model="repairh.so_number" 
                                                                        dl-enter-key="fn_search_so()" numeric-only>
+                                                                <input class="form-control-plaintext" readonly type="text" id="iSoNumber" 
+                                                                       style="padding-left:0px;padding-right:0px;"
+                                                                       ng-show="repairh.repair_code!=undefined"
+                                                                       ng-model="repairh.so_number" />
                                                             </div>
                                                         </div>
                                                         <div class="form-group col-md-6">
@@ -126,7 +133,7 @@
                                                             <textarea class="form-control" type="text" ng-model="repairh.remark" id="iRemark" rows="4"></textarea>
                                                         </div>
                                                         <div class="form-group col-md-12">
-                                                            <button type="button" class="btn btn-secondary fuse-ripple-ready" ng-click="fn_save()">
+                                                            <button type="button" class="btn btn-secondary fuse-ripple-ready" ng-click="fn_before_save()">
                                                                 <i class="icon icon-content-save"></i> บันทึก
                                                             </button>
                                                             <button type="button" class="btn btn-primary fuse-ripple-ready" data-toggle="modal" data-target="#confirmNew"
@@ -144,20 +151,21 @@
                                         <div class="card-body">
                                             <ul class="nav nav-tabs" role="tablist">
                                                 <li class="nav-item">
-                                                    <a class="nav-link btn fuse-ripple-ready active" id="itemtab" data-toggle="tab" role="tab" aria-controls="itemtab" aria-expanded="true">รายการ</a>
+                                                    <a class="nav-link btn fuse-ripple-ready active" ng-click="ActiveTabName='itemtab'" data-toggle="tab" role="tab" aria-controls="itemtab" aria-expanded="true">รายการ</a>
                                                 </li>
                                                 <li class="nav-item">
-                                                    <a class="nav-link btn fuse-ripple-ready" id="imagetab" data-toggle="tab" role="tab" aria-controls="imagetab" aria-expanded="false">รูปภาพประกอบ</a>
+                                                    <a class="nav-link btn fuse-ripple-ready" id="imagetab" ng-click="ActiveTabName='imagetab'" data-toggle="tab" role="tab" aria-controls="imagetab" aria-expanded="false">รูปภาพประกอบ</a>
                                                 </li>
                                             </ul>
                                             <div class="tab-content">
-                                                <div role="tabpanel" class="tab-pane fade active show" id="itemtab" aria-labelledby="itemtab" aria-expanded="true">
+                                                <div role="tabpanel" class="tab-pane" id="itemtab"
+                                                     ng-class="{'active':ActiveTabName=='itemtab'}">
                                                     <div class="form-group col-sm-12" style="font-size:11px;">
                                                         <div class="table table-responsive">
                                                             <table class="table table-bordered">
                                                                 <thead>
                                                                     <tr>
-                                                                        <th style="width:50px;">
+                                                                        <th style="width:50px;" ng-show="repairh.repair_code==undefined">
                                                                             <div class="form-check">
                                                                                 <label class="form-check-label">
                                                                                     <input class="form-check-input" type="checkbox" ng-model="selectall" ng-click="fn_select_all(selectall)">
@@ -180,19 +188,26 @@
                                                                         <td colspan="10"><div class="text-center">ไม่พบข้อมูล</div></td>
                                                                     </tr>
                                                                     <tr ng-repeat="row in repairi">
-                                                                        <td>
+                                                                        <td ng-show="repairh.repair_code==undefined">
                                                                             <div class="form-check">
                                                                                 <label class="form-check-label">
-                                                                                    <input class="form-check-input" type="checkbox" ng-model="row.select">
+                                                                                    <input class="form-check-input" type="checkbox" ng-model="row.select"
+                                                                                           ng-click="fn_item_select(row)">
                                                                                     <span class="checkbox-icon"></span>
                                                                                 </label>
                                                                             </div>
                                                                         </td>
                                                                         <td>
-                                                                            {{row.article_number | removeleadingzero}}<br />
-                                                                            {{row.article_name}}
+                                                                            <strong>{{row.article_number | removeleadingzero}}</strong><br />
+                                                                            {{row.article_name}}<br />
+                                                                            {{row.so_number}}/{{row.so_item}}
                                                                         </td>
-                                                                        <td>ประเภทสินค้า</td>
+                                                                        <td>
+                                                                            <select class="form-control" style="padding-right:0px;width:100px;"
+                                                                                    ng-model="row.repair_item_type">
+                                                                                <option ng-repeat="item in repair_item_types" ng-value="item.ITEM_TYPE">{{item.ITEM_TYPE}}</option>
+                                                                            </select>
+                                                                        </td>
                                                                         <td><input tye="text" class="form-control text-right" ng-model="row.qty" numeric-only /></td>
                                                                         <td><input tye="text" class="form-control" ng-model="row.repair_remark" /></td>
                                                                         <td><input tye="text" class="form-control" ng-model="row.repair_desc" /></td>
@@ -206,33 +221,79 @@
                                                                         <td>
                                                                             <div class="form-check">
                                                                                 <label class="form-check-label">
-                                                                                    <input class="form-check-input" type="checkbox" value="Y" ng-model="row.waranty">
+                                                                                    <input class="form-check-input" type="checkbox" ng-true-value="'Y'" ng-false-value="'N'" 
+                                                                                           ng-model="row.waranty">
                                                                                     <span class="checkbox-icon"></span>
                                                                                 </label>
                                                                             </div>
                                                                         </td>
-                                                                        <td></td>
+                                                                        <td>
+                                                                            <i class="icon-checkbox-marked-circle text-success"
+                                                                               ng-show="row.images.length>0"></i>
+                                                                        </td>
                                                                     </tr>
                                                                 </tbody>
                                                             </table>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div role="tabpanel" class="tab-pane fade" id="imagetab" aria-labelledby="imagetab" aria-expanded="false">
-                                                    <!-- Images list -->
-                                                    <input type="file" ng-model="files" name="files"
+                                                <div role="tabpanel" class="tab-pane" id="imagetab"
+                                                     ng-class="{'active':ActiveTabName=='imagetab'}">
+                                                    <div class="form-group col-sm-12" style="font-size:11px;">
+                                                        <div class="table-responsive">
+                                                            <table class="table table-bordered">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th style="width:400px;">Article</th>
+                                                                        <th>รูป</th>
+                                                                        <th style="width:40px;"></th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr ng-if="repairi.length==0">
+                                                                        <td colspan="2"><div class="text-center">ไม่พบข้อมูล</div></td>
+                                                                    </tr>
+                                                                    <tr ng-repeat="row in repairi | filter:{select:true}">
+                                                                        <td>
+                                                                            <strong>{{row.article_number | removeleadingzero}}</strong><br />
+                                                                            {{row.article_name}}<br />
+                                                                            {{row.so_number}}/{{row.so_item}}
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="row" style="overflow-y:auto">
+                                                                                <div class="product-image m-2 align-items-center d-flex"
+                                                                                     ng-repeat="img in row.images">
+                                                                                    <img ng-src="{{img.base64}}" style="width:100px;">
+                                                                                </div>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <button type="button" class="btn btn-secondary btn-fab btn-sm fuse-ripple-ready"
+                                                                                    ng-click="browseImg(row)">
+                                                                                <i class="icon-plus"></i>
+                                                                            </button>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Input Images -->
+                                                    <input id="files" name="files" type="file" ng-model="files" style="visibility:hidden"
                                                            base-sixty-four-input multiple
-                                                           accept="image/*, .zip" minsize="500" required minnum="2"
+                                                           accept="image/*" minsize="500" required minnum="2"
                                                            onloadend="onLoadend" onerror="errorHandler">
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                    <br />
                                 </fieldset>
                             </form>
                             <!-- Form -->
                         </div>
-                    
+
+                        <!-- Modal Clear screen -->
                         <div id="confirmNew" class="modal fade" tabindex="-1" role="dialog"
                              aria-labelledby="confirmNewLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
@@ -246,6 +307,25 @@
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">ไม่</button>
                                         <button type="button" class="btn btn-primary" ng-click="fn_clear()">ใช่</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Modal Confirm Save -->
+                        <div id="confirmSave" class="modal fade" tabindex="-1" role="dialog"
+                             aria-labelledby="confirmNewLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="confirmNewLabel">บันทึกข้อมูลแจ้งซ่อม</h5>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>ยืนยัน บันทึกข้อมูลการแจ้งซ่อม</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">ไม่</button>
+                                        <button type="button" class="btn btn-primary" ng-click="fn_save()">ใช่</button>
                                     </div>
                                 </div>
                             </div>

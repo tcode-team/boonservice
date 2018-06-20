@@ -14,77 +14,83 @@ namespace boonservice.api.Models
     public class afs_repair_items
     {
         /// <summary>
-        /// รหัสแจ้งซ่อม
+        /// ID
         /// </summary>
-        [Key]
-        [StringLength(11)]
-        public string repair_code { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public double REPAIR_ITEM_ID { get; set; }
 
         /// <summary>
-        /// Sale Order Number
+        /// รหัสแจ้งซ่อม
         /// </summary>
-        [Key]
-        public Int16 repair_item { get; set; }
+        [StringLength(11)]
+        public string REPAIR_CODE { get; set; }
 
         /// <summary>
         /// Sale Order Number
         /// </summary>
         [StringLength(30)]
-        public string so_number { get; set; }
+        public string SO_NUMBER { get; set; }
 
         /// <summary>
         /// Sale Order item
         /// </summary>
-        public decimal so_item { get; set; }
+        [StringLength(18)]
+        public string SO_ITEM { get; set; }
+
+        /// <summary>
+        /// ประเภทสินค้า
+        /// </summary>
+        [StringLength(80)]
+        public string REPAIR_ITEM_TYPE { get; set; }
 
         /// <summary>
         /// จำนวน
         /// </summary>
-        public int repair_qty { get; set; }
+        public decimal REPAIR_QTY { get; set; }
 
         /// <summary>
         /// หมายเหตุ
         /// </summary>
         [StringLength(255)]
-        public string repair_remark { get; set; }
+        public string REPAIR_REMARK { get; set; }
         
         /// <summary>
         /// ตำแหน่งชำรุด
         /// </summary>
         [StringLength(255)]
-        public string repair_desc { get; set; }
+        public string REPAIR_DESC { get; set; }
 
         /// <summary>
         /// การดำเนินการ
         /// </summary>
         [StringLength(80)]
-        public string repair_type { get; set; }
+        public string REPAIR_TYPE { get; set; }
 
         /// <summary>
         /// ประกัน
         /// </summary>
         [StringLength(1)]
-        public string waranty { get; set; }
+        public string WARANTY { get; set; }
 
         /// <summary>
         /// รหัสผู้สร้าง
         /// </summary>
-        public int created_by { get; set; }
+        public int CREATED_BY { get; set; }
 
         /// <summary>
         /// วันที่สร้าง
         /// </summary>
-        public DateTime? created_date { get; set; }
+        public DateTime? CREATED_DATE { get; set; }
 
         /// <summary>
         /// รหัสผู้อัพเดท
         /// </summary>
-        public int update_by { get; set; }
+        public int UPDATE_BY { get; set; }
 
         /// <summary>
         /// วันที่อัพเดท
         /// </summary>
-        public DateTime? update_date { get; set; }
+        public DateTime? UPDATE_DATE { get; set; }
     }
 
 
