@@ -106,10 +106,13 @@
                             <div class="card" ng-hide="ShowTBL(DocList)">
                                 <div class="card-body">
 
-                                    <div class="row">
+                                    <div class="form-row">
                                         <div class="col-auto">
-                                            <button type="submit" class="btn btn-primary" ng-hide="ShowTBL(DocList)">Confirm</button>
+                                            <button type="submit" class="btn btn-secondary fuse-ripple-ready" ng-disabled="ConfirmRow==0" ng-click="Confirm_Data()">Confirm</button> 
                                         </div>
+                                    </div>
+
+                                    <div class="form-row">
                                         <div class="preview">
                                             <div class="preview-elements">
                                                 <div class="table-responsive">
@@ -177,7 +180,14 @@
                                                         <tbody>
                                                             <tr ng-repeat="x in DocList | orderBy : 'shipment_number'">
                                                                 <td>
-                                                                    <input type="checkbox" class="form-check-input" ng-hide="disabledChkBox({{ x.status_code}})" ng-value="{{ x.shipment_number}}" />
+                                                                    <div class="form-check" ng-hide="disabledChkBox({{ x.status_code}})">
+                                                                        <label class="form-check-label">
+                                                                            <input type="checkbox" class="form-check-input"
+                                                                                   ng-checked="ConfirmList.indexOf(x.shipment_number) > -1"
+                                                                                   ng-click="addOrRemoveConfirm( x.shipment_number, true)" />
+                                                                            <span class="checkbox-icon"></span>
+                                                                        </label>
+                                                                    </div>
                                                                 </td>
                                                                 <td>{{ x.shipment_date | date:'dd/MM/yyyy' }}</td>
                                                                 <td>{{ x.shipment_number}}</td>
@@ -187,7 +197,7 @@
                                                                 <td>{{ x.shipmenttype_desc}}</td>
                                                                 <td>{{ x.car_license}}</td>
                                                                 <td>{{ x.transport_amount | number : 2}}</td>
-                                                                <td>{{ x.status_code}} {{ x.status_desc}}</td>
+                                                                <td><span ng-class="Show_Status(x.status_code)"> {{ x.status_desc}}</span></td>
                                                                 <td>
                                                                     <button type="button" class="btn btn-warning"
                                                                             ng-hide="disabledEditBT({{ x.status_code}})"

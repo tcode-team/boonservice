@@ -18,6 +18,9 @@
             $scope.Get_Status();
             // $scope.Get_List();
             $scope.ShipSearchErr = ""; 
+            $scope.ConfirmList = '';
+            $scope.ConfirmRow = 0;
+            console.log($scope.user);
         }
 
         $scope.Get_ShipmentType = function () {
@@ -54,9 +57,9 @@
         $scope.Get_List = function (SearchData, DateFrom, DateTo) {
             $scope.loading = true;
             $scope.ShipSearchErr = "";
-            console.log(typeof SearchData);
-            console.log(typeof DateFrom + " Fromtext " +  DateFrom);
-            console.log(typeof DateTo + " Totext " + DateTo);
+            //console.log(typeof SearchData);
+            //console.log(typeof DateFrom + " Fromtext " +  DateFrom);
+            //console.log(typeof DateTo + " Totext " + DateTo);
 
               
             var textObject = JSON.stringify(SearchData);
@@ -76,8 +79,8 @@
                 }
             }
 
-            var Df = getFormattedDate(DateFrom);
-            var Dt = getFormattedDate(DateTo);
+            var Df = $scope.getFormattedDate(DateFrom);
+            var Dt = $scope.getFormattedDate(DateTo);
             //console.log(typeof Df + " DF " + Df);
             //console.log(typeof Dt + " DT " + Dt); 
 
@@ -118,7 +121,7 @@
                     }).then(function (response) {
                         console.log(response);
                         $scope.loading = false;
-                        $scope.DocList = response.data;
+                        $scope.DocList = response.data; 
                         if (response.status != '200') {
                             $scope.loading = false;
                             $scope.ShipSearchErr = response.statusText;
@@ -127,7 +130,7 @@
             return;
         }
 
-        function getFormattedDate(date) {
+        $scope.getFormattedDate = function (date) {
             try {
                 var year = date.getFullYear();
 
@@ -139,9 +142,10 @@
 
                 return day + '/' + month + '/' + year;
             }
-            catch
-            { return undefined;}
-        }
+            catch  {
+                return undefined;
+            }
+        };
 
 
         $scope.disabledChkBox = function (itemStatus) { 
@@ -151,6 +155,7 @@
             if (itemStatus =='02' || itemStatus == 2)
             return false;
 
+            //console.log('itemStatus chkBox ' + itemStatus);
             return true;
         }
 
@@ -176,6 +181,109 @@
 
             return true;
         }
+
+
+        $scope.Show_Status = function (StatusCode) {
+           // console.log("StatusCode " + StatusCode);
+            if (StatusCode === undefined) // if your going to return true
+                return 'badge ';
+
+            //          console.log(DataList.length);
+            if (StatusCode.length === 0  )
+                return 'badge ';
+            if (StatusCode === 1 || StatusCode === '01')
+                return 'badge badge-warning';
+            if (StatusCode === 2 || StatusCode === '02')
+                return 'badge badge-success';
+            if (StatusCode === 3 || StatusCode === '03')
+                return 'badge badge-info';
+
+            return 'badge ';
+        }
+
+        ////   Confirm  Head
+
+        $scope.addOrRemoveConfirm = function (item, isMultiple) {
+
+            console.log('addOrRemoveConfirm '); 
+            var comArr = eval($scope.DocList);
+            var itemData = '';
+            for (var i = 0; i < comArr.length; i++) {
+                if (comArr[i].shipment_number === item) {
+                    itemData = '{ "client" : "' + comArr[i].client +'", "shipment_number": "' + item + '", "confirm_by": ' + $scope.user.userid + '}'
+                    break;
+                }
+            }
+
+            var itemIndex = $scope.ConfirmList.indexOf(itemData);//(item);
+            var isPresent = (itemIndex > -1);
+
+            console.log('itemdata ' + itemData);
+            console.log('itemIndex ' + itemIndex + isMultiple);
+            console.log('isPresent ' + isPresent);
+            if (isMultiple) {
+                if (isPresent) {
+                   // $scope.ConfirmList.splice(itemIndex, 1)
+                    if ($scope.ConfirmList.indexOf(',' + itemData) > -1) {
+                        $scope.ConfirmRow--;
+                        $scope.ConfirmList = $scope.ConfirmList.replace(',' + itemData, '');
+                    }
+                    if ($scope.ConfirmList.indexOf(  itemData + ',') > -1) {
+                        $scope.ConfirmRow--;
+                        $scope.ConfirmList = $scope.ConfirmList.replace(itemData + ',', '');
+                    }
+                    if ($scope.ConfirmList.indexOf(itemData  ) > -1) {
+                        $scope.ConfirmRow--;
+                        $scope.ConfirmList = $scope.ConfirmList.replace(itemData , '');
+                    }
+                } else {
+                    // $scope.ConfirmList.push(item)
+                      $scope.ConfirmRow++
+                    if ($scope.ConfirmList.length == 0) {
+                        $scope.ConfirmList = itemData;
+                    }
+                    else {
+                        $scope.ConfirmList = $scope.ConfirmList + ',' + itemData;
+                    }
+                }
+            } else { // UnClick 
+                $scope.ConfirmRow--;
+                console.log('Delete  ConfirmList');
+                if (isPresent) {
+                    $scope.ConfirmList = '';
+                } else {
+                    $scope.ConfirmList = $scope.ConfirmList.replace(itemData, '');
+                }
+                console.log($scope.ConfirmList);
+            }
+            console.log($scope.ConfirmList);
+        }
+
+        $scope.Confirm_Data = function () {
+
+            $scope.loading = true;
+            console.log($scope.ConfirmList); 
+            $http({
+                url: config.api.url + 'shipment/confirm',
+                method: 'POST',
+                data: '['+ $scope.ConfirmList +']'
+            }).then(function (response) {
+                console.log(response);
+                $scope.loading = false;
+
+                // $scope.DocList = response.data;
+                $scope.ConfirmList = ''; 
+                $scope.Get_List($scope.DataSearch, $scope.ShipmentDateFrom, $scope.ShipmentDateTo);
+
+                if (response.status !== 200) {
+                    $scope.loading = false;
+                    $scope.ShipSearchErr = response.statusText;
+                }
+            });
+
+            return;
+        }
+         ////   Confirm  Head  End -------------------------------------------------------------------------
 
         $scope.ShipmentForm = function (shipment_number) { 
 
