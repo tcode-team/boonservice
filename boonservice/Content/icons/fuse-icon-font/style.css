@@ -1,9 +1,9 @@
 @font-face {
   font-family: 'fuse-iconfont';
   src:
-    url('fonts/fuse-iconfont.ttf?9udsnt') format('truetype'),
-    url('fonts/fuse-iconfont.woff?9udsnt') format('woff'),
-    url('fonts/fuse-iconfont.svg?9udsnt#fuse-iconfont') format('svg');
+    url('../../../content/icons/fuse-icon-font/fonts/fuse-iconfont.ttf?9udsnt') format('truetype'),
+    url('../../../content/icons/fuse-icon-font/fonts/fuse-iconfont.woff?9udsnt') format('woff'),
+    url('../../../content/icons/fuse-icon-font/fonts/fuse-iconfont.svg?9udsnt#fuse-iconfont') format('svg');
   font-weight: normal;
   font-style: normal;
 }

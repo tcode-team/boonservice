@@ -149,7 +149,11 @@
                                                     <div class="form-row">
                                                         <div class="form-group col-md-12">
                                                             <label class="form-control-label" for="iRemark">หมายเหตุ หน้าร้าน:</label>
-                                                            <textarea class="form-control" type="text" ng-model="repairh.remark" id="iRemark" rows="4"></textarea>
+                                                            <textarea class="form-control" type="text" ng-show="authority_group==='SALE'"
+                                                                      ng-model="repairh.remark" id="iRemark" rows="4"></textarea>
+                                                            <textarea class="form-control-plaintext" type="text" readonly
+                                                                      ng-show="authority_group!=='SALE'" style="padding-left:0px;padding-right:0px;"
+                                                                      ng-model="repairh.remark" id="iRemark" rows="4"></textarea>
                                                         </div>
                                                         <div class="form-group col-md-12">
                                                             <button type="button" class="btn btn-secondary fuse-ripple-ready" 
@@ -178,12 +182,13 @@
                                                             <div class="form-group col-md-12">
                                                                 <label class="form-control-label col-md-3" for="RepairAppointmentDate">วันที่นัดลูกค้า:</label>
                                                                 <div class="col-md-4">
-                                                                    <input class="form-control" type="date" ng-model="repairapp.appointment_date" id="RepairAppointmentDate" placeholder="dd/MM/yyyy">
+                                                                    <input class="form-control" type="date" id="RepairAppointmentDate" placeholder="dd/MM/yyyy"
+                                                                           ng-model="repairapp.appointment_date">
                                                                 </div>
                                                                 <label class="form-control-label col-md-2" for="RepairAppointmentTime">เวลา:</label>
                                                                 <div class="col-md-3">
                                                                     <input class="form-control" type="text" id="RepairAppointmentTime" placeholder="hh:mm"
-                                                                           ng-model="repairapp.appointment_time" mask="99:99" restrict="reject" >
+                                                                           ng-model="repairapp.appointment_time" mask="99:99" restrict="reject">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -191,7 +196,8 @@
                                                             <div class="form-group col-md-12">
                                                                 <label class="form-control-label col-md-3" for="RepairCompleteDate" style="padding-right:0px;">วันที่นัดซ่อมเสร็จ:</label>
                                                                 <div class="col-md-4">
-                                                                    <input class="form-control" type="date" ng-model="repairapp.target_date" id="RepairCompleteDate" placeholder="dd/MM/yyyy">
+                                                                    <input class="form-control" type="date" id="RepairCompleteDate" placeholder="dd/MM/yyyy"
+                                                                           ng-model="repairapp.target_date">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -205,6 +211,20 @@
                                                                         <option value="ทีม 2">ทีม 2</option>
                                                                         <option value="ช่างนอกบริษัท">ช่างนอกบริษัท</option>
                                                                     </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-row">
+                                                            <div class="form-group col-md-12">
+                                                                <label class="form-control-label col-md-3" for="RepairPriceAmount">ราคาประเมิน:</label>
+                                                                <div class="col-md-4">
+                                                                    <input class="form-control" type="number" id="RepairPriceAmount"
+                                                                           ng-model="repairapp.price_amount">
+                                                                </div>
+                                                                <label class="form-control-label col-md-2" for="RepairPriceExtra" style="padding-right:0px;">ราคา Extra:</label>
+                                                                <div class="col-md-3">
+                                                                    <input class="form-control" type="number" id="RepairPriceExtra"
+                                                                           ng-model="repairapp.price_extra">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -381,7 +401,7 @@
                                                                 <table class="table table-bordered">
                                                                     <thead>
                                                                         <tr>
-                                                                            <th>ลำดับ</th>
+                                                                            <th style="width:60px;">ลำดับ</th>
                                                                             <th>รายการอะไหล่</th>
                                                                             <th style="width:60px;">จำนวน</th>
                                                                             <th style="width:80px;">สถานะ</th>

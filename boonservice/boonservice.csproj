@@ -1202,6 +1202,7 @@
     <Content Include="Content\vendor\perfect-scrollbar\src\css\variables.scss" />
     <Content Include="Content\vendor\angular-base64-upload\angular-base64-upload.min.js.map" />
     <None Include="packages.config" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Content\vendor\mobile-detect\mobile-detect.d.ts" />

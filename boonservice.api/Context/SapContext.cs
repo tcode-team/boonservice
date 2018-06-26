@@ -70,7 +70,7 @@ namespace boonservice.api.Context
                 .HasIndex(i => i.REPAIR_ITEM_ID);
 
             modelBuilder.Entity<afs_repair_appointment>()
-                .HasKey(k => k.REPAIR_APPOINTMENT_ID)
+                .HasKey(k => k.REPAIR_APPOINT_ID)
                 .HasIndex(i => i.REPAIR_CODE);
 
             modelBuilder.Entity<afs_repair_raw>()

@@ -17,7 +17,7 @@ namespace boonservice.api.Models
         /// ID
         /// </summary>
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public double REPAIR_APPOINTMENT_ID { get; set; }
+        public double REPAIR_APPOINT_ID { get; set; }
 
         /// <summary>
         /// รหัสแจ้งซ่อม

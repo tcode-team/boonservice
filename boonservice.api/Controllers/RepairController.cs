@@ -147,7 +147,7 @@ namespace boonservice.api.Controllers
             }
             catch (Exception ex)
             {
-                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex);
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.InnerException.Message);
             }
 
         }
@@ -267,7 +267,9 @@ namespace boonservice.api.Controllers
 
             var result = new RepairForm();
             var rh = new RepairHeader();
+            var rp = new RepairAppointment();
             ICollection<RepairItems> ri = new List<RepairItems>();
+            ICollection<RepairRaw> rr = new List<RepairRaw>();
             try
             {
                 afs_repair_header h = b3gRepair.GetRepairHeader(repair_code);
@@ -372,8 +374,50 @@ namespace boonservice.api.Controllers
                     });
                 }
 
+                //Appointment
+                afs_repair_appointment p = b3gRepair.GetRepairAppointment(repair_code);
+                if (p != null)
+                {
+                    rp.repair_code = p.REPAIR_CODE;
+                    rp.repair_appoint_id = p.REPAIR_APPOINT_ID;
+                    rp.appointment_date = p.APPOINTMENT_DATE;
+                    rp.appointment_time = p.APPOINTMENT_TIME;
+                    rp.target_date = p.TARGET_DATE;
+                    rp.technician_team = p.TECHNICIAN_TEAM;
+                    rp.price_amount = p.PRICE_AMOUNT;
+                    rp.price_extra = p.PRICE_EXTRA;
+                    rp.remark_customer = p.REMARK_CUSTOMER;
+                    rp.created_by = p.CREATED_BY;
+                    rp.created_date = p.CREATED_DATE;
+                    rp.update_by = p.UPDATE_BY;
+                    rp.update_date = p.UPDATE_DATE;
+                };
+
+                //Raw
+                ICollection<afs_repair_raw> raws = b3gRepair.GetRepairRaw(repair_code);
+                if (raws != null)
+                {
+                    foreach (var raw in raws)
+                    {
+                        rr.Add(new RepairRaw
+                        {
+                            repair_raw_id = raw.REPAIR_RAW_ID,
+                            repair_code = raw.REPAIR_CODE,
+                            raw_name = raw.RAW_NAME,
+                            raw_qty = raw.RAW_QTY,
+                            status = raw.STATUS,
+                            created_by = raw.CREATED_BY,
+                            created_date = raw.CREATED_DATE,
+                            update_by = raw.UPDATE_BY,
+                            update_date = raw.UPDATE_DATE
+                        });
+                    }
+                }
+
                 result.header = rh;
                 result.items = ri;
+                result.appoint = rp;
+                result.raws = rr;
 
                 return result.header == null || result.items == null
                          ? Request.CreateErrorResponse(HttpStatusCode.NotFound, "Repair data not found")
@@ -557,24 +601,24 @@ namespace boonservice.api.Controllers
                     if (postdata.appoint != null)
                     {
                         afs_repair_appointment p = new afs_repair_appointment();
-                        p = context.afs_repair_appointment.Where(t => t.REPAIR_APPOINTMENT_ID == postdata.appoint.repair_appoint_id).FirstOrDefault();
+                        p = context.afs_repair_appointment.Where(t => t.REPAIR_APPOINT_ID == postdata.appoint.repair_appoint_id).FirstOrDefault();
                         if (p != null)
                         {
                             context.Entry(p).State = EntityState.Modified;
                         }
                         else p = new afs_repair_appointment();
-                        p.APPOINTMENT_DATE = postdata.appoint.appointment_date;
+                        p.APPOINTMENT_DATE = postdata.appoint.appointment_date; //DateTime.ParseExact(postdata.appoint.appointment_date, "dd/MM/yyyy", null);
                         p.APPOINTMENT_TIME = postdata.appoint.appointment_time;
-                        p.TARGET_DATE = postdata.appoint.target_date;
+                        p.TARGET_DATE = postdata.appoint.target_date; // DateTime.ParseExact(postdata.appoint.target_date, "dd/MM/yyyy", null);
                         p.TECHNICIAN_TEAM = postdata.appoint.technician_team;
                         p.PRICE_AMOUNT = postdata.appoint.price_amount;
                         p.PRICE_EXTRA = postdata.appoint.price_extra;
                         p.REMARK_CUSTOMER = postdata.appoint.remark_customer;
                         p.UPDATE_BY = postdata.header.update_by;
                         p.UPDATE_DATE = DateTime.Now;
-                        if (p.REPAIR_APPOINTMENT_ID == 0)
+                        if (p.REPAIR_APPOINT_ID == 0)
                         {
-                            p.REPAIR_CODE = postdata.appoint.repair_code;
+                            p.REPAIR_CODE = postdata.header.repair_code;
                             p.CREATED_BY = postdata.header.created_by;
                             p.CREATED_DATE = DateTime.Now;
                             context.afs_repair_appointment.Add(p);
@@ -582,7 +626,8 @@ namespace boonservice.api.Controllers
                         context.SaveChanges();
 
                         //Set return value
-                        postdata.appoint.repair_appoint_id = p.REPAIR_APPOINTMENT_ID;
+                        postdata.appoint.repair_appoint_id = p.REPAIR_APPOINT_ID;
+                        postdata.appoint.repair_code = postdata.header.repair_code;
                     }
 
                     List<afs_repair_raw> i = new List<afs_repair_raw>();
@@ -603,7 +648,7 @@ namespace boonservice.api.Controllers
 
                         if (item.repair_raw_id == 0)
                         {
-                            v.REPAIR_CODE = item.repair_code;
+                            v.REPAIR_CODE = postdata.header.repair_code;
                             v.CREATED_BY = postdata.header.created_by;
                             v.CREATED_DATE = DateTime.Now;
                             context.afs_repair_raw.Add(v);
@@ -612,6 +657,7 @@ namespace boonservice.api.Controllers
 
                         //Set return value
                         item.repair_raw_id = v.REPAIR_RAW_ID;
+                        item.repair_code = postdata.header.repair_code;
                     };
                 }
 
@@ -619,7 +665,7 @@ namespace boonservice.api.Controllers
             }
             catch (Exception ex)
             {
-                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex);
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.InnerException.Message);
             }
         }
 

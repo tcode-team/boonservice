@@ -52,6 +52,12 @@
                 if (response.status == "200") {
                     $scope.repairh = response.data.header;
                     $scope.repairi = response.data.items;
+                    if (response.data.appoint !== undefined) {
+                        response.data.appoint.appointment_date = new Date(response.data.appoint.appointment_date);
+                        response.data.appoint.target_date = new Date(response.data.appoint.target_date);
+                    };
+                    $scope.repairapp = response.data.appoint;
+                    $scope.repairraw = response.data.raws;
                 } else {
                     $scope.alert($scope.repairh.so_number + ': ' + response.data.Message);
                 }
@@ -142,7 +148,8 @@
         //เพิ่มรายการ อะไหล่
         $scope.AddRawItem = function () {
             $scope.repairraw.push({
-                raw_name: ''
+                raw_name: '',
+                status: 'มีอะไหล่'
             })
         };
 
@@ -186,6 +193,12 @@
                         $scope.alert('โปรดระบุ วันที่นัดซ่อมเสร็จ ต้องมากกว่าหรือเท่ากับวันที่นัดหมายลูกค้า');
                         return;
                     }
+                    //check raw item
+                    angular.forEach($scope.repairraw, function (value, key) {
+                        console.log(value);
+                    });
+                    console.log('after loop');
+
                     $('#confirmSave').modal('show');
                     break;
                 case "PURCHASE":
@@ -221,8 +234,12 @@
                     RepairService.saveaftersale($scope.repairh, $scope.repairapp, $scope.repairraw).then(function (response) {
                         if (response.status == "200") {
                             $scope.repairh = response.data.header;
-                            $scope.repairapp = response.data.repairapp;
-                            $scope.repairraw = response.data.repairraw;
+                            if (response.data.appoint !== undefined) {
+                                response.data.appoint.appointment_date = new Date(response.data.appoint.appointment_date);
+                                response.data.appoint.target_date = new Date(response.data.appoint.target_date);
+                            };
+                            $scope.repairapp = response.data.appoint;
+                            $scope.repairraw = response.data.raws;
                         } else {
                             $scope.alert(response.data.Message);
                         }
@@ -280,6 +297,22 @@
                 },
                 addclass: 'md multiline'
             });
+        }
+
+        function getFormattedDate(date) {
+            try {
+                var year = date.getFullYear();
+
+                var month = (1 + date.getMonth()).toString();
+                month = month.length > 1 ? month : '0' + month;
+
+                var day = date.getDate().toString();
+                day = day.length > 1 ? day : '0' + day;
+
+                return day + '/' + month + '/' + year;
+            }
+            catch
+            { return undefined; }
         }
     };
 

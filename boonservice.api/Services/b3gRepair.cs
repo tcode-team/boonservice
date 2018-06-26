@@ -86,5 +86,41 @@ namespace boonservice.api.Services
             }
         }
 
+        /// <summary>
+        /// Get afs_repair_appointment
+        /// </summary>
+        /// <remarks></remarks>
+        public afs_repair_appointment GetRepairAppointment(string repair_code)
+        {
+            using (var context = new SAPContext())
+            {
+                OracleParameter p1 = new OracleParameter("REPAIR_CODE", repair_code);
+                object[] parameters = new object[] { p1 };
+
+                var repair_appointment = context.afs_repair_appointment
+                    .SqlQuery("SELECT * FROM AFS_REPAIR_APPOINTMENT WHERE REPAIR_CODE=:REPAIR_CODE", parameters)
+                    .FirstOrDefault();
+                return repair_appointment;
+            }
+        }
+
+        /// <summary>
+        /// Get afs_repair_raw
+        /// </summary>
+        /// <remarks></remarks>
+        public ICollection<afs_repair_raw> GetRepairRaw(string repair_code)
+        {
+            using (var context = new SAPContext())
+            {
+                OracleParameter p1 = new OracleParameter("REPAIR_CODE", repair_code);
+                object[] parameters = new object[] { p1 };
+
+                var raws = context.afs_repair_raw
+                    .SqlQuery("SELECT * FROM AFS_REPAIR_RAW WHERE REPAIR_CODE=:REPAIR_CODE", parameters)
+                    .ToList();
+                return raws;
+            }
+        }
+
     }
 }

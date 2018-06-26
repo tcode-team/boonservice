@@ -6,7 +6,7 @@
             'ngAnimate', 'ngIdle', 'ui.router', 'angular-loading-bar', 'oc.lazyLoad',
             'naif.base64'])
         .config(config);
-        //.run(run);    
+        //.run(run);
 
     /************************** config **************************/
     config.$inject = ['$stateProvider', '$routeProvider', '$urlRouterProvider', '$locationProvider', '$httpProvider', '$qProvider', 'cfpLoadingBarProvider'];
