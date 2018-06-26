@@ -30,7 +30,9 @@
                             <!-- Form -->
                             <form name="FormSubmit" novalidate>
                                 <fieldset ng-disabled="loading">
+                                    <!-- ข้อมูลลูกค้า -->
                                     <div class="card">
+                                        <div class="card-header">ข้อมูลลูกค้า</div>
                                         <div class="card-body">
                                             <div class="row">
                                                 <div class="col-md-8">
@@ -48,7 +50,16 @@
                                                             <div class="col-md-8">
                                                                 <input class="form-control-plaintext" readonly type="text" id="iStatus"
                                                                        style="padding-left:0px;padding-right:0px;"
+                                                                       ng-show="repairh.repair_code==undefined && authority_group!='AFTERSALE'"
                                                                        value="{{fn_status_desc(repairh.status)}}">
+                                                                <select class="form-control" id="iStatus" 
+                                                                        ng-show="repairh.repair_code!=undefined && authority_group=='AFTERSALE'"
+                                                                        ng-model="repairh.status">
+                                                                    <option value="NEW">สร้างใหม่</option>
+                                                                    <option value="PREPARE">จัดเตรียมคิวงานและอะไหล่</option>
+                                                                    <option value="PROCCESS">ทีมช่างดำเนินการ</option>
+                                                                    <option value="COMPLETE">Complete</option>
+                                                                </select>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -58,9 +69,9 @@
                                                             <div class="col-md-8">
                                                                 <input type="text" id="iSoNumber" class="form-control"
                                                                        ng-show="repairh.repair_code==undefined"
-                                                                       ng-model="repairh.so_number" 
+                                                                       ng-model="repairh.so_number"
                                                                        dl-enter-key="fn_search_so()" numeric-only>
-                                                                <input class="form-control-plaintext" readonly type="text" id="iSoNumber" 
+                                                                <input class="form-control-plaintext" readonly type="text" id="iSoNumber"
                                                                        style="padding-left:0px;padding-right:0px;"
                                                                        ng-show="repairh.repair_code!=undefined"
                                                                        ng-model="repairh.so_number" />
@@ -115,13 +126,21 @@
                                                         <div class="form-group col-md-6">
                                                             <label class="form-control-label col-md-4" for="iTransportAmount">SO ค่าขนส่ง:</label>
                                                             <div class="col-md-8">
-                                                                <input class="form-control" type="text" ng-model="repairh.transport_amount" id="iTransportAmount">
+                                                                <input class="form-control" type="text" ng-show="authority_group==='SALE'"
+                                                                       ng-model="repairh.transport_amount" id="iTransportAmount">
+                                                                <input class="form-control-plaintext" readonly  style="padding-left:0px;padding-right:0px;"
+                                                                       type="text" ng-show="authority_group!=='SALE'" 
+                                                                       value="{{repairh.transport_amount | number:2}}" id="iTransportAmount">
                                                             </div>
                                                         </div>
                                                         <div class="form-group col-md-6">
                                                             <label class="form-control-label col-md-4" for="iTel">เบอร์ติดต่อ:</label>
                                                             <div class="col-md-8">
-                                                                <input class="form-control" type="text" ng-model="repairh.contact_tel" id="iTel">
+                                                                <input class="form-control" ng-show="authority_group==='SALE'"
+                                                                       type="text" ng-model="repairh.contact_tel" id="iTel">
+                                                                <input class="form-control-plaintext" readonly 
+                                                                       ng-show="authority_group!=='SALE'" style="padding-left:0px;padding-right:0px;"
+                                                                       type="text" value="{{repairh.contact_tel}}" id="iTel">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -133,7 +152,9 @@
                                                             <textarea class="form-control" type="text" ng-model="repairh.remark" id="iRemark" rows="4"></textarea>
                                                         </div>
                                                         <div class="form-group col-md-12">
-                                                            <button type="button" class="btn btn-secondary fuse-ripple-ready" ng-click="fn_before_save()">
+                                                            <button type="button" class="btn btn-secondary fuse-ripple-ready" 
+                                                                    ng-show="authority_group!==undefined"
+                                                                    ng-click="fn_before_save()">
                                                                 <i class="icon icon-content-save"></i> บันทึก
                                                             </button>
                                                             <button type="button" class="btn btn-primary fuse-ripple-ready" data-toggle="modal" data-target="#confirmNew"
@@ -146,8 +167,61 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <br />
-                                    <div class="card">
+                                    <!-- นัดหมาย -->
+                                    <div class="card" ng-if="repairh.repair_code!=undefined" style="margin-top:15px;">
+                                        <div class="card-header">นัดหมายลูกค้า</div>
+                                        <div class="card-body">
+                                            <fieldset ng-disabled="authority_group!='AFTERSALE'">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-row">
+                                                            <div class="form-group col-md-12">
+                                                                <label class="form-control-label col-md-3" for="RepairAppointmentDate">วันที่นัดลูกค้า:</label>
+                                                                <div class="col-md-4">
+                                                                    <input class="form-control" type="date" ng-model="repairapp.appointment_date" id="RepairAppointmentDate" placeholder="dd/MM/yyyy">
+                                                                </div>
+                                                                <label class="form-control-label col-md-2" for="RepairAppointmentTime">เวลา:</label>
+                                                                <div class="col-md-3">
+                                                                    <input class="form-control" type="text" id="RepairAppointmentTime" placeholder="hh:mm"
+                                                                           ng-model="repairapp.appointment_time" mask="99:99" restrict="reject" >
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-row">
+                                                            <div class="form-group col-md-12">
+                                                                <label class="form-control-label col-md-3" for="RepairCompleteDate" style="padding-right:0px;">วันที่นัดซ่อมเสร็จ:</label>
+                                                                <div class="col-md-4">
+                                                                    <input class="form-control" type="date" ng-model="repairapp.target_date" id="RepairCompleteDate" placeholder="dd/MM/yyyy">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-row">
+                                                            <div class="form-group col-md-12">
+                                                                <label class="form-control-label col-md-3" for="TechnicianTeam">ทีมช่าง:</label>
+                                                                <div class="col-md-5">
+                                                                    <select ng-model="repairapp.technician_team"
+                                                                            id="TechnicianTeam" class="form-control">
+                                                                        <option value="ทีม 1">ทีม 1</option>
+                                                                        <option value="ทีม 2">ทีม 2</option>
+                                                                        <option value="ช่างนอกบริษัท">ช่างนอกบริษัท</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-row">
+                                                            <div class="form-group col-md-12">
+                                                                <label class="form-control-label" for="iRemarkCustomer">หมายเหตุ ลูกค้า:</label>
+                                                                <textarea class="form-control" type="text" ng-model="repairapp.remark_customer" id="iRemarkCustomer" rows="4"></textarea>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                    <div class="card" style="margin-top:15px;">
                                         <div class="card-body">
                                             <ul class="nav nav-tabs" role="tablist">
                                                 <li class="nav-item">
@@ -156,86 +230,91 @@
                                                 <li class="nav-item">
                                                     <a class="nav-link btn fuse-ripple-ready" id="imagetab" ng-click="ActiveTabName='imagetab'" data-toggle="tab" role="tab" aria-controls="imagetab" aria-expanded="false">รูปภาพประกอบ</a>
                                                 </li>
+                                                <li class="nav-item" ng-show="repairh.repair_code!=undefined">
+                                                    <a class="nav-link btn fuse-ripple-ready" id="rawtab" ng-click="ActiveTabName='rawtab'" data-toggle="tab" role="tab" aria-controls="rawtab" aria-expanded="false">รายการอะไหล่</a>
+                                                </li>
                                             </ul>
                                             <div class="tab-content">
                                                 <div role="tabpanel" class="tab-pane" id="itemtab"
                                                      ng-class="{'active':ActiveTabName=='itemtab'}">
-                                                    <div class="form-group col-sm-12" style="font-size:11px;">
-                                                        <div class="table table-responsive">
-                                                            <table class="table table-bordered">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th style="width:50px;" ng-show="repairh.repair_code==undefined">
-                                                                            <div class="form-check">
-                                                                                <label class="form-check-label">
-                                                                                    <input class="form-check-input" type="checkbox" ng-model="selectall" ng-click="fn_select_all(selectall)">
-                                                                                    <span class="checkbox-icon"></span>
-                                                                                </label>
-                                                                            </div>
-                                                                        </th>
-                                                                        <th>Article</th>
-                                                                        <th>ประเภทสินค้า</th>
-                                                                        <th style="width:80px;">จำนวน</th>
-                                                                        <th>รายละเอียด</th>
-                                                                        <th>ตำแหน่งชำรุด</th>
-                                                                        <th style="width:100px;">การดำเนินการ</th>
-                                                                        <th>ประกัน</th>
-                                                                        <th>รูป</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    <tr ng-if="repairi.length==0">
-                                                                        <td colspan="10"><div class="text-center">ไม่พบข้อมูล</div></td>
-                                                                    </tr>
-                                                                    <tr ng-repeat="row in repairi">
-                                                                        <td ng-show="repairh.repair_code==undefined">
-                                                                            <div class="form-check">
-                                                                                <label class="form-check-label">
-                                                                                    <input class="form-check-input" type="checkbox" ng-model="row.select"
-                                                                                           ng-click="fn_item_select(row)">
-                                                                                    <span class="checkbox-icon"></span>
-                                                                                </label>
-                                                                            </div>
-                                                                        </td>
-                                                                        <td>
-                                                                            <strong>{{row.article_number | removeleadingzero}}</strong><br />
-                                                                            {{row.article_name}}<br />
-                                                                            {{row.so_number}}/{{row.so_item}}
-                                                                        </td>
-                                                                        <td>
-                                                                            <select class="form-control" style="padding-right:0px;width:100px;"
-                                                                                    ng-model="row.repair_item_type">
-                                                                                <option ng-repeat="item in repair_item_types" ng-value="item.ITEM_TYPE">{{item.ITEM_TYPE}}</option>
-                                                                            </select>
-                                                                        </td>
-                                                                        <td><input tye="text" class="form-control text-right" ng-model="row.qty" numeric-only /></td>
-                                                                        <td><input tye="text" class="form-control" ng-model="row.repair_remark" /></td>
-                                                                        <td><input tye="text" class="form-control" ng-model="row.repair_desc" /></td>
-                                                                        <td>
-                                                                            <select class="form-control" style="padding-right:0px;width:100px;"
-                                                                                    ng-model="row.repair_type" required>
-                                                                                <option>แจ้งซ่อม</option>
-                                                                                <option>เปลี่ยนใหม่</option>
-                                                                            </select>
-                                                                        </td>
-                                                                        <td>
-                                                                            <div class="form-check">
-                                                                                <label class="form-check-label">
-                                                                                    <input class="form-check-input" type="checkbox" ng-true-value="'Y'" ng-false-value="'N'" 
-                                                                                           ng-model="row.waranty">
-                                                                                    <span class="checkbox-icon"></span>
-                                                                                </label>
-                                                                            </div>
-                                                                        </td>
-                                                                        <td>
-                                                                            <i class="icon-checkbox-marked-circle text-success"
-                                                                               ng-show="row.images.length>0"></i>
-                                                                        </td>
-                                                                    </tr>
-                                                                </tbody>
-                                                            </table>
+                                                    <fieldset ng-disabled="authority_group!='SALE'">
+                                                        <div class="form-group col-sm-12" style="font-size:11px;">
+                                                            <div class="table table-responsive">
+                                                                <table class="table table-bordered">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th style="width:50px;" ng-show="repairh.repair_code==undefined">
+                                                                                <div class="form-check">
+                                                                                    <label class="form-check-label">
+                                                                                        <input class="form-check-input" type="checkbox" ng-model="selectall" ng-click="fn_select_all(selectall)">
+                                                                                        <span class="checkbox-icon"></span>
+                                                                                    </label>
+                                                                                </div>
+                                                                            </th>
+                                                                            <th>Article</th>
+                                                                            <th>ประเภทสินค้า</th>
+                                                                            <th style="width:80px;">จำนวน</th>
+                                                                            <th>รายละเอียด</th>
+                                                                            <th>ตำแหน่งชำรุด</th>
+                                                                            <th style="width:100px;">การดำเนินการ</th>
+                                                                            <th>ประกัน</th>
+                                                                            <th>รูป</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr ng-if="repairi.length==0">
+                                                                            <td colspan="10"><div class="text-center">ไม่พบข้อมูล</div></td>
+                                                                        </tr>
+                                                                        <tr ng-repeat="row in repairi">
+                                                                            <td ng-show="repairh.repair_code==undefined">
+                                                                                <div class="form-check">
+                                                                                    <label class="form-check-label">
+                                                                                        <input class="form-check-input" type="checkbox" ng-model="row.select"
+                                                                                               ng-click="fn_item_select(row)">
+                                                                                        <span class="checkbox-icon"></span>
+                                                                                    </label>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <strong>{{row.article_number | removeleadingzero}}</strong><br />
+                                                                                {{row.article_name}}<br />
+                                                                                {{row.so_number}}/{{row.so_item}}
+                                                                            </td>
+                                                                            <td>
+                                                                                <select class="form-control" style="padding-right:0px;width:100px;"
+                                                                                        ng-model="row.repair_item_type">
+                                                                                    <option ng-repeat="item in repair_item_types" ng-value="item.ITEM_TYPE">{{item.ITEM_TYPE}}</option>
+                                                                                </select>
+                                                                            </td>
+                                                                            <td><input tye="text" class="form-control text-right" ng-model="row.qty" numeric-only /></td>
+                                                                            <td><input tye="text" class="form-control" ng-model="row.repair_remark" /></td>
+                                                                            <td><input tye="text" class="form-control" ng-model="row.repair_desc" /></td>
+                                                                            <td>
+                                                                                <select class="form-control" style="padding-right:0px;width:100px;"
+                                                                                        ng-model="row.repair_type" required>
+                                                                                    <option>แจ้งซ่อม</option>
+                                                                                    <option>เปลี่ยนใหม่</option>
+                                                                                </select>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div class="form-check">
+                                                                                    <label class="form-check-label">
+                                                                                        <input class="form-check-input" type="checkbox" ng-true-value="'Y'" ng-false-value="'N'"
+                                                                                               ng-model="row.waranty">
+                                                                                        <span class="checkbox-icon"></span>
+                                                                                    </label>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <i class="icon-checkbox-marked-circle text-success"
+                                                                                   ng-show="row.images.length>0"></i>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
                                                         </div>
-                                                    </div>
+                                                    </fieldset>
                                                 </div>
                                                 <div role="tabpanel" class="tab-pane" id="imagetab"
                                                      ng-class="{'active':ActiveTabName=='imagetab'}">
@@ -263,12 +342,15 @@
                                                                             <div class="row" style="overflow-y:auto">
                                                                                 <div class="product-image m-2 align-items-center d-flex"
                                                                                      ng-repeat="img in row.images">
-                                                                                    <img ng-src="{{img.base64}}" style="width:100px;">
+                                                                                    <a href="" ng-click="popImage(img.base64)">
+                                                                                        <img ng-src="{{img.base64}}" style="width:100px;">
+                                                                                    </a>
                                                                                 </div>
                                                                             </div>
                                                                         </td>
                                                                         <td>
                                                                             <button type="button" class="btn btn-secondary btn-fab btn-sm fuse-ripple-ready"
+                                                                                    ng-show="authority_group==='SALE'"
                                                                                     ng-click="browseImg(row)">
                                                                                 <i class="icon-plus"></i>
                                                                             </button>
@@ -283,6 +365,57 @@
                                                            base-sixty-four-input multiple
                                                            accept="image/*" minsize="500" required minnum="2"
                                                            onloadend="onLoadend" onerror="errorHandler">
+                                                </div>
+                                                <div role="tabpanel" class="tab-pane" id="rawtab" ng-show="repairh.repair_code!=undefined"
+                                                     ng-class="{'active':ActiveTabName=='rawtab'}">
+                                                    <div class="form-row">
+                                                        <div class="col-auto">
+                                                            <div class="form-group">
+                                                                <button class="btn btn-primary fuse-ripple-ready" 
+                                                                        ng-show="authority_group==='AFTERSALE'"
+                                                                        ng-click="AddRawItem()">เพิ่มรายการ</button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-8">
+                                                            <div class="table-responsive">
+                                                                <table class="table table-bordered">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>ลำดับ</th>
+                                                                            <th>รายการอะไหล่</th>
+                                                                            <th style="width:60px;">จำนวน</th>
+                                                                            <th style="width:80px;">สถานะ</th>
+                                                                            <th style="width:30px;"></th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr ng-repeat="item in repairraw">
+                                                                            <td class="text-right">{{$index + 1 | number:0}}</td>
+                                                                            <td>
+                                                                                <input class="form-control" type="text" ng-model="item.raw_name">
+                                                                            </td>
+                                                                            <td>
+                                                                                <input class="form-control text-right" type="number" style="width:100px;"
+                                                                                       ng-model="item.raw_qty">
+                                                                            </td>
+                                                                            <td>
+                                                                                <select class="form-control" ng-model="item.status" style="width:100px;">
+                                                                                    <option value="มีอะไหล่">มีอะไหล่</option>
+                                                                                    <option value="รอสั่งซื้อ">รอสั่งซื้อ</option>
+                                                                                </select>
+                                                                            </td>
+                                                                            <td>
+                                                                                <button class="btn btn-danger" ng-click="RemoveRawItem($index)">
+                                                                                    <i class="icon icon-trash"></i>
+                                                                                </button>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    
                                                 </div>
                                             </div>
                                         </div>
@@ -336,3 +469,15 @@
         </div>
     </div>
 </div>
+<br />
+<br />
+<style>
+    .white-popup {
+        position: relative;
+        background: #FFF;
+        padding: 20px;
+        width: auto;
+        max-width: 50%;
+        margin: 20px auto;
+    }
+</style>

@@ -18,7 +18,8 @@ namespace boonservice
                       "~/content/vendor/angular/loading-bar.css",
                       "~/content/vendor/fuse-html/fuse-html.min.css",
                       "~/content/css/main.css",
-                      "~/content/site.css"));
+                      "~/content/site.css",
+                      "~/content/vendor/magnific-popup/magnific-popup.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/js").Include(
                         "~/content/vendor/jquery/dist/jquery.min.js",
@@ -31,7 +32,8 @@ namespace boonservice
                         "~/content/vendor/datatables.net/js/jquery.dataTables.min.js",
                         "~/content/vendor/datatables-responsive/js/dataTables.responsive.js",
                         "~/content/vendor/pnotify/pnotify.custom.min.js",
-                        "~/content/vendor/lodash/lodash.js"));
+                        "~/content/vendor/lodash/lodash.js",
+                        "~/content/vendor/magnific-popup/jquery.magnific-popup.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/angular").Include(
                         "~/content/vendor/angular/angular.min.js",
@@ -43,7 +45,7 @@ namespace boonservice
                         "~/content/vendor/angular/angular-idle.min.js",
                         "~/content/vendor/angular/angular-ui-router.min.js",
                         "~/content/vendor/angular/loading-bar.js",
-                        "~/content/vendor/ngMask/ngMask.js",
+                        "~/content/vendor/ngMask/ngMask.min.js",
                         "~/content/vendor/ocLazyLoad/ocLazyLoad.min.js",
                         "~/content/vendor/angular-base64-upload/angular-base64-upload.min.js"));
         }

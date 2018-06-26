@@ -504,9 +504,117 @@ namespace boonservice.api.Controllers
                                 img.repair_item_id = im.REPAIR_ITEM_ID;
                             }
                         }
-                    }
+                    };
+
                 }
                 
+                return Request.CreateResponse(HttpStatusCode.OK, postdata);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex);
+            }
+        }
+
+        /// <summary>
+        /// บันทึก นัดหมายลูกค้า
+        /// </summary>
+        /// <remarks>
+        /// บันทึก เพิ่มงานซ่อม SO
+        /// </remarks>
+        /// <param name="postdata">Repair Form data</param>
+        /// <returns name="RepairHeader">Repair data</returns>
+        /// <response code="200"></response>
+        [ResponseType(typeof(RepairForm))]
+        [Authorize]
+        [Route("save_appointment")]
+        public HttpResponseMessage SaveAppointment(RepairForm postdata)
+        {
+            try
+            {
+                var b3gRepair = new b3gRepair();
+
+                using (var context = new SAPContext())
+                {
+                    afs_repair_header h = new afs_repair_header();
+                    h = context.afs_repair_header.Where(t => t.REPAIR_CODE == postdata.header.repair_code).FirstOrDefault();
+                    if (h != null)
+                    {
+                        context.Entry(h).State = EntityState.Modified;
+                    }
+                    else return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Repair data not found");
+                    
+                    h.STATUS = postdata.header.status;
+                    h.UPDATE_BY = postdata.header.update_by;
+                    h.UPDATE_DATE = DateTime.Now;
+                    context.SaveChanges();
+
+                    //Set return value
+                    postdata.header.update_by = h.UPDATE_BY;
+                    postdata.header.update_date = h.UPDATE_DATE;
+                    
+                    //นัดหมายลูกค้า
+                    if (postdata.appoint != null)
+                    {
+                        afs_repair_appointment p = new afs_repair_appointment();
+                        p = context.afs_repair_appointment.Where(t => t.REPAIR_APPOINTMENT_ID == postdata.appoint.repair_appoint_id).FirstOrDefault();
+                        if (p != null)
+                        {
+                            context.Entry(p).State = EntityState.Modified;
+                        }
+                        else p = new afs_repair_appointment();
+                        p.APPOINTMENT_DATE = postdata.appoint.appointment_date;
+                        p.APPOINTMENT_TIME = postdata.appoint.appointment_time;
+                        p.TARGET_DATE = postdata.appoint.target_date;
+                        p.TECHNICIAN_TEAM = postdata.appoint.technician_team;
+                        p.PRICE_AMOUNT = postdata.appoint.price_amount;
+                        p.PRICE_EXTRA = postdata.appoint.price_extra;
+                        p.REMARK_CUSTOMER = postdata.appoint.remark_customer;
+                        p.UPDATE_BY = postdata.header.update_by;
+                        p.UPDATE_DATE = DateTime.Now;
+                        if (p.REPAIR_APPOINTMENT_ID == 0)
+                        {
+                            p.REPAIR_CODE = postdata.appoint.repair_code;
+                            p.CREATED_BY = postdata.header.created_by;
+                            p.CREATED_DATE = DateTime.Now;
+                            context.afs_repair_appointment.Add(p);
+                        }
+                        context.SaveChanges();
+
+                        //Set return value
+                        postdata.appoint.repair_appoint_id = p.REPAIR_APPOINTMENT_ID;
+                    }
+
+                    List<afs_repair_raw> i = new List<afs_repair_raw>();
+                    foreach (var item in postdata.raws)
+                    {
+                        afs_repair_raw v = new afs_repair_raw();
+                        v = context.afs_repair_raw.Where(t => t.REPAIR_RAW_ID == item.repair_raw_id).FirstOrDefault();
+                        if (v != null)
+                        {
+                            context.Entry(v).State = EntityState.Modified;
+                        }
+                        else v = new afs_repair_raw();
+                        v.RAW_NAME = item.raw_name;
+                        v.RAW_QTY = item.raw_qty;
+                        v.STATUS = item.status;
+                        v.UPDATE_BY = postdata.header.update_by;
+                        v.UPDATE_DATE = DateTime.Now;
+
+                        if (item.repair_raw_id == 0)
+                        {
+                            v.REPAIR_CODE = item.repair_code;
+                            v.CREATED_BY = postdata.header.created_by;
+                            v.CREATED_DATE = DateTime.Now;
+                            context.afs_repair_raw.Add(v);
+                        }
+                        context.SaveChanges();
+
+                        //Set return value
+                        item.repair_raw_id = v.REPAIR_RAW_ID;
+                    };
+                }
+
                 return Request.CreateResponse(HttpStatusCode.OK, postdata);
             }
             catch (Exception ex)

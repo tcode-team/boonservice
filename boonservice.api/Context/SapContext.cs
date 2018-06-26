@@ -29,8 +29,11 @@ namespace boonservice.api.Context
         public DbSet<afs_repair_header> afs_repair_header { get; set; }
         public DbSet<afs_repair_items> afs_repair_items { get; set; }
         public DbSet<afs_repair_images> afs_repair_images { get; set; }
+        public DbSet<afs_repair_appointment> afs_repair_appointment { get; set; }
+        public DbSet<afs_repair_raw> afs_repair_raw { get; set; }
         public DbSet<afs_car_license> afs_car_license { get; set; }
         public DbSet<afs_repair_item_type> afs_repair_item_type { get; set; }
+        public DbSet<afs_authority> afs_authority { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -66,11 +69,22 @@ namespace boonservice.api.Context
                 .HasKey(k => k.REPAIR_IMAGE_ID)
                 .HasIndex(i => i.REPAIR_ITEM_ID);
 
+            modelBuilder.Entity<afs_repair_appointment>()
+                .HasKey(k => k.REPAIR_APPOINTMENT_ID)
+                .HasIndex(i => i.REPAIR_CODE);
+
+            modelBuilder.Entity<afs_repair_raw>()
+                .HasKey(k => k.REPAIR_RAW_ID)
+                .HasIndex(i => i.REPAIR_CODE);
+
             modelBuilder.Entity<afs_car_license>()
                 .HasKey(k => k.CAR_ID);
 
             modelBuilder.Entity<afs_repair_item_type>()
                 .HasKey(k => k.ITEM_TYPE);
+
+            modelBuilder.Entity<afs_authority>()
+                .HasKey(k => k.USER_ID);
         }
 
     }
