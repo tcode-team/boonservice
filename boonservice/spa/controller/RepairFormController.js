@@ -14,15 +14,51 @@
         $scope.ActiveTabName = 'itemtab'
         $scope.repairh = {};
         $scope.repairi = [];
-        $scope.repairp = [];
+        $scope.repairapp = {};
+        $scope.repairraw = [];
 
+        //Get Authority group
+        RepairService.authority($scope.user.userid).then(function (response) {
+            if (response.status == "200") {
+                if (response.data !== undefined) {
+                    switch ('Y') {
+                        case response.data.SALE_FLAG:
+                            $scope.authority_group = "SALE";
+                            break;
+                        case response.data.AFTERSALE_FLAG:
+                            $scope.authority_group = "AFTERSALE";
+                            break;
+                        case response.data.PURCHASE_FLAG:
+                            $scope.authority_group = "PURCHASE";
+                            break;
+                        default:
+                            $scope.authority_group = undefined;
+                    };
+                }
+            } else {
+                $scope.alert("เกิดข้อผิดพลาด โปรดลองใหม่อีกครั้ง");
+            }; 
+        });
+        
         // checkk route parameter 
         if ($routeParams.param1 === undefined || $routeParams.param1 === null) {
             //new แจ้งซ่อม
             $('#iSoNumber').focus();
         } else {
             //edit แจ้งซ่อม
-
+            $scope.loading = true;
+            RepairService.repair_detail($routeParams.param1).then(function (response) {
+                $scope.loading = false;
+                if (response.status == "200") {
+                    $scope.repairh = response.data.header;
+                    $scope.repairi = response.data.items;
+                } else {
+                    $scope.alert($scope.repairh.so_number + ': ' + response.data.Message);
+                }
+            }, function () {
+                $scope.loading = false;
+                $scope.alert("เกิดข้อผิดพลาด โปรดลองใหม่อีกครั้ง");
+            });
         }
 
         //Get master
@@ -73,7 +109,7 @@
         $scope.browseImg = function (item) {
             $scope.currentSo = item;
             $('#files').click();
-        }
+        };
 
         //Upload images
         $scope.files = [];
@@ -92,14 +128,71 @@
             reader.abort();
         };
 
+        //Popup Image
+        $scope.popImage = function (base) {
+            $.magnificPopup.open({
+                items: {
+                    src: $('<div class="white-popup"><img src="' + base + '" style="width:100%" ></div>'), // Dynamically created element
+                    type: 'inline'
+                },
+                type: 'image'
+            });
+        }
+
+        //เพิ่มรายการ อะไหล่
+        $scope.AddRawItem = function () {
+            $scope.repairraw.push({
+                raw_name: ''
+            })
+        };
+
+        //ลบรายการ อะไหล่
+        $scope.RemoveRawItem = function (index) {
+            $scope.repairraw.splice(index, 1);
+        }
+
         //Before save data
         $scope.fn_before_save = function () {
-            var rows = _.filter($scope.repairi, function (v) { return v.select });
-            if (rows.length === 0) {
-                $scope.alert('โปรดเลือกรายการที่ต้องการบันทึก');
-                return;
-            }
-            $('#confirmSave').modal('show');
+            switch ($scope.authority_group) {
+                case "SALE":
+                    // valid data
+                    var rows = _.filter($scope.repairi, function (v) { return v.select });
+                    if (rows.length === 0) {
+                        $scope.alert('โปรดเลือกรายการที่ต้องการบันทึก');
+                        return;
+                    }
+                    $('#confirmSave').modal('show');
+                    break;
+                case "AFTERSALE":
+                    // valid data
+                    if ($scope.repairapp.appointment_date == undefined || $scope.repairapp.appointment_date == '') {
+                        $scope.alert('โปรดระบุ วันที่นัดหมายลูกค้า');
+                        return;
+                    };
+                    if ($scope.repairapp.appointment_time == undefined || $scope.repairapp.appointment_time == '') {
+                        $scope.alert('โปรดระบุ เวลานัดหมายลูกค้า');
+                        return;
+                    };
+                    if ($scope.repairapp.target_date == undefined || $scope.repairapp.target_date == '') {
+                        $scope.alert('โปรดระบุ วันที่นัดซ่อมเสร็จ');
+                        return;
+                    }
+                    var now = new Date();
+                    if ($scope.repairapp.appointment_date <= now) {
+                        $scope.alert('โปรดระบุ วันที่นัดหมายลูกค้า ต้องมากกว่าวันที่ปัจจุบัน');
+                        return;
+                    }
+                    if ($scope.repairapp.target_date < $scope.repairapp.appointment_date) {
+                        $scope.alert('โปรดระบุ วันที่นัดซ่อมเสร็จ ต้องมากกว่าหรือเท่ากับวันที่นัดหมายลูกค้า');
+                        return;
+                    }
+                    $('#confirmSave').modal('show');
+                    break;
+                case "PURCHASE":
+
+                    $('#confirmSave').modal('show');
+                    break;
+            };
         };
 
         //Save data
@@ -110,23 +203,44 @@
             $scope.repairh.created_by = $scope.user.userid;
             $scope.repairh.update_by = $scope.user.userid;
 
-            RepairService.save($scope.repairh, _.filter($scope.repairi, function (i) { return i.select })).then(function (response) {
-                if (response.status == "200") {
-                    $scope.repairh = response.data.header;
-                    $scope.repairi = response.data.items;
-                } else {
-                    $scope.alert(response.data.Message);
-                }
-                $scope.loading = false;
-            });
+            switch ($scope.authority_group) {
+                case "SALE":
+                    //บันทึกแจ้งซ่อม ข้อมูลลูกค้าและรายการ
+                    RepairService.save($scope.repairh, _.filter($scope.repairi, function (i) { return i.select })).then(function (response) {
+                        if (response.status == "200") {
+                            $scope.repairh = response.data.header;
+                            $scope.repairi = response.data.items;
+                        } else {
+                            $scope.alert(response.data.Message);
+                        }
+                        $scope.loading = false;
+                    });
+                    break;
+                case "AFTERSALE":
+                    //บันทึกแจ้งซ่อม นัดหมายและรายการอะไหล่
+                    RepairService.saveaftersale($scope.repairh, $scope.repairapp, $scope.repairraw).then(function (response) {
+                        if (response.status == "200") {
+                            $scope.repairh = response.data.header;
+                            $scope.repairapp = response.data.repairapp;
+                            $scope.repairraw = response.data.repairraw;
+                        } else {
+                            $scope.alert(response.data.Message);
+                        }
+                        $scope.loading = false;
+                    });
+                    break;
+                case "PURCHASE":
+
+                    break;
+            };
         }
 
         //Convert Status
         $scope.fn_status_desc = function (status) {
-            if (status == "NEW") return "สร้างใหม่"
+            if (status == "NEW") return "New"
             else if (status == "PREPARE") return "จัดเตรียมคิวงานและอะไหล่"
             else if (status == "PROCCESS") return "ทีมช่างดำเนินการ"
-            else if (status == "COMPLETE") return "สำเร็จ"
+            else if (status == "COMPLETE") return "Complete"
             else return "สร้างใหม่";
         }
 

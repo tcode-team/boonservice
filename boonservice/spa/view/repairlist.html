@@ -103,16 +103,16 @@
                                         <table class="table table-bordered">
                                             <thead>
                                                 <tr>
-                                                    <th>วันที่แจ้งซ่อม</th>
-                                                    <th>เลขที่แจ้งซ่อม</th>
-                                                    <th>SO</th>
+                                                    <th width="100px;">วันที่แจ้งซ่อม</th>
+                                                    <th width="110px;">เลขที่แจ้งซ่อม</th>
+                                                    <th width="100px;">SO</th>
                                                     <th>ชื่อลูกค้า</th>
                                                     <th>เบอร์ติดต่อ</th>
                                                     <th>พนักงานขาย</th>
                                                     <th>ผู้บันทึก</th>
                                                     <th>หมายเหตุ หน้าร้าน</th>
                                                     <th>สถานะ</th>
-                                                    <th></th>
+                                                    <th width="77px;"></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -128,10 +128,12 @@
                                                     <td></td>
                                                     <td>{{row.created_by}}</td>
                                                     <td>
-                                                        <textarea class="form-control" type="text" rows="3" readonly>{{row.remark}}</textarea>
+                                                        <textarea class="form-control" type="text" rows="2" readonly>{{row.remark}}</textarea>
                                                     </td>
                                                     <td>{{row.status}}</td>
-                                                    <td></td>
+                                                    <td>
+                                                        <a class="btn btn-primary fuse-ripple-ready" ng-click="LinkRepairForm(row.repair_code)" href="" role="button">Edit</a>
+                                                    </td>
                                                 </tr>
                                             </tbody>
                                         </table>

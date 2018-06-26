@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('app', ['ngRoute', 'ngCookies', 'ngSanitize', 'ngTouch',
+        .module('app', ['ngRoute', 'ngCookies', 'ngSanitize', 'ngTouch', 'ngMask',
             'ngAnimate', 'ngIdle', 'ui.router', 'angular-loading-bar', 'oc.lazyLoad',
             'naif.base64'])
         .config(config);

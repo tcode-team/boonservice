@@ -9,12 +9,23 @@
     function RepairService($http, $q, config) {
         var service = {};
 
+        service.authority = authority;
         service.get_repair_item_type = get_repair_item_type;
         service.search_list = search_list;
         service.searchso = searchso;
+        service.repair_detail = repair_detail;
         service.save = save; 
+        service.saveaftersale = saveaftersale;
 
         return service;
+
+        function authority(userid) {
+            var response = $http({
+                url: config.api.url + 'afs_authority/getid?id=' + userid,
+                method: 'GET'
+            });
+            return response;  
+        }
 
         function search_list(selection) {
             var response = $http({
@@ -45,6 +56,14 @@
             return response;  
         }
 
+        function repair_detail(repair_code) {
+            var response = $http({
+                url: config.api.url + 'repair/detail?repair_code=' + repair_code,
+                method: 'POST'
+            });
+            return response;  
+        }
+
         function save(header, items) {
             var response = $http({
                 url: config.api.url + 'repair/save',
@@ -55,6 +74,19 @@
                 }
             });
             return response;  
+        }
+
+        function saveaftersale(header, appoint, raws) {
+            var response = $http({
+                url: config.api.url + 'repair/save_appointment',
+                method: 'POST',
+                data: {
+                    header: header,
+                    appoint: appoint,
+                    raws: raws
+                }
+            });
+            return response;
         }
        
     }

@@ -11,6 +11,12 @@
             </button>
         </div>
         <ul class="nav flex-column custom-scrollbar" id="sidenav" data-children=".nav-item">
+            <li class="nav-item">
+                <a class="nav-link ripple" ng-class="{'active': navactive=='home'}" ng-click="MenuClick('home')" href="">
+                    <i class="icon s-4 icon-apps"></i>
+                    <span>Home</span>
+                </a>
+            </li>
             <li class="nav-item" role="tab" id="heading-dashboards">
                 <a class="nav-link ripple with-arrow" data-toggle="collapse" data-target="#collapse-shipment" aria-controls="collapse-shipment" href=""
                    aria-expanded="false">

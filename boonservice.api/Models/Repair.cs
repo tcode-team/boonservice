@@ -56,9 +56,19 @@ namespace boonservice.api.Models
         public RepairHeader header;
 
         /// <summary>
+        /// Appointment
+        /// </summary>
+        public RepairAppointment appoint;
+
+        /// <summary>
         /// Repair Items
         /// </summary>
         public ICollection<RepairItems> items;
+
+        /// <summary>
+        /// Repair raw items
+        /// </summary>
+        public ICollection<RepairRaw> raws;
     }
 
     /// <summary>
@@ -170,6 +180,77 @@ namespace boonservice.api.Models
         /// สถานะ
         /// </summary>
         public string status { get; set; }
+
+        /// <summary>
+        /// รหัสผู้สร้าง
+        /// </summary>
+        public int created_by { get; set; }
+
+        /// <summary>
+        /// วันที่สร้าง
+        /// </summary>
+        public DateTime? created_date { get; set; }
+
+        /// <summary>
+        /// รหัสผู้อัพเดท
+        /// </summary>
+        public int update_by { get; set; }
+
+        /// <summary>
+        /// วันที่อัพเดท
+        /// </summary>
+        public DateTime? update_date { get; set; }
+    }
+
+    /// <summary>
+    /// Repair Appointment
+    /// </summary>
+    public class RepairAppointment
+    {
+        /// <summary>
+        /// เลขที่แจ้งซ่อม
+        /// </summary>
+        public string repair_code { get; set; }
+
+        /// <summary>
+        /// รหัสนัดหมาย
+        /// </summary>
+        public double repair_appoint_id { get; set; }
+
+        /// <summary>
+        /// วันที่นัดหมาย
+        /// </summary>
+        public DateTime? appointment_date { get; set; }
+
+        /// <summary>
+        /// เวลานัดหมาย
+        /// </summary>
+        public string appointment_time { get; set; }
+
+        /// <summary>
+        /// วันที่นัดซ่อมเสร็จ
+        /// </summary>
+        public DateTime? target_date { get; set; }
+
+        /// <summary>
+        /// ทีมช่าง
+        /// </summary>
+        public string technician_team { get; set; }
+
+        /// <summary>
+        /// ราคาประเมิน
+        /// </summary>
+        public decimal price_amount { get; set; }
+
+        /// <summary>
+        /// ราคา Extra
+        /// </summary>
+        public decimal price_extra { get; set; }
+
+        /// <summary>
+        /// หมายเหตุ ลูกค้า
+        /// </summary>
+        public string remark_customer { get; set; }
 
         /// <summary>
         /// รหัสผู้สร้าง
@@ -308,5 +389,56 @@ namespace boonservice.api.Models
         /// </summary>
         public String base64 { get; set; }
         
+    }
+
+    /// <summary>
+    /// Repair Raw items
+    /// </summary>
+    public class RepairRaw
+    {
+        /// <summary>
+        /// รหัสรายการอะไหล่
+        /// </summary>
+        public double repair_raw_id { get; set; }
+
+        /// <summary>
+        /// เลขที่แจ้งซ่อม
+        /// </summary>
+        public string repair_code { get; set; }
+
+        /// <summary>
+        /// รายการอะไหล่
+        /// </summary>
+        public string raw_name { get; set; }
+
+        /// <summary>
+        /// จำนวน
+        /// </summary>
+        public int raw_qty { get; set; }
+
+        /// <summary>
+        /// สถานะ
+        /// </summary>
+        public string status { get; set; }
+
+        /// <summary>
+        /// รหัสผู้สร้าง
+        /// </summary>
+        public int created_by { get; set; }
+
+        /// <summary>
+        /// วันที่สร้าง
+        /// </summary>
+        public DateTime? created_date { get; set; }
+
+        /// <summary>
+        /// รหัสผู้อัพเดท
+        /// </summary>
+        public int update_by { get; set; }
+
+        /// <summary>
+        /// วันที่อัพเดท
+        /// </summary>
+        public DateTime? update_date { get; set; }
     }
 }
