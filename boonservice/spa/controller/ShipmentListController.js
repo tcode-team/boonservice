@@ -58,23 +58,25 @@
             $scope.loading = true;
             $scope.ShipSearchErr = "";
             //console.log(typeof SearchData);
-            //console.log(typeof DateFrom + " Fromtext " +  DateFrom);
-            //console.log(typeof DateTo + " Totext " + DateTo);
+            console.log(typeof DateFrom + " Fromtext " +  DateFrom);
+            console.log(typeof DateTo + " Totext " + DateTo);
 
               
             var textObject = JSON.stringify(SearchData);
-            if (SearchData == undefined) {
+            if (SearchData === undefined) {
                 textObject = "{}";
             } 
 
 
-            if (DateFrom == undefined || DateTo == undefined) {
+            if (DateFrom === undefined || DateTo === undefined) {
                 
-                if (textObject.indexOf("ShipmentNo") == - 1) {
+                if (textObject.indexOf("ShipmentNo") === - 1) {
                     $scope.ShipSearchErr = "กรุณาระบุเงื่อนไขในการค้นหา (วันที่ Shipment/ Shipment No)";
 
                     console.log($scope.ShipSearchErr);
                     $scope.loading = false;
+
+                    $scope.alert($scope.ShipSearchErr);
                     return;
                 }
             }
@@ -84,23 +86,23 @@
             //console.log(typeof Df + " DF " + Df);
             //console.log(typeof Dt + " DT " + Dt); 
 
-            while (textObject.indexOf(':""') != - 1) { textObject = textObject.replace(':""', ':'); }
+            while (textObject.indexOf(':""') !== - 1) { textObject = textObject.replace(':""', ':'); }
             
             console.log("text in " + textObject);
                    // console.log("text in " + textObject.indexOf("ShipmentNo")); 
             if (textObject === '{}') {  
-                textObject =  '{"forwarding":"1910"}' ;
+                textObject =  '{"forwarding":"5910"}' ;
             }
             else {
                 //console.log("text " + textObject.substring(1, textObject.length - 1));
-                textObject = '{' + textObject.substring(1, textObject.length - 1) + ',"forwarding":"1910"}'; 
+                textObject = '{' + textObject.substring(1, textObject.length - 1) + ',"forwarding":"5910"}'; 
             }
             console.log("textObjectX " + textObject);
              
-                if (Df != undefined && Df.length > 0) {
+                if (Df !== undefined && Df.length > 0) {
                     textObject = '{' + textObject.substring(1, textObject.length - 1) + ',"ShipmentDateFrom":"' + Df + '"}'; 
                 }
-                if (Dt != undefined && Dt.length > 0) {
+                if (Dt !== undefined && Dt.length > 0) {
                     textObject = '{' + textObject.substring(1, textObject.length - 1) + ',"ShipmentDateTo":"' + Dt + '"}'; 
                 } 
 
@@ -110,7 +112,7 @@
                         method: 'POST',
                         data: textObject
                         //  grant_type: SearchData.grant_type,
-                        //   forwarding: "1910",
+                        //   forwarding: "5910",
                         // ShipmentDateFrom: "01/01/2018",
                         //ShipmentDateTo: "17/01/2018"//,
                         // ShipmentNo: SearchData.ShipmentNo,
@@ -122,7 +124,7 @@
                         console.log(response);
                         $scope.loading = false;
                         $scope.DocList = response.data; 
-                        if (response.status != '200') {
+                        if (response.status !== '200') {
                             $scope.loading = false;
                             $scope.ShipSearchErr = response.statusText;
                         }
@@ -142,17 +144,19 @@
 
                 return day + '/' + month + '/' + year;
             }
-            catch  {
+            catch (err) {
                 return undefined;
             }
+
+            //return undefined;
         };
 
 
         $scope.disabledChkBox = function (itemStatus) { 
-            if (itemStatus == undefined) // if your going to return true
+            if (itemStatus === undefined) // if your going to return true
                 return true;
 
-            if (itemStatus =='02' || itemStatus == 2)
+            if (itemStatus ==='02' || itemStatus === 2)
             return false;
 
             //console.log('itemStatus chkBox ' + itemStatus);
@@ -160,10 +164,10 @@
         }
 
         $scope.disabledEditBT = function (itemStatus) { 
-            if (itemStatus == undefined) // if your going to return true
+            if (itemStatus === undefined) // if your going to return true
                 return true;
 
-            if (itemStatus != '03' || itemStatus != 3)
+            if (itemStatus !== '03' && itemStatus !== 3)
                 return false;
 
             return true;
@@ -239,7 +243,7 @@
                 } else {
                     // $scope.ConfirmList.push(item)
                       $scope.ConfirmRow++
-                    if ($scope.ConfirmList.length == 0) {
+                    if ($scope.ConfirmList.length === 0) {
                         $scope.ConfirmList = itemData;
                     }
                     else {
@@ -290,6 +294,36 @@
             $location.path('/shipmentedit/' + shipment_number );
         };
          
+
+        // alert function 
+        $scope.alert = function (message) {
+            new PNotify({
+                text: message,
+                confirm: {
+                    confirm: true,
+                    buttons: [
+                        {
+                            text: 'DISMISS',
+                            addClass: 'btn btn-link',
+                            click: function (notice) {
+                                notice.remove();
+                            }
+                        },
+                        null
+                    ]
+                },
+                buttons: {
+                    closer: false,
+                    sticker: false
+                },
+                animate: {
+                    animate: true,
+                    in_class: 'slideInDown',
+                    out_class: 'slideOutUp'
+                },
+                addclass: 'md multiline'
+            });
+        }
 
         
     };

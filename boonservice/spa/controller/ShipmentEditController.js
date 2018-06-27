@@ -22,7 +22,7 @@
             $scope.Staff_Amt1 = 0;
             $scope.Driver_Amt2 = 0;
             $scope.Staff_Amt2 = 0;
-            $scope.Staff_Count = 0;
+            $scope.Staff_Count = 1;
 
 
            // $scope.PointList = [];
@@ -49,7 +49,7 @@
             var textObject = JSON.stringify(""); 
 
             // console.log("text in " + textObject.indexOf("ShipmentNo")); 
-            textObject = '{"forwarding":"1910"}';  
+            textObject = '{"forwarding":"5910"}';  
                          
             textObject = '{' + textObject.substring(1, textObject.length - 1) + ',"ShipmentNo":"' + $scope.ShipmentNo + '"}';
             //textObject = '{"ShipmentNo":"' + $scope.ShipmentNo + '"}';            
@@ -76,6 +76,14 @@
                          
                 } 
                 console.log('driver_id ' + $scope.DocList[0].driver_id);
+                if ($scope.DocList[0].shipment_carries.length > 0) {
+                  $scope.RowPoint = $scope.DocList[0].shipment_carries.length  ;
+                }
+                if ($scope.DocList[0].shipment_expense.length > 0) {
+                    $scope.RowExpense = $scope.DocList[0].shipment_expense.length  ;
+                }
+                $scope.Get_Staff_Amt();
+                $scope.CalDocAmt();
 
                 try {
                     if ($scope.DocList[0].shipment_carries.length > 0) {
@@ -152,35 +160,11 @@
             var Staff_Amt = 0;
 
             console.log('point_id ' + $scope.DocList[0].point_id + ' status_code ' + $scope.DocList[0].status_code)
-            if ($scope.Driver_Amt1 === 0) {
-                console.log($scope.CarriesPoint);
-                console.log('Driver_Amt1 ' + $scope.Driver_Amt1 + ' Staff_Amt1 ' + $scope.Staff_Amt1);
-                for (var i = 0; i < $scope.CarriesPoint.length; i++) {
-                    if ($scope.CarriesPoint[i].CARGROUP_CODE === $scope.DocList[0].cargroup_code && $scope.CarriesPoint[i].POINT_ID === $scope.DocList[0].point_id) {
-                        $scope.Driver_Amt1 = $scope.CarriesPoint[i].DPOINT1_AMOUNT;
-                        $scope.Staff_Amt1 = $scope.CarriesPoint[i].SPOINT1_AMOUNT;
-                        $scope.Driver_Amt2 = $scope.CarriesPoint[i].DPOINT2_AMOUNT;
-                        $scope.Staff_Amt2 = $scope.CarriesPoint[i].SPOINT2_AMOUNT; 
-                        console.log('Add Driver_Amt1 ' + $scope.Driver_Amt1 + ' Staff_Amt1 ' + $scope.Staff_Amt1);
-                        break;
-                    }
-                }
-            }
-
-
-            if ($scope.RowPoint === 0) {
-                Driver_Amt = $scope.Driver_Amt1;
-                Staff_Amt = $scope.Staff_Amt1 * $scope.Staff_Count;
-            }
-            else {
-                Driver_Amt = $scope.Driver_Amt2;
-                Staff_Amt = $scope.Staff_Amt2 * $scope.Staff_Count;
-            }
-
+              
             $scope.RowPoint++;
             $scope.PointMax++;
 
-            console.log($scope.DocList[0].shipment_carries);
+           // console.log($scope.DocList[0].shipment_carries);
             if ($scope.DocList[0].shipment_carries == null)
             {
                 $scope.DocList[0].shipment_carries = [];
@@ -190,21 +174,21 @@
                 itemno: $scope.PointMax ,
                 point_desc: "จุดส่งที่ " + $scope.RowPoint,
                 //time_range: "",
-                //so_number: "",
-                //remark: "",
+                so_number: "",
+                remark: "",
                 driver_amount : Driver_Amt,
                 staff_amount : Staff_Amt
             });
-            $scope.DocList[0].transport_amount = $scope.DocList[0].transport_amount + Driver_Amt + Staff_Amt;
-            console.log($scope.DocList[0].shipment_carries);
-            console.log('PointMax ' + $scope.PointMax);
+            //$scope.DocList[0].transport_amount = $scope.DocList[0].transport_amount + Driver_Amt + Staff_Amt;
+            $scope.CalDocAmt();
         };
 
         $scope.removeRowPoint = function (ItemNo) {
             var index = -1;
             var comArr = eval($scope.DocList[0].shipment_carries);
+             
             for (var i = 0; i < comArr.length; i++) {
-                if (comArr[i].item_no === ItemNo) {
+                if (comArr[i].itemno === ItemNo) {
                     index = i;
                     break;
                 }
@@ -214,7 +198,11 @@
                 return undefined;
             }
             $scope.DocList[0].shipment_carries.splice(index, 1);
-            $scope.RowPoint--;
+            if ($scope.RowPoint > 0) {
+                $scope.RowPoint--;
+            }
+            
+            $scope.CalDocAmt();
             console.log($scope.DocList[0].shipment_carries);
             console.log('RowPoint - ' + $scope.RowPoint);
 
@@ -233,10 +221,10 @@
                 shipment_number: $scope.ShipmentNo,
                 itemno: $scope.ExpenseMax,
                 expense_id :0,  
-                remark: "จุดส่งที่ " + $scope.RowExpense,
-                expense_amount: Expense_Amt,
-                staff_amount: Staff_Ame
+                remark: "อื่นๆที่ " + $scope.RowExpense, 
+                expense_amount: 0
             });
+            $scope.CalDocAmt();
             console.log($scope.DocList[0].shipment_expense);
             console.log('ExpenseMax ' + $scope.ExpenseMax);
         };
@@ -255,7 +243,10 @@
                 return undefined;
             }
             $scope.DocList[0].shipment_expense.splice(index, 1);
-            $scope.RowExpense--;
+            if ($scope.RowExpense > 0) {
+                $scope.RowExpense--;
+            }
+            $scope.CalDocAmt();
             console.log($scope.DocList[0].shipment_expense);
             console.log('RowExpense - ' + $scope.RowExpense);
 
@@ -288,6 +279,8 @@
 
         $scope.selected_driver = function (driver_id ) { //ต้องมี
             $scope.DocList[0].driver_id = driver_id; 
+
+            $scope.CalDocAmt();
         }
 
         $scope.toggleModalS1 = function (btnClicked) { //ต้องมี
@@ -296,6 +289,8 @@
         };
         $scope.selected_Staff1 = function (Staff_id) { //ต้องมี
             $scope.DocList[0].staff1_id = Staff_id; 
+
+            $scope.CalDocAmt();
         }
 
         $scope.toggleModalS2 = function (btnClicked) { //ต้องมี
@@ -304,6 +299,8 @@
         };
         $scope.selected_Staff2 = function (Staff_id ) { //ต้องมี
             $scope.DocList[0].staff2_id = Staff_id; 
+
+            $scope.CalDocAmt();
         }
         //Modal //////////////////////////////////////////-----------------------------------------------------
 
@@ -316,7 +313,7 @@
                 for (var i = 0; i < TblDataList.length; i++) {
                     if (TblDataList[i].PEOPLE_ID === KeyID) {
                        var  NameEmp = TblDataList[i].NAME;
-                        console.log('EmName ' + NameEmp);
+                       // console.log('EmName ' + NameEmp);
                         return NameEmp;
                         break;
                     }
@@ -325,6 +322,84 @@
             return null;
         };
 
+        $scope.CalStaffCount = function () {
+            $scope.Staff_Count = 0; 
+            if ($scope.DocList[0].staff1_id !== undefined) { 
+                var staff1 = $scope.DocList[0].staff1_id; 
+                console.log('staff1 ' + staff1);
+                if (staff1 !== 0) {
+                    $scope.Staff_Count = 1;
+                }
+            }
+            if ($scope.DocList[0].staff2_id !== undefined) {
+                var staff2 = $scope.DocList[0].staff2_id;
+                console.log('staff2 ' + staff2);
+                if ( staff2 !== 0) {
+                    $scope.Staff_Count++;
+                }
+            }
+
+            console.log('CalStaffCount ' + $scope.Staff_Count );
+        }
+
+        $scope.Get_Staff_Amt = function () {
+            $scope.CalStaffCount();
+            if ($scope.Driver_Amt1 === 0) {
+                console.log($scope.CarriesPoint);
+                console.log('Driver_Amt1 ' + $scope.Driver_Amt1 + ' Staff_Amt1 ' + $scope.Staff_Amt1);
+                for (var i = 0; i < $scope.CarriesPoint.length; i++) {
+                    if ($scope.CarriesPoint[i].CARGROUP_CODE === $scope.DocList[0].cargroup_code && $scope.CarriesPoint[i].POINT_ID === $scope.DocList[0].point_id) {
+                        $scope.Driver_Amt1 = $scope.CarriesPoint[i].DPOINT1_AMOUNT;
+                        $scope.Staff_Amt1 = $scope.CarriesPoint[i].SPOINT1_AMOUNT;
+                        $scope.Driver_Amt2 = $scope.CarriesPoint[i].DPOINT2_AMOUNT;
+                        $scope.Staff_Amt2 = $scope.CarriesPoint[i].SPOINT2_AMOUNT;
+                        console.log('Add Driver_Amt1 ' + $scope.Driver_Amt1 + ' Staff_Amt1 ' + $scope.Staff_Amt1);
+                        break;
+                    }
+                }
+            }
+        }
+
+        $scope.CalDocAmt = function () {
+            console.log('CalDocAmt');
+            $scope.CalStaffCount();
+            $scope.Get_Staff_Amt();
+            $scope.Driver_Doc_Amt = 0;
+            $scope.Staff_Doc_Amt = 0;
+            try {
+                if ($scope.DocList[0].shipment_carries.length > 0) {
+                    //console.log($scope.Staff_Amt2 + ' * ' + $scope.Staff_Count);
+                    $scope.DocList[0].shipment_carries[0].driver_amount = $scope.Driver_Amt1;
+                    $scope.DocList[0].shipment_carries[0].staff_amount = $scope.Staff_Amt1 * $scope.Staff_Count;
+
+                    $scope.Driver_Doc_Amt = $scope.Driver_Doc_Amt + $scope.DocList[0].shipment_carries[0].driver_amount
+                    $scope.Staff_Doc_Amt = $scope.Staff_Doc_Amt + $scope.DocList[0].shipment_carries[0].staff_amount;
+                    for (var i = 0; i < $scope.DocList[0].shipment_carries.length; i++) {
+                        if (i !== 0) {
+                            $scope.DocList[0].shipment_carries[i].driver_amount = $scope.Driver_Amt2;
+                            $scope.DocList[0].shipment_carries[i].staff_amount = $scope.Staff_Amt2 * $scope.Staff_Count;
+
+                            $scope.Driver_Doc_Amt = $scope.Driver_Doc_Amt + $scope.DocList[0].shipment_carries[i].driver_amount;
+                            $scope.Staff_Doc_Amt = $scope.Staff_Doc_Amt + $scope.DocList[0].shipment_carries[i].staff_amount;
+                        }
+                    }
+                }
+            }
+            catch (errPoint)
+            { }
+            try {
+                if ($scope.DocList[0].shipment_expense.length > 0) { 
+                    for (var v = 0; v < $scope.DocList[0].shipment_expense.length; v++) { 
+                        $scope.Driver_Doc_Amt = $scope.Driver_Doc_Amt + ($scope.DocList[0].shipment_expense[v].expense_amount * 1);
+                        $scope.Staff_Doc_Amt = $scope.Staff_Doc_Amt + ($scope.DocList[0].shipment_expense[v].expense_amount * $scope.Staff_Count);
+                    }
+                }
+            }
+            catch (errExpen) { }
+
+            $scope.DocList[0].transport_amount = $scope.Driver_Doc_Amt + $scope.Staff_Doc_Amt;
+
+        }
         ////  Get Description  End ----------------------------------------------------
 
 
@@ -336,8 +411,7 @@
 
             if (DataList == undefined) // if your going to return true
                 return true;
-
-            console.log(DataList);
+             
             if (DataList.length > 0)
                 return false;
 
@@ -357,6 +431,8 @@
             if (ChkPointList)
             {
                 $scope.ShipEditErr = "กรุณาระบุข้อมูลส่วน รายละเอียดจุดส่งของ ";  
+
+                $scope.alert($scope.ShipEditErr);
                 return;
             }
 
@@ -364,21 +440,29 @@
             console.log($scope.DocList); 
              
             if ($scope.DocList[0].driver_id.length == 0 || $scope.DocList[0].driver_id==0) {
-                   $scope.ShipEditErr = "กรุณาระบุข้อมูลส่วน คนขับรถ ";
+                $scope.ShipEditErr = "กรุณาระบุข้อมูลส่วน คนขับรถ ";
+
+                $scope.alert($scope.ShipEditErr);
                    return;
                 }
             if ($scope.DocList[0].staff1_id.length == 0 || $scope.DocList[0].staff1_id == 0 ) {
-                   $scope.ShipEditErr = "กรุณาระบุข้อมูลส่วน เด็กรถคนที่ 1 ";
+                $scope.ShipEditErr = "กรุณาระบุข้อมูลส่วน เด็กรถคนที่ 1 ";
+
+                $scope.alert($scope.ShipEditErr);
                 return; 
                 } 
 
                 console.log($scope.DocList[0].point_id);
                 if ($scope.DocList[0].point_id === undefined) {
                     $scope.ShipEditErr = "กรุณาระบุปข้อมูลให้ครบ (จุดส่ง)";
+
+                    $scope.alert($scope.ShipEditErr);
                     return undefined;
                 }
                 if ($scope.DocList[0].point_id == 0) {
                     $scope.ShipEditErr = "กรุณาระบุปข้อมูลให้ครบ (จุดส่ง)";
+
+                    $scope.alert($scope.ShipEditErr);
                     return undefined;
                 }  
                
@@ -394,7 +478,9 @@
                     }
                 }
                 else {
-                  $scope.ShipEditErr = "กรุณาระบุปข้อมูลให้ครบ (วันที่ส่ง)";
+                $scope.ShipEditErr = "กรุณาระบุปข้อมูลให้ครบ (วันที่ส่ง)";
+
+                $scope.alert($scope.ShipEditErr);
                   return undefined;
                 }
 
@@ -433,6 +519,7 @@
                     if (response.status !== 200) {
                         $scope.loading = false;
                         $scope.ShipEditErr = response.statusText;
+                        $scope.alert($scope.ShipEditErr);
                     }
                 });
 
@@ -468,6 +555,37 @@
         $scope.fn_clear = function () {
             $('#CancelEdit').modal('hide');
             $scope.ShipmentHead();
+        }
+
+
+        // alert function 
+        $scope.alert = function (message) {
+            new PNotify({
+                text: message,
+                confirm: {
+                    confirm: true,
+                    buttons: [
+                        {
+                            text: 'DISMISS',
+                            addClass: 'btn btn-link',
+                            click: function (notice) {
+                                notice.remove();
+                            }
+                        },
+                        null
+                    ]
+                },
+                buttons: {
+                    closer: false,
+                    sticker: false
+                },
+                animate: {
+                    animate: true,
+                    in_class: 'slideInDown',
+                    out_class: 'slideOutUp'
+                },
+                addclass: 'md multiline'
+            });
         }
 
     };
