@@ -20,7 +20,7 @@ namespace boonservice.api.Services
         /// <remarks></remarks>
         public VBAK GetVBAK(string mandt, string vbeln)
         {
-            using (var context = new SAPSR3Context())
+            using (var context = new SAPContext())
             {
                 OracleParameter p1 = new OracleParameter("MANDT", mandt);
                 OracleParameter p2 = new OracleParameter("VBELN", vbeln);
@@ -39,7 +39,7 @@ namespace boonservice.api.Services
         /// <remarks></remarks>
         public ICollection<VBAP> GetVBAP(string mandt, string vbeln)
         {
-            using (var context = new SAPSR3Context())
+            using (var context = new SAPContext())
             {
                 OracleParameter p1 = new OracleParameter("MANDT", mandt);
                 OracleParameter p2 = new OracleParameter("VBELN", vbeln);
@@ -58,7 +58,7 @@ namespace boonservice.api.Services
         /// <remarks></remarks>
         public VBAP GetVBAP(string mandt, string vbeln, string posnr)
         {
-            using (var context = new SAPSR3Context())
+            using (var context = new SAPContext())
             {
                 OracleParameter p1 = new OracleParameter("MANDT", mandt);
                 OracleParameter p2 = new OracleParameter("VBELN", vbeln);
@@ -78,7 +78,7 @@ namespace boonservice.api.Services
         /// <remarks></remarks>
         public ICollection<VBPA> GetVBPA(string mandt, string vbeln, string posnr)
         {
-            using (var context = new SAPSR3Context())
+            using (var context = new SAPContext())
             {
                 OracleParameter p1 = new OracleParameter("MANDT", mandt);
                 OracleParameter p2 = new OracleParameter("VBELN", vbeln);

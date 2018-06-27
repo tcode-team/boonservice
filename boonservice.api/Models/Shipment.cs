@@ -59,6 +59,42 @@ namespace boonservice.api.Models
     }
 
     /// <summary>
+    /// Structure for Shipment Plan Search
+    /// </summary>
+    public class ShipmentPlanSearchModel
+    {
+        /// <summary>
+        /// Fetch data setting
+        /// </summary>
+        public fetchdata fetchdata;
+
+        /// <summary>
+        /// วันที่ส่ง
+        /// </summary>
+        public string transport_date;
+
+        /// <summary>
+        /// Shipment Number
+        /// </summary>
+        public string ShipmentNo;
+
+        /// <summary>
+        /// Shipment Type
+        /// </summary>
+        public string ShipmentType;
+
+        /// <summary>
+        /// ทะเบียนรถ
+        /// </summary>
+        public string CarLicense;
+
+        /// <summary>
+        /// Container ID
+        /// </summary>
+        public string ContainerID;
+    }
+
+    /// <summary>
     /// Shipment Type
     /// </summary>
     public class ShipmentTypeModel
@@ -455,5 +491,71 @@ namespace boonservice.api.Models
         /// วันที่อัพเดท
         /// </summary>
         public DateTime? update_date { get; set; }
+    }
+
+    /// <summary>
+    /// Shipment Plan (ตารางงานจัดส่ง)
+    /// </summary>
+    public class ShipmentPlanModel
+    {
+        /// <summary>
+        /// วันที่ส่ง
+        /// </summary>
+        public DateTime? transport_date;
+
+        /// <summary>
+        /// Shipment Number
+        /// </summary>
+        public string shipment_number;
+
+        /// <summary>
+        /// ทะเบียนรถ
+        /// </summary>
+        public string car_license;
+
+        /// <summary>
+        /// ชื่อพนักงานขับรถ
+        /// </summary>
+        public string containerid;
+
+        /// <summary>
+        /// ช่วงเวลา
+        /// </summary>
+        public string time_range;
+
+        /// <summary>
+        /// Sale Order Number
+        /// </summary>
+        public string so_number;
+
+        /// <summary>
+        /// Sale Office Code
+        /// </summary>
+        public string saleoffice_code;
+
+        /// <summary>
+        /// Sale Office Name
+        /// </summary>
+        public string saleoffice_name;
+
+        /// <summary>
+        /// จุดส่ง
+        /// </summary>
+        public string point_desc;
+
+        /// <summary>
+        /// หมายเหตุ
+        /// </summary>
+        public string remark;
+
+        /// <summary>
+        /// มูลค่า SO (final amount)
+        /// </summary>
+        public decimal so_amount;
+
+        /// <summary>
+        /// สถานะ
+        /// </summary>
+        public string status;
     }
 }

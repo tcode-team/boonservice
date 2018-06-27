@@ -20,7 +20,7 @@ namespace boonservice.api.Services
         /// <remarks></remarks>
         public KNA1 GetKNA1(string mandt, string kunnr)
         {
-            using (var context = new SAPSR3Context())
+            using (var context = new SAPContext())
             {
                 OracleParameter p1 = new OracleParameter("MANDT", mandt);
                 OracleParameter p2 = new OracleParameter("KUNNR", kunnr);
@@ -57,7 +57,7 @@ namespace boonservice.api.Services
         /// <remarks></remarks>
         public ICollection<ADRC> GetADRC(string mandt, string addrnumber)
         {
-            using (var context = new SAPSR3Context())
+            using (var context = new SAPContext())
             {
                 OracleParameter p1 = new OracleParameter("MANDT", mandt);
                 OracleParameter p2 = new OracleParameter("ADDRNUMBER", addrnumber);

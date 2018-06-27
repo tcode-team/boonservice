@@ -9,29 +9,29 @@ using System.Web;
 namespace boonservice.api.Services
 {
     /// <summary>
-    /// Service about Billing
+    /// Service about Branch
     /// </summary>
     /// <remarks></remarks>
-    public class sapBilling
+    public class sapBranch
     {
         /// <summary>
-        /// Get VBRK
+        /// Get ZBRANCH
         /// </summary>
         /// <remarks></remarks>
-        public ICollection<VBRK> GetVBRKbySONumber(string mandt, string zuonr)
+        public ZBRANCH GetZBRANCH(string mandt, string branch_id)
         {
             using (var context = new SAPContext())
             {
                 OracleParameter p1 = new OracleParameter("MANDT", mandt);
-                OracleParameter p2 = new OracleParameter("ZUONR", zuonr);
+                OracleParameter p2 = new OracleParameter("BRANCH_ID", branch_id);
                 object[] parameters = new object[] { p1, p2 };
 
-                var vbrk = context.VBRK
-                    .SqlQuery("SELECT * FROM SAPSR3.VBRK WHERE MANDT=:MANDT AND ZUONR=:ZUONR", parameters)
-                    .ToList();
-                return vbrk;
+                var branch = context.ZBRANCH
+                    .SqlQuery("SELECT * FROM SAPSR3.ZBRANCH WHERE MANDT=:MANDT AND BRANCH_ID=:BRANCH_ID", parameters)
+                    .FirstOrDefault();
+                return branch;
             }
         }
-
+        
     }
 }

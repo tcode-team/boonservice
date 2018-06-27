@@ -12,6 +12,7 @@ using System.Web.Http.Description;
 using AutoMapper;
 using boonservice.api.Context;
 using boonservice.api.Models;
+using boonservice.api.Services;
 
 namespace boonservice.api.Controllers
 {
@@ -101,7 +102,7 @@ namespace boonservice.api.Controllers
             else
                 ShipmentStatusExpression = gto => 1 == 1;
 
-            using (var context = new SAPSR3Context())
+            using (var context = new SAPContext())
             {
                 var vttks = context.VTTK
                     .Where(t => t.MANDT == client)
@@ -415,12 +416,107 @@ namespace boonservice.api.Controllers
             }
         }
 
+        /// <summary>
+        /// Shipment Plan (ตารางงานจัดส่ง)
+        /// </summary>
+        /// <param name="searchdata">List of Shipment Plan</param>
+        /// <returns></returns>
+        [ResponseType(typeof(IEnumerable<ShipmentDetailModel>))]
+        //[Authorize]
+        [Route("shipmentplan")]
+        public HttpResponseMessage shipmentplan(ShipmentPlanSearchModel searchdata)
+        {
+            try
+            {
+                using (var context = new SAPContext())
+                {
+                    var tdate = DateTime.ParseExact(searchdata.transport_date, "dd/MM/yyyy", null);
+                    var items = (from h in context.afs_shipment_h
+                                join i in context.afs_shipment_carries on h.SHIPMENT_NUMBER equals i.SHIPMENT_NUMBER
+                                join vttk in context.VTTK on h.SHIPMENT_NUMBER equals vttk.TKNUM
+                                where (h.CLIENT == client
+                                    && h.TRANSPORT_DATE == tdate
+                                    && (h.STATUS == "02" || h.STATUS == "03"))
+                                select new
+                                {
+                                    transport_date = h.TRANSPORT_DATE,
+                                    shipment_number = h.SHIPMENT_NUMBER,
+                                    car_license = vttk.ADD01,
+                                    containerid = vttk.SIGNI,
+                                    time_range = i.TIME_RANGE,
+                                    so_number = i.SALEORDER_NUMBER,
+                                    point_desc = i.POINT_DESC,
+                                    remark = i.REMARK,
+                                    status = h.STATUS
+                                }).ToList();
 
+                    //remove filter
+                    if (!string.IsNullOrEmpty(searchdata.ShipmentNo))
+                    {
+                        items.RemoveAll(w => w.shipment_number != searchdata.ShipmentNo);
+                    }
+                    if (!string.IsNullOrEmpty(searchdata.CarLicense))
+                    {
+                        items.RemoveAll(w => w.car_license != searchdata.CarLicense);
+                    }
+                    if (!string.IsNullOrEmpty(searchdata.ContainerID))
+                    {
+                        items.RemoveAll(w => !w.containerid.Contains(searchdata.ContainerID));
+                    }
+
+                    //assign Sale Order
+                    ShipmentPlanModel result = new ShipmentPlanModel();
+                    List<ShipmentPlanModel> results = new List<ShipmentPlanModel>();
+                    var SaleOrderService = new sapSaleOrder();
+                    var BranchService = new sapBranch();
+                    foreach (var item in items)
+                    {
+                        result = new ShipmentPlanModel();
+                        result.transport_date = item.transport_date;
+                        result.shipment_number = item.shipment_number;
+                        result.car_license = item.car_license;
+                        result.containerid = item.containerid;
+                        result.time_range = item.time_range;
+                        result.so_number = item.so_number;
+                        result.point_desc = item.point_desc;
+                        result.remark = item.remark;
+                        result.status = item.status;
+                        if (!string.IsNullOrEmpty(result.so_number))
+                        {
+                            var vbak = SaleOrderService.GetVBAK(client, result.so_number);
+                            if (vbak != null)
+                            {
+                                result.saleoffice_code = vbak.VKBUR;
+                                if (!string.IsNullOrEmpty(result.saleoffice_code))
+                                {
+                                    var branch = BranchService.GetZBRANCH(client, result.saleoffice_code);
+                                    if (branch != null)
+                                    {
+                                        result.saleoffice_name = branch.HOST_DESC;
+                                    }
+                                }
+
+                                var vbap = SaleOrderService.GetVBAP(vbak.MANDT, vbak.VBELN);
+                                result.so_amount = vbap.Select(x => x.NETWR + x.MWSBP).Sum();
+                            }
+                        }
+                        results.Add(result);
+                    }
+
+                    return Request.CreateResponse(HttpStatusCode.OK, results);
+                }
+            }
+            catch (Exception ex)
+            {
+
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex);
+            }
+        }
 
         private List<ShipmentDetailModel> MappingShipmentDetail(List<VTTK> vttks)
         {
             var Shipments = new List<ShipmentDetailModel>();
-            using (var context = new SAPSR3Context())
+            using (var context = new SAPContext())
             {
                 foreach (var r in vttks)
                 {

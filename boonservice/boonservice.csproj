@@ -1110,8 +1110,10 @@
     <Content Include="spa\controller\HomeController.js" />
     <Content Include="spa\controller\ShipmentEditController.js" />
     <Content Include="spa\controller\ShipmentListController.js" />
+    <Content Include="spa\controller\ShipmentPlanController.js" />
     <Content Include="spa\directive\directive.js" />
     <Content Include="spa\service\AuthInterceptor.js" />
+    <Content Include="spa\service\ShipmentPlanService.js" />
     <Content Include="spa\service\RepairService.js" />
     <Content Include="spa\service\UserService.js" />
     <Content Include="spa\service\LoginService.js" />
@@ -1122,6 +1124,7 @@
     <Content Include="spa\view\navbar.html" />
     <Content Include="spa\view\profile.html" />
     <Content Include="spa\view\repairform.html" />
+    <Content Include="spa\view\ShipmentPlan.html" />
     <Content Include="spa\view\repairlist.html" />
     <Content Include="spa\view\ShipmentEdit.html" />
     <Content Include="spa\view\ShipmentList.html" />

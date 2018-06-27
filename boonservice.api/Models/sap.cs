@@ -10,7 +10,7 @@ namespace boonservice.api.Models
     /// <summary>
     /// Table VTTK  
     /// </summary>
-    [Table("VTTK")]
+    [Table("SAPSR3.VTTK")]
     public class VTTK
     {
         /// <summary>
@@ -68,7 +68,7 @@ namespace boonservice.api.Models
     /// <summary>
     /// Table T173T  
     /// </summary>
-    [Table("T173T")]
+    [Table("SAPSR3.T173T")]
     public class T173T
     {
         /// <summary>
@@ -103,7 +103,7 @@ namespace boonservice.api.Models
     /// <summary>
     /// Table TVROT  
     /// </summary>
-    [Table("TVROT")]
+    [Table("SAPSR3.TVROT")]
     public class TVROT
     {
         /// <summary>
@@ -137,7 +137,7 @@ namespace boonservice.api.Models
     /// <summary>
     /// Table VBAK  
     /// </summary>
-    [Table("VBAK")]
+    [Table("SAPSR3.VBAK")]
     public class VBAK
     {
         /// <summary>
@@ -206,7 +206,7 @@ namespace boonservice.api.Models
     /// <summary>
     /// Table VBAP  
     /// </summary>
-    [Table("VBAP")]
+    [Table("SAPSR3.VBAP")]
     public class VBAP
     {
         /// <summary>
@@ -255,12 +255,22 @@ namespace boonservice.api.Models
         /// </summary>
         [StringLength(9)]
         public string MEINS { get; set; }
+
+        /// <summary>
+        /// Net value of the order item in document currency
+        /// </summary>
+        public decimal NETWR { get; set; }
+
+        /// <summary>
+        /// Tax amount in document currency
+        /// </summary>
+        public decimal MWSBP { get; set; }
     }
 
     /// <summary>
     /// Table VBPA  
     /// </summary>
-    [Table("VBPA")]
+    [Table("SAPSR3.VBPA")]
     public class VBPA
     {
         /// <summary>
@@ -307,7 +317,7 @@ namespace boonservice.api.Models
     /// <summary>
     /// Table KNA1  
     /// </summary>
-    [Table("KNA1")]
+    [Table("SAPSR3.KNA1")]
     public class KNA1
     {
         /// <summary>
@@ -360,7 +370,7 @@ namespace boonservice.api.Models
     /// <summary>
     /// Table ADRC  
     /// </summary>
-    [Table("ADRC")]
+    [Table("SAPSR3.ADRC")]
     public class ADRC
     {
         /// <summary>
@@ -587,7 +597,7 @@ namespace boonservice.api.Models
     /// <summary>
     /// Table VBRK  
     /// </summary>
-    [Table("VBRK")]
+    [Table("SAPSR3.VBRK")]
     public class VBRK
     {
         /// <summary>
@@ -639,5 +649,32 @@ namespace boonservice.api.Models
         /// </summary>
         [StringLength(54)]
         public string ZUONR { get; set; }
+    }
+
+    /// <summary>
+    /// Table ZBRANCH
+    /// </summary>
+    [Table("SAPSR3.ZBRANCH")]
+    public class ZBRANCH
+    {
+        /// <summary>
+        /// Client
+        /// </summary>
+        [Key, Column(Order = 0)]
+        [StringLength(9)]
+        public string MANDT { get; set; }
+
+        /// <summary>
+        /// Branch ID [Sale Office]
+        /// </summary>
+        [Key, Column(Order = 1)]
+        [StringLength(12)]
+        public string BRANCH_ID { get; set; }
+
+        /// <summary>
+        /// สาขา
+        /// </summary>
+        [StringLength(300)]
+        public string HOST_DESC { get; set; }
     }
 }

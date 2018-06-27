@@ -1,0 +1,129 @@
+﻿<div id="wrapper">
+    <!-- Left Navigator -->
+    <aside id="aside" class="aside aside-left" ng-include="'spa/view/leftNavigator.html'"
+           data-fuse-bar="aside" data-fuse-bar-media-step="md" data-fuse-bar-position="left"></aside>
+
+    <!-- Content -->
+    <div class="content-wrapper">
+        <!-- NavBar -->
+        <nav id="toolbar" class="bg-white" ng-include="'spa/view/navbar.html'"></nav>
+
+        <!-- Content Page -->
+        <div class="content custom-scrollbar" ng-controller="ShipmentPlanController">
+            <div id="maincontent" class="page-layout" style="overflow:auto;flex-direction: column;">
+                <div class="page-layout simple left-sidebar-floating">
+                    <div class="page-header bg-secondary text-auto row no-gutters align-items-center justify-content-between p-4 p-sm-6">
+                        <div class="col">
+                            <!-- APP TITLE -->
+                            <div class="row no-gutters align-items-center flex-nowrap">
+                                <div class="logo row no-gutters align-items-center flex-nowrap">
+                                    <span class="logo-text h4">{{title}}</span>
+                                </div>
+                            </div>
+                            <!-- / APP TITLE -->
+                        </div>
+                    </div>
+                    <br />
+                    <div class="page-content-wrapper">
+                        <div class="col">
+                            <!-- Criteria -->
+                            <div class="card">
+                                <div class="card-body">
+                                    <form name="FormSearch" novalidate>
+                                        <fieldset ng-disabled="loading">
+                                            <div class="form-row">
+                                                <div class="form-group col-md-4">
+                                                    <label class="form-control-label col-md-4" for="TransportDate">* วันที่ส่ง:</label>
+                                                    <div class="col-md-8">
+                                                        <input class="form-control" type="date" ng-model="selection.transport_date" id="TransportDate" 
+                                                               placeholder="dd/MM/yyyy" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <label class="form-control-label col-md-4" for="ShipmentNumber">Shipment No:</label>
+                                                    <div class="col-md-8">
+                                                        <input type="text" class="form-control" placeholder="" ng-model="selection.ShipmentNo" id="ShipmentNumber">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-4">
+                                                    <label class="form-control-label col-md-4" for="CarLicense">ทะเบียนรถ:</label>
+                                                    <div class="col-md-8">
+                                                        <input class="form-control" type="text" ng-model="selection.CarLicense" id="CarLicense">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <label class="form-control-label col-md-4" for="ContainerId">Container ID:</label>
+                                                    <div class="col-md-8">
+                                                        <input type="text" class="form-control" placeholder="" ng-model="selection.ContainerID" id="ContainerId">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-4">
+                                                    <label class="col-form-label col-md-4"></label>
+                                                    <button class="btn btn-primary fuse-ripple-ready" type="button" style="margin-left:15px;"
+                                                            ng-click="fn_search_list()">
+                                                        <i class="icon icon-search-web"></i> Search
+                                                    </button>
+                                                    <button class="btn btn-primary fuse-ripple-ready" type="button" style="margin-left:15px;"
+                                                            >
+                                                        <i class="icon icon-note-outline"></i> Clear
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </form>
+                                </div>
+                            </div>
+                            <!-- Criteria -->
+                            <br />
+                            <!-- List -->
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th width="100px;">วันที่ส่ง</th>
+                                                    <th width="110px;">Shipment No.</th>
+                                                    <th width="100px;">ทะเบียนรถ</th>
+                                                    <th>Container ID</th>
+                                                    <th width="100px;">เวลา</th>
+                                                    <th width="100px;">SO</th>
+                                                    <th>สาขา</th>
+                                                    <th>จุดส่ง</th>
+                                                    <th>หมายเหตุ</th>
+                                                    <th width="100px;">มูลค่า</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-if="transports.length==0">
+                                                    <td colspan="10" class="text-center">ไม่พบข้อมูล</td>
+                                                </tr>
+                                                <tr ng-repeat="row in transports | orderBy:'time_range'">
+                                                    <td>{{row.transport_date | date:'dd/MM/yyyy'}}</td>
+                                                    <td>{{row.shipment_number}}</td>
+                                                    <td>{{row.car_license}}</td>
+                                                    <td>{{row.containerid}}</td>
+                                                    <td>{{row.time_range}}</td>
+                                                    <td>{{row.so_number}}</td>
+                                                    <td>{{row.saleoffice_name}}</td>
+                                                    <td>{{row.point_desc}}</td>
+                                                    <td>{{row.remark}}</td>
+                                                    <td class="text-right">{{row.so_amount | number:2}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- List -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

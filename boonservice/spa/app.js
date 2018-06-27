@@ -22,48 +22,53 @@
 
         $routeProvider
             .when('/home', {
-                templateUrl: 'spa/view/home.html',
+                templateUrl: 'spa/view/home.html?v=' + config.version,
                 controller: 'HomeController'
             })
             .when('/login', {
-                templateUrl: 'spa/view/login.html',
+                templateUrl: 'spa/view/login.html?v=' + config.version,
                 controller: 'LoginController',
                 resolve: resolveController('LoginController')
             })
             .when('/blank', {
-                templateUrl: 'spa/view/blank.html',
+                templateUrl: 'spa/view/blank.html?v=' + config.version,
                 controller: 'BlankController',
                 resolve: resolveController('BlankController')
             })
             .when('/profile', {
-                templateUrl: 'spa/view/profile.html',
+                templateUrl: 'spa/view/profile.html?v=' + config.version,
                 controller: 'ProfileController',
                 resolve: resolveController('ProfileController')
             })
             .when('/shipmentlist', {
-                templateUrl: 'spa/view/shipmentlist.html',
+                templateUrl: 'spa/view/shipmentlist.html?v=' + config.version,
                 controller: 'ShipmentListController',
                 resolve: resolveController('ShipmentListController')
             })
             .when('/shipmentedit/:param1', {
-                templateUrl: 'spa/view/shipmentedit.html',
+                templateUrl: 'spa/view/shipmentedit.html?v=' + config.version,
                 controller: 'ShipmentEditController',
                 resolve: resolveController('ShipmentEditController')
             })
             .when('/repairlist', {
-                templateUrl: 'spa/view/repairlist.html',
+                templateUrl: 'spa/view/repairlist.html?v=' + config.version,
                 controller: 'RepairListController',
                 resolve: resolveController('RepairListController')
             })
             .when('/repairform', {
-                templateUrl: 'spa/view/repairform.html',
+                templateUrl: 'spa/view/repairform.html?v=' + config.version,
                 controller: 'RepairFormController',
                 resolve: resolveController('RepairFormController')
             })
             .when('/repairform/:param1', {
-                templateUrl: 'spa/view/repairform.html',
+                templateUrl: 'spa/view/repairform.html?v=' + config.version,
                 controller: 'RepairFormController',
                 resolve: resolveController('RepairFormController')
+            })
+            .when('/shipmentplan', {
+                templateUrl: 'spa/view/shipmentplan.html?v=' + config.version,
+                controller: 'ShipmentPlanController',
+                resolve: resolveController('ShipmentPlanController')
             })
             .otherwise({ redirectTo: '/home' });
 
