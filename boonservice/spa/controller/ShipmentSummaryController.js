@@ -3,15 +3,32 @@
 
     angular
         .module('app')
-        .controller('ShipmentPlanController', ShipmentPlanController)
+        .controller('ShipmentSummaryController', ShipmentSummaryController)
 
-    ShipmentPlanController.$inject = ['$scope', '$location', 'ShipmentService'];
-    function ShipmentPlanController($scope, $location, ShipmentService) {
-        $scope.title = 'ตารางงานจัดส่ง';
-        $scope.transports = [];
+    ShipmentSummaryController.$inject = ['$scope', '$location', 'ShipmentService'];
+    function ShipmentSummaryController($scope, $location, ShipmentService) {
+        $scope.title = 'รายงานเอกสารค่าเที่ยวสรุปบัญชี';
+        $scope.selection = {};
+        $scope.shipmentsum = [];
         $scope.user = JSON.parse(sessionStorage.getItem('userDetail'));
 
-        $scope.fn_search_list = function () {
+        $scope.showModal = false;
+        $scope.buttonClicked = "";
+        $scope.toggleModal = function (btnClicked) {
+            $scope.buttonClicked = btnClicked;
+            $scope.showModal = !$scope.showModal;
+        }; 
+
+        ShipmentService.identity().then(function(response) {
+            $scope.identities = response.data;
+        });
+
+        $scope.selected_identity = function (identity) {
+            $scope.selection.identity_id = identity.PEOPLE_ID;  
+            $scope.selection.identity_name = identity.NAME;
+        }
+
+        $scope.fn_preview = function () {
             $scope.loading = true;
             console.log($scope.selection);
             var val = _.clone($scope.selection, true);
@@ -20,22 +37,32 @@
                 $scope.loading = false;
                 return;
             }
-            if (val.transport_date === undefined || val.transport_date === null || val.transport_date === '') {
-                $scope.alert('โปรดระบุวันที่ส่ง');
+            if (val.identity_id === undefined || val.identity_id === '' || val.identity_id === null) {
+                $scope.alert('โปรดระบุ พนักงาน');
                 $scope.loading = false;
                 return;
-            }
-            val.transport_date = getFormattedDate(val.transport_date);
-            ShipmentService.search_shipmentplan(val).then(function (response) {
+            };
+            if (val.transport_month === undefined || val.transport_month === '' || val.transport_month === null) {
+                $scope.alert('โปรดระบุ เดือน/ปี');
+                $scope.loading = false;
+                return;
+            };
+            val.transport_month = getFormattedDate(val.transport_month);
+            ShipmentService.search_shipmentsum(val).then(function (response) {
                 if (response.status == '200') {
-                    $scope.transports = response.data;
+                    $scope.shipmentsum = response.data;
                 } else {
-                    $scope.transports = []
+                    $scope.shipmentsum = []
                     $scope.alert(response.data.Message);
                 };
                 $scope.loading = false;
             });
         }
+
+        $scope.fn_clear = function() {
+            $scope.selection = {};
+            $scope.shipmentsum = [];
+        };
 
         // alert function 
         $scope.alert = function (message) {
