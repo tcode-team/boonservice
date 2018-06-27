@@ -1,0 +1,148 @@
+﻿<div id="wrapper">
+    <!-- Left Navigator -->
+    <aside id="aside" class="aside aside-left" ng-include="'spa/view/leftNavigator.html'"
+           data-fuse-bar="aside" data-fuse-bar-media-step="md" data-fuse-bar-position="left"></aside>
+
+    <!-- Content -->
+    <div class="content-wrapper">
+        <!-- NavBar -->
+        <nav id="toolbar" class="bg-white" ng-include="'spa/view/navbar.html'"></nav>
+
+        <!-- Content Page -->
+        <div class="content custom-scrollbar" ng-controller="ShipmentSummaryController">
+            <div id="maincontent" class="page-layout" style="overflow:auto;flex-direction: column;">
+                <div class="page-layout simple left-sidebar-floating">
+                    <div class="page-header bg-secondary text-auto row no-gutters align-items-center justify-content-between p-4 p-sm-6">
+                        <div class="col">
+                            <!-- APP TITLE -->
+                            <div class="row no-gutters align-items-center flex-nowrap">
+                                <div class="logo row no-gutters align-items-center flex-nowrap">
+                                    <span class="logo-text h4">{{title}}</span>
+                                </div>
+                            </div>
+                            <!-- / APP TITLE -->
+                        </div>
+                    </div>
+                    <br />
+                    <div class="page-content-wrapper">
+                        <div class="col">
+                            <!-- Criteria -->
+                            <div class="card">
+                                <div class="card-body">
+                                    <form name="FormSearch" novalidate>
+                                        <fieldset ng-disabled="loading">
+                                            <div class="form-row">
+                                                <div class="form-group col-md-4">
+                                                    <label for="Person" class="form-control-label col-md-3">พนักงาน</label>
+                                                    <div class="col-md-6">
+                                                        <input type="text" id="Person" class="form-control" ng-model="selection.identity_name" ng-disabled="true">
+                                                        <input type="text" ng-hide="true" class="form-control" ng-model="selection.identity_id">
+                                                    </div>
+                                                    <button type="button" class="btn btn-light btn-fab btn-sm" ng-click="toggleModal('พนักงาน')">
+                                                        <i class="icon-account-search"></i>
+                                                    </button>
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <label for="TransportMonth" class="form-control-label col-md-3">เดือน/ปี</label>
+                                                    <div class="col-md-6">
+                                                        <input type="month" class="form-control" id="TransportMonth" ng-model="selection.transport_month">
+                                                    </div>
+                                                </div>
+                                                <modal-select visible="showModal">
+                                                    <input type="text" class="form-control" ng-model="selection.filter_name" placeholder="ค้นหาพนักงาน"
+                                                           style="margin-top:10px;" />
+                                                    <div class="list-group" role="tablist" style="height:450px;overflow-x:auto">
+                                                        <a ng-repeat="row in identities | filter:{NAME:selection.filter_name}" class="list-group-item list-group-item-action" href=""
+                                                           ng-click="selected_identity(row)" data-toggle="tab"
+                                                           ng-class="{'active':identity_id==row.PEOPLE_ID, '':identity_id!=row.PEOPLE_ID }">{{row.PEOPLE_ID}}:{{row.NAME}}</a>
+                                                    </div>
+                                                </modal-select>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-4">
+                                                    <label class="col-form-label col-md-3"></label>
+                                                    <button class="btn btn-primary fuse-ripple-ready" type="button" style="margin-left:15px;"
+                                                            ng-click="fn_preview()">
+                                                        <i class="icon icon-application"></i> Preview
+                                                    </button>
+                                                    <button class="btn btn-primary fuse-ripple-ready" type="button" style="margin-left:15px;"
+                                                            ng-click="fn_clear()">
+                                                        <i class="icon icon-note-outline"></i> Clear
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </form>
+                                </div>
+                            </div>
+                            <!-- Criteria -->
+                            <br />
+                            <!-- List -->
+                            <div class="card">
+                                <div class="card-body">
+                                   <div ng-repeat="iden in shipmentsum">
+                                       <h5>พนักงาน {{iden.identity_name}}</h5>
+                                       <h5>เดือน {{iden.month_name}} ปี {{iden.year}}</h5>
+                                       <br />
+                                       <div class="table-responsive">
+                                           <table style="width:100%">
+                                               <thead>
+                                                   <tr>
+                                                       <th style="width:100px;">วันที่</th>
+                                                       <th style="width:100px;">Shipment</th>
+                                                       <th style="width:90px;">ประเภท</th>
+                                                       <th>จุดส่ง</th>
+                                                       <th style="width:100px;">ค่าจุด</th>
+                                                       <th>รายการอื่น ๆ</th>
+                                                       <th style="width:100px;">รวมค่าอื่น ๆ</th>
+                                                       <th style="width:100px;">รวมค่าจุด</th>
+                                                       <th style="width:100px;">รวมทั้งสิ้น</th>
+                                                   </tr>
+                                               </thead>
+                                               <tbody>
+                                                   <tr ng-repeat="head in iden.shipment | orderBy:'transport_date'">
+                                                       <td style="vertical-align:text-top">{{head.transport_date | date:'dd/MM/yyyy'}}</td>
+                                                       <td style="vertical-align:text-top">{{head.shipment_number}}</td>
+                                                       <td style="vertical-align:text-top">{{head.identity_type}}</td>
+                                                       <td>
+                                                           <p ng-repeat="point in head.point">
+                                                               {{point.point_desc}}
+                                                           </p>
+                                                       </td>
+                                                       <td class="text-right">
+                                                           <p ng-repeat="point in head.point">
+                                                               {{point.amount | number:2}}
+                                                           </p>
+                                                       </td>
+                                                       <td>
+                                                           <p ng-repeat="exp in head.expense">
+                                                               {{exp.expense_desc}}
+                                                           </p>
+                                                       </td>
+                                                       <td style="vertical-align:text-top;text-align:right;">{{head.total_expense | number:2}}</td>
+                                                       <td style="vertical-align:text-top;text-align:right;">{{head.total_point | number:2}}</td>
+                                                       <td style="vertical-align:text-top;text-align:right;">{{head.total_point + head.total_expense | number:2}}</td>
+                                                   </tr>
+                                               </tbody>
+                                           </table>
+                                       </div>
+                                   </div>
+                                </div>
+                            </div>
+                            <!-- List -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style type="text/css">
+    table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+    th, td {
+        padding: 15px;
+    }
+</style>

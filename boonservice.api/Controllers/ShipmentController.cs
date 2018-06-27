@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Net;
@@ -386,7 +387,7 @@ namespace boonservice.api.Controllers
         /// <param name="postdata">List of Shipment Number</param>
         /// <returns></returns>
         [ResponseType(typeof(IEnumerable<ShipmentDetailModel>))]
-        //[Authorize]
+        [Authorize]
         [Route("confirm")]
         public HttpResponseMessage Confirm(List<ShipmentConfirmModeal> postdata)
         {
@@ -435,8 +436,7 @@ namespace boonservice.api.Controllers
                                 join i in context.afs_shipment_carries on h.SHIPMENT_NUMBER equals i.SHIPMENT_NUMBER
                                 join vttk in context.VTTK on h.SHIPMENT_NUMBER equals vttk.TKNUM
                                 where (h.CLIENT == client
-                                    && h.TRANSPORT_DATE == tdate
-                                    && (h.STATUS == "02" || h.STATUS == "03"))
+                                    && h.TRANSPORT_DATE == tdate)
                                 select new
                                 {
                                     transport_date = h.TRANSPORT_DATE,
@@ -502,6 +502,107 @@ namespace boonservice.api.Controllers
                         }
                         results.Add(result);
                     }
+
+                    return Request.CreateResponse(HttpStatusCode.OK, results);
+                }
+            }
+            catch (Exception ex)
+            {
+
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex);
+            }
+        }
+
+        /// <summary>
+        /// Shipment Summary (รายงานเอกสารค่าเที่ยวสรุปบัญชี)
+        /// </summary>
+        /// <param name="searchdata">List of Shipment Summary</param>
+        /// <returns></returns>
+        [ResponseType(typeof(IEnumerable<ShipmentIdentitySummaryModel>))]
+        [Route("shipmentsummary")]
+        public HttpResponseMessage shipmentsummary(ShipmentSummarySearchModel searchdata)
+        {
+            try
+            {
+                using (var context = new SAPContext())
+                {
+                    var fdate = DateTime.ParseExact(searchdata.transport_month, "dd/MM/yyyy", null);
+                    var ldate = new DateTime(fdate.Year, fdate.Month, DateTime.DaysInMonth(fdate.Year, fdate.Month));
+                    var shipments = (from h in context.afs_shipment_h
+                                     where (h.CLIENT == client
+                                         && (h.DRIVER_ID == searchdata.identity_id || h.STAFF1_ID == searchdata.identity_id || h.STAFF2_ID == searchdata.identity_id)
+                                         && h.TRANSPORT_DATE >= fdate && h.TRANSPORT_DATE <= ldate
+                                         && h.STATUS == "03")
+                                     select new
+                                     {
+                                        identity_id = searchdata.identity_id,
+                                        transport_date = h.TRANSPORT_DATE,
+                                        shipment_number = h.SHIPMENT_NUMBER,
+                                        driver = h.DRIVER_ID,
+                                        staff1 = h.STAFF1_ID, 
+                                        staff2 = h.STAFF2_ID,
+                                        status = h.STATUS
+                                    }).ToList();
+
+                    //assign Sale Order
+                    ShipmentIdentitySummaryModel result = new ShipmentIdentitySummaryModel();
+                    List<ShipmentIdentitySummaryModel> results = new List<ShipmentIdentitySummaryModel>();
+
+                    result = new ShipmentIdentitySummaryModel();
+                    result.identity_id = searchdata.identity_id;
+                    var iden = context.afs_car_identity_card
+                                .Where(w => w.PEOPLE_ID == result.identity_id)
+                                .FirstOrDefault();
+                    if (iden != null)
+                    {
+                        result.identity_name = iden.NAME;
+                    }
+                    result.month_name = fdate.ToString("MMMM", CultureInfo.CreateSpecificCulture("th"));
+                    result.year = (fdate.Year + 543).ToString();
+
+                    result.shipment = new List<ShipmentSummaryModel>();
+                    foreach (var item in shipments)
+                    {
+                        //Shipment header
+                        var h = new ShipmentSummaryModel();
+                        h.transport_date = item.transport_date;
+                        h.shipment_number = item.shipment_number;
+                        if (result.identity_id == item.driver) h.identity_type = "คนขับ";
+                        if (result.identity_id == item.staff1 || result.identity_id == item.staff2) h.identity_type = "เด็กรถ";
+                        
+
+                        //Point
+                        h.point = new List<ShipmentPointSummaryModel>();
+                        var points = context.afs_shipment_carries.Where(w => w.CLIENT == client && w.SHIPMENT_NUMBER == item.shipment_number).ToList();
+                        foreach (var point in points)
+                        {
+                            ShipmentPointSummaryModel v = new ShipmentPointSummaryModel();
+                            v = new ShipmentPointSummaryModel();
+                            v.point_desc = point.POINT_DESC;
+                            v.remark = point.REMARK;
+                            v.amount = h.identity_type == "คนขับ" ? point.DRIVER_AMOUNT : h.identity_type == "เด็กรถ" ? point.STAFF_AMOUNT : 0;
+                            h.total_point += v.amount;
+                            h.point.Add(v);
+                        }
+
+                        //expense
+                        h.expense = new List<ShipmentExpenseSummaryModel>();
+                        var expenses = context.afs_shipment_expense.Where(w => w.CLIENT == client && w.SHIPMENT_NUMBER == item.shipment_number).ToList();
+                        foreach (var expense in expenses)
+                        {
+                            ShipmentExpenseSummaryModel v = new ShipmentExpenseSummaryModel();
+                            v = new ShipmentExpenseSummaryModel();
+                            v.expense_id = expense.EXPENSE_ID;
+                            var exp = context.afs_expense.Where(w => w.EXPENSE_ID == v.expense_id).FirstOrDefault();
+                            if (exp != null) v.expense_desc = exp.EXPENSE_DESC;
+                            v.remark = expense.REMARK;
+                            v.amount = expense.EXPENSE_AMOUNT;
+                            h.total_expense += v.amount;
+                            h.expense.Add(v);
+                        }
+                        result.shipment.Add(h);
+                    }
+                    results.Add(result);
 
                     return Request.CreateResponse(HttpStatusCode.OK, results);
                 }

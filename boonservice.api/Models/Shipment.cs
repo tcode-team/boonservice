@@ -95,6 +95,27 @@ namespace boonservice.api.Models
     }
 
     /// <summary>
+    /// Structure for Shipment Summary Search
+    /// </summary>
+    public class ShipmentSummarySearchModel
+    {
+        /// <summary>
+        /// Fetch data setting
+        /// </summary>
+        public fetchdata fetchdata;
+
+        /// <summary>
+        /// รหัสพนักงาน
+        /// </summary>
+        public Int16 identity_id;
+
+        /// <summary>
+        /// วันที่ส่ง
+        /// </summary>
+        public string transport_month;
+    }
+
+    /// <summary>
     /// Shipment Type
     /// </summary>
     public class ShipmentTypeModel
@@ -557,5 +578,125 @@ namespace boonservice.api.Models
         /// สถานะ
         /// </summary>
         public string status;
+    }
+
+    /// <summary>
+    /// รายงานเอกสารค่าเที่ยวสรุปบัญชี พนักงาน
+    /// </summary>
+    public class ShipmentIdentitySummaryModel
+    {
+        /// <summary>
+        /// รหัส
+        /// </summary>
+        public Int16 identity_id;
+
+        /// <summary>
+        /// ชื่อพนักงาน
+        /// </summary>
+        public string identity_name;
+
+        /// <summary>
+        /// เดือน
+        /// </summary>
+        public string month_name;
+
+        /// <summary>
+        /// ปี
+        /// </summary>
+        public string year;
+
+        /// <summary>
+        /// Shipment header summary
+        /// </summary>
+        public ICollection<ShipmentSummaryModel> shipment;
+    }
+
+    /// <summary>
+    /// Shipment header summary
+    /// </summary>
+    public class ShipmentSummaryModel
+    {
+        /// <summary>
+        /// วันที่ส่ง
+        /// </summary>
+        public DateTime? transport_date;
+
+        /// <summary>
+        /// Shipment Number
+        /// </summary>
+        public string shipment_number;
+
+        /// <summary>
+        /// ประเภทพนักงาน
+        /// </summary>
+        public string identity_type;
+
+        /// <summary>
+        /// รวมค่าอื่น ๆ
+        /// </summary>
+        public decimal total_expense;
+
+        /// <summary>
+        /// รวมค่าจุด
+        /// </summary>
+        public decimal total_point;
+
+        /// <summary>
+        /// Shipment point 
+        /// </summary>
+        public ICollection<ShipmentPointSummaryModel> point;
+
+
+        /// <summary>
+        /// Shipment expense
+        /// </summary>
+        public ICollection<ShipmentExpenseSummaryModel> expense;
+    }
+
+    /// <summary>
+    /// Shipment point summary
+    /// </summary>
+    public class ShipmentPointSummaryModel
+    {
+        /// <summary>
+        /// จุดส่ง
+        /// </summary>
+        public string point_desc;
+
+        /// <summary>
+        /// หมายเหตุ
+        /// </summary>
+        public string remark;
+
+        /// <summary>
+        /// จำนวนเงิน
+        /// </summary>
+        public decimal amount;
+    }
+
+    /// <summary>
+    /// Shipment expense summary
+    /// </summary>
+    public class ShipmentExpenseSummaryModel
+    {
+        /// <summary>
+        /// รหัสค่าอื่นๆ
+        /// </summary>
+        public int expense_id;
+
+        /// <summary>
+        /// รายละเอียดค่าอื่น ๆ 
+        /// </summary>
+        public string expense_desc;
+
+        /// <summary>
+        /// หมายเหตุ
+        /// </summary>
+        public string remark;
+
+        /// <summary>
+        /// จำนวนเงิน
+        /// </summary>
+        public decimal amount;
     }
 }

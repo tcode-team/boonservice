@@ -171,6 +171,7 @@
     <Content Include="Content\css\bootstrap.css" />
     <Content Include="Content\css\bootstrap.min.css" />
     <Content Include="Content\css\main.css" />
+    <Content Include="Content\images\logo_lifestyle.jpg" />
     <Content Include="Content\vendor\angular-base64-upload\angular-base64-upload.js" />
     <Content Include="Content\vendor\angular-base64-upload\angular-base64-upload.min.js" />
     <Content Include="Content\vendor\lodash\lodash.js" />
@@ -1110,10 +1111,11 @@
     <Content Include="spa\controller\HomeController.js" />
     <Content Include="spa\controller\ShipmentEditController.js" />
     <Content Include="spa\controller\ShipmentListController.js" />
+    <Content Include="spa\controller\ShipmentSummaryController.js" />
     <Content Include="spa\controller\ShipmentPlanController.js" />
     <Content Include="spa\directive\directive.js" />
     <Content Include="spa\service\AuthInterceptor.js" />
-    <Content Include="spa\service\ShipmentPlanService.js" />
+    <Content Include="spa\service\ShipmentService.js" />
     <Content Include="spa\service\RepairService.js" />
     <Content Include="spa\service\UserService.js" />
     <Content Include="spa\service\LoginService.js" />
@@ -1128,6 +1130,7 @@
     <Content Include="spa\view\repairlist.html" />
     <Content Include="spa\view\ShipmentEdit.html" />
     <Content Include="spa\view\ShipmentList.html" />
+    <Content Include="spa\view\ShipmentSummary.html" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

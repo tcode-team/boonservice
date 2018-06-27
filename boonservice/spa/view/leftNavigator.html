@@ -34,6 +34,11 @@
                             <span>ตารางงานจัดส่ง</span>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link ripple" ng-class="{'active': navactive=='shipmentsummary'}" ng-click="MenuClick('shipmentsummary')" href="">
+                            <span>รายงานเอกสารค่าเที่ยวสรุปบัญชี</span>
+                        </a>
+                    </li>
                 </ul>
             </li>
             <li class="nav-item" role="tab" id="heading-dashboards">
@@ -54,12 +59,6 @@
                         </a>
                     </li>
                 </ul>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link ripple" ng-class="{'active': navactive=='blank'}" ng-click="MenuClick('blank')" href="">
-                    <i class="icon s-4 icon-calendar-today"></i>
-                    <span>Blank</span>
-                </a>
             </li>
         </ul>
     </div>

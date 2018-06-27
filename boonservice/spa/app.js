@@ -70,6 +70,11 @@
                 controller: 'ShipmentPlanController',
                 resolve: resolveController('ShipmentPlanController')
             })
+            .when('/shipmentsummary', {
+                templateUrl: 'spa/view/shipmentsummary.html?v=' + config.version,
+                controller: 'ShipmentSummaryController',
+                resolve: resolveController('ShipmentSummaryController')
+            })
             .otherwise({ redirectTo: '/home' });
 
         //Authorize check
