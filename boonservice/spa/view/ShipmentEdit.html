@@ -237,7 +237,7 @@
                                                                     <tr ng-repeat="x in DocList[0].shipment_carries | orderBy : 'itemno'">
                                                                         <td>
                                                                             <button type="button" class="btn  btn-danger btn-fab btn-sm "
-                                                                                    ng-click="removeRowPoint(x.itemno)" ng-hide="DocList[0].status_code=='03'">
+                                                                                    ng-click="removeRowPoint(x)" ng-hide="DocList[0].status_code=='03'">
                                                                                 <i class="icon-minus"></i>
                                                                             </button>
                                                                         </td> 
@@ -255,8 +255,8 @@
                                                                         <td>
                                                                             <input type="text" class="form-control" id="remark" ng-model="x.remark">
                                                                         </td>
-                                                                        <td>{{ x.driver_amount}}</td>
-                                                                        <td>{{ x.staff_amount}}</td>
+                                                                        <td class="text-right">{{x.driver_amount | number:2}}</td>
+                                                                        <td class="text-right">{{x.staff_amount | number:2}}</td>
                                                                     </tr>
                                                                 </tbody>
                                                             </table>
@@ -319,22 +319,24 @@
                                                                     <tr ng-repeat="x2 in DocList[0].shipment_expense | orderBy : 'itemno'">
                                                                         <td>
                                                                             <button type="button" class="btn btn-danger btn-fab btn-sm "
-                                                                                    ng-click="removeRowExpense(x2.itemno)" ng-hide="DocList[0].status_code=='03'">
+                                                                                    ng-click="removeRowExpense(x2)" ng-hide="DocList[0].status_code=='03'">
                                                                                 <i class="icon-minus"></i>
                                                                             </button>
                                                                         </td>
                                                                         <!-- <td>{{ x2.expense_id}}</td>-->
                                                                         <td>
-                                                                            <select class="form-control" ng-model="x2.expense_id" name="expense_id">
-                                                                                <option ng-repeat="ExpenseList in Expense_List" ng-value="ExpenseList.EXPENSE_ID">{{ExpenseList.EXPENSE_DESC}}</option>
+                                                                            <select class="form-control" name="expense_id"
+                                                                                    ng-model="x2.expense_id" ng-change="changeRowExpense(x2)" >
+                                                                                <option ng-repeat="ExpenseList in Expense_List" 
+                                                                                        ng-value="ExpenseList.EXPENSE_ID">{{ExpenseList.EXPENSE_DESC}}</option>
                                                                             </select>
                                                                         </td>
                                                                         <td>
                                                                             <input type="text" class="form-control" id="expense_remark" ng-model="x2.remark">
                                                                         </td>
                                                                         <td>
-                                                                            <input type="number" class="form-control" id="expense_amount"
-                                                                                   numeric-only ng-model="x2.expense_amount">
+                                                                            <input type="number" class="form-control" id="expense_amount" 
+                                                                                   ng-model="x2.expense_amount" ng-change="changeExpenseAmount()">
                                                                         </td>
                                                                     </tr>
                                                                 </tbody>
@@ -358,7 +360,7 @@
                                                         <label class="form-control-label col-md-3">รวมค่าขนส่ง </label>
                                                         <label for="Driver_Doc_Amt" class="form-control-label col-md-2">คนขับ</label>
                                                         <div class="col-md-3">
-                                                            <input type="text" class="form-control" id="Driver_Doc_Amt" ng-model="Driver_Doc_Amt"
+                                                            <input type="text" class="form-control text-right"" id="Driver_Doc_Amt" value="{{TotalDriverAmount() | number:2}}"
                                                                    ng-disabled="true">
                                                         </div>
                                                         <div class="col-md-4">
@@ -369,7 +371,7 @@
                                                         <label class="form-control-label col-md-3"></label>
                                                         <label for="Staff_Doc_Amt" class="form-control-label col-md-2">เด็กรถ</label>
                                                         <div class="col-md-3">
-                                                            <input type="text" class="form-control" id="Staff_Doc_Amt" ng-model="Staff_Doc_Amt"
+                                                            <input type="text" class="form-control text-right" id="Staff_Doc_Amt" value="{{TotalStaffAmount() | number:2}}"
                                                                    ng-disabled="true">
                                                         </div>
                                                         <div class="col-md-4">

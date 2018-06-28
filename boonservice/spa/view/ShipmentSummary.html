@@ -87,7 +87,7 @@
                                        <div class="table-responsive">
                                            <table style="width:100%">
                                                <thead>
-                                                   <tr>
+                                                   <tr style="border-bottom-style:outset;border-top-style:outset">
                                                        <th style="width:100px;">วันที่</th>
                                                        <th style="width:100px;">Shipment</th>
                                                        <th style="width:90px;">ประเภท</th>
@@ -100,12 +100,15 @@
                                                    </tr>
                                                </thead>
                                                <tbody>
+                                                   <tr ng-if="iden.shipment.length===0">
+                                                       <td colspan="9">ไม่พบข้อมูล</td>
+                                                   </tr>
                                                    <tr ng-repeat="head in iden.shipment | orderBy:'transport_date'">
                                                        <td style="vertical-align:text-top">{{head.transport_date | date:'dd/MM/yyyy'}}</td>
                                                        <td style="vertical-align:text-top">{{head.shipment_number}}</td>
                                                        <td style="vertical-align:text-top">{{head.identity_type}}</td>
                                                        <td>
-                                                           <p ng-repeat="point in head.point">
+                                                           <p ng-repeat="point in head.point" ng-init="iden.count_point = iden.count_point + 1;">
                                                                {{point.point_desc}}
                                                            </p>
                                                        </td>
@@ -119,9 +122,20 @@
                                                                {{exp.expense_desc}}
                                                            </p>
                                                        </td>
-                                                       <td style="vertical-align:text-top;text-align:right;">{{head.total_expense | number:2}}</td>
-                                                       <td style="vertical-align:text-top;text-align:right;">{{head.total_point | number:2}}</td>
+                                                       <td style="vertical-align:text-top;text-align:right;" ng-init="iden.sum_expense = iden.sum_expense + head.total_expense;">{{head.total_expense | number:2}}</td>
+                                                       <td style="vertical-align:text-top;text-align:right;" ng-init="iden.sum_point = iden.sum_point + head.total_point;">{{head.total_point | number:2}}</td>
                                                        <td style="vertical-align:text-top;text-align:right;">{{head.total_point + head.total_expense | number:2}}</td>
+                                                   </tr>
+                                                   <tr style="border-top-style:outset">
+                                                       <td style="border:none"></td>
+                                                       <td style="border:none"></td>
+                                                       <td style="border:none"></td>
+                                                       <td style="border-bottom:solid;font-weight:bold">Counts: {{iden.count_point | number:0}}</td>
+                                                       <td style="border:none"></td>
+                                                       <td style="border:none"></td>
+                                                       <td style="border-bottom:solid;text-align:right;font-weight:bold;">{{iden.sum_expense | number:2}}</td>
+                                                       <td style="border-bottom:solid;text-align:right;font-weight:bold;">{{iden.sum_point | number:2}}</td>
+                                                       <td style="border-bottom:solid;text-align:right;font-weight:bold;">{{iden.sum_expense + iden.sum_point | number:2}}</td>
                                                    </tr>
                                                </tbody>
                                            </table>
@@ -139,10 +153,10 @@
 </div>
 <style type="text/css">
     table, th, td {
-        border: 1px solid black;
+        border: 1px solid #E9ECEF;
         border-collapse: collapse;
     }
     th, td {
-        padding: 15px;
+        padding: 10px;
     }
 </style>

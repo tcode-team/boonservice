@@ -95,7 +95,7 @@
                     }
                     if ($scope.DocList[0].shipment_expense.length > 0) {
                         for (var v = 0; v < $scope.DocList[0].shipment_expense.length; v++) {
-                            if ($scope.DocList[0].shipment_expense[iv].itemno > $scope.ExpenseMax) {
+                            if ($scope.DocList[0].shipment_expense[v].itemno > $scope.ExpenseMax) {
                                 $scope.ExpenseMax = $scope.DocList[0].shipment_expense[v].itemno;
                             }
                         }
@@ -183,21 +183,36 @@
             $scope.CalDocAmt();
         };
 
-        $scope.removeRowPoint = function (ItemNo) {
-            var index = -1;
-            var comArr = eval($scope.DocList[0].shipment_carries);
-             
-            for (var i = 0; i < comArr.length; i++) {
-                if (comArr[i].itemno === ItemNo) {
-                    index = i;
-                    break;
+        $scope.removeRowPoint = function (rowPoint) {
+            var removeLocal = function () {
+                //// Start -- find index and remove 
+                var index = -1;
+                var comArr = eval($scope.DocList[0].shipment_carries);
+                for (var i = 0; i < comArr.length; i++) {
+                    if (comArr[i].itemno === rowPoint.itemno) {
+                        index = i;
+                        break;
+                    }
                 }
+                if (index === -1) {
+                    alert("Something gone wrong");
+                    return undefined;
+                }
+                $scope.DocList[0].shipment_carries.splice(index, 1);
+                //// End -- find index and remove 
             }
-            if (index === -1) {
-                alert("Something gone wrong");
-                return undefined;
-            }
-            $scope.DocList[0].shipment_carries.splice(index, 1);
+
+            //// Post delete 
+            $http({
+                url: config.api.url + 'shipment/removeCarries',
+                method: 'POST',
+                data: rowPoint
+            }).then(function (response) {
+                if (response.status === 200) {
+                    removeLocal();
+                };
+            });
+
             if ($scope.RowPoint > 0) {
                 $scope.RowPoint--;
             }
@@ -229,20 +244,41 @@
             console.log('ExpenseMax ' + $scope.ExpenseMax);
         };
 
-        $scope.removeRowExpense = function (ItemNo) {
-            var index = -1;
-            var comArr = eval($scope.DocList[0].shipment_expense);
-            for (var i = 0; i < comArr.length; i++) {
-                if (comArr[i].itemno === ItemNo) {
-                    index = i;
-                    break;
+        $scope.removeRowExpense = function (rowExpense) {
+            var removeLocal = function () {
+                //// Start -- find index and remove 
+                var index = -1;
+                var comArr = eval($scope.DocList[0].shipment_expense);
+                for (var i = 0; i < comArr.length; i++) {
+                    if (comArr[i].itemno === rowExpense.itemno) {
+                        index = i;
+                        break;
+                    }
                 }
+                if (index === -1) {
+                    alert("Something gone wrong");
+                    return undefined;
+                }
+                $scope.DocList[0].shipment_expense.splice(index, 1);
+                //// End -- find index and remove 
             }
-            if (index === -1) {
-                alert("Something gone wrong");
-                return undefined;
+
+            //// Post delete 
+            $http({
+                url: config.api.url + 'shipment/removeExpense',
+                method: 'POST',
+                data: rowExpense
+            }).then(function (response) {
+                if (response.status === 200) {
+                    removeLocal();
+                };
+            });
+
+            if ($scope.RowPoint > 0) {
+                $scope.RowPoint--;
             }
-            $scope.DocList[0].shipment_expense.splice(index, 1);
+
+
             if ($scope.RowExpense > 0) {
                 $scope.RowExpense--;
             }
@@ -251,6 +287,11 @@
             console.log('RowExpense - ' + $scope.RowExpense);
 
         };
+
+        $scope.changeRowExpense = function (rowExpense) {
+            var expense = _.find($scope.Expense_List, function (v) { return v.EXPENSE_ID === rowExpense.expense_id });
+            rowExpense.expense_amount = expense.EXPENSE_AMOUNT;
+        }
         /// Add-Remove row Table End ---------------------------------------------------------------------------------------
          
         $http.get(config.api.url + '/afs_car_identity_card/get').then(function (response) {
@@ -402,6 +443,37 @@
         }
         ////  Get Description  End ----------------------------------------------------
 
+       
+        $scope.changeExpenseAmount = function () {
+            $scope.TotalDriverAmount();
+            $scope.TotalStaffAmount();
+        }
+
+        /// รวมค่าขนส่ง คนขับ
+        $scope.TotalDriverAmount = function () {
+            var result = 0;
+            if ($scope.DocList === undefined) return result;
+            angular.forEach($scope.DocList[0].shipment_carries, function (value, key) {
+                result += value.driver_amount;
+            })
+            angular.forEach($scope.DocList[0].shipment_expense, function (value, key) {
+                result += parseFloat(value.expense_amount);
+            })
+            return result;
+        }
+
+        /// รวมค่าขนส่ง เด็กรถ
+        $scope.TotalStaffAmount = function () {
+            var result = 0;
+            if ($scope.DocList === undefined) return result;
+            angular.forEach($scope.DocList[0].shipment_carries, function (value, key) {
+                result += value.staff_amount;
+            })
+            angular.forEach($scope.DocList[0].shipment_expense, function (value, key) {
+                result += parseFloat(value.expense_amount);
+            })
+            return result;
+        }
 
         $scope.ShowTBL = function (DataList) {
             //console.log("ShowTBL DataList " );
@@ -421,7 +493,6 @@
         
 
         ///  Save Data
-
         $scope.put_Data_Flag = function Put_Data() {
 
             console.log($scope.DocList[0]); 
@@ -450,40 +521,32 @@
 
                 $scope.alert($scope.ShipEditErr);
                 return; 
-                } 
+            }
 
-                console.log($scope.DocList[0].point_id);
-                if ($scope.DocList[0].point_id === undefined) {
-                    $scope.ShipEditErr = "กรุณาระบุปข้อมูลให้ครบ (จุดส่ง)";
+            console.log($scope.DocList[0].point_id);
+            if ($scope.DocList[0].point_id === undefined) {
+                $scope.ShipEditErr = "กรุณาระบุปข้อมูลให้ครบ (จุดส่ง)";
 
-                    $scope.alert($scope.ShipEditErr);
-                    return undefined;
-                }
-                if ($scope.DocList[0].point_id == 0) {
-                    $scope.ShipEditErr = "กรุณาระบุปข้อมูลให้ครบ (จุดส่ง)";
+                $scope.alert($scope.ShipEditErr);
+                return undefined;
+            }
+            if ($scope.DocList[0].point_id == 0) {
+                $scope.ShipEditErr = "กรุณาระบุปข้อมูลให้ครบ (จุดส่ง)";
 
-                    $scope.alert($scope.ShipEditErr);
-                    return undefined;
-                }  
+                $scope.alert($scope.ShipEditErr);
+                return undefined;
+            }  
                
             console.log(typeof $scope.DocList[0].transport_date);
             console.log('transport_date ' + $scope.DocList[0].transport_date);
-            if ($scope.DocList[0].transport_date != undefined) {
-                var Df = getFormattedDate($scope.DocList[0].transport_date);
-
-                console.log(Df);
-
-                    if (Df != undefined && Df.length > 0) {
-                        $scope.DocList[0].transport_date = Df;
-                    }
-                }
-                else {
+            if ($scope.DocList[0].transport_date == undefined || $scope.DocList[0].transport_date == null || $scope.DocList[0].transport_date == '') 
+            {
                 $scope.ShipEditErr = "กรุณาระบุปข้อมูลให้ครบ (วันที่ส่ง)";
-
                 $scope.alert($scope.ShipEditErr);
-                  return undefined;
-                }
+                return undefined;
+            }
 
+            $scope.loading = true;
 
             /////////   ExpenseList   Detail
             var ChkExpenseListt = $scope.ShowTBL($scope.DocList[0].shipment_expense);
@@ -496,32 +559,36 @@
 
             $scope.DocList[0].status_code = '02';
 
-                //transport_amount 
+            //transport_amount 
 
             console.log($scope.DocList[0].shipment_carries);
             console.log($scope.DocList[0].shipment_expense);
 
-            var textObject = JSON.stringify($scope.DocList);
-            textObject = textObject.substring(1, textObject.length - 1);
-            console.log('textObject ' + textObject);
+            var val = _.clone($scope.DocList[0], true);
+            if (val.transport_date !== undefined) val.transport_date = getFormattedDate(val.transport_date);
+
+            //var textObject = JSON.stringify($scope.DocList);
+            //textObject = textObject.substring(1, textObject.length - 1);
+            //console.log('textObject ' + textObject);
+
             $http({
                 url: config.api.url + 'shipment/save',
                 method: 'POST',
-                data: textObject
-                    }).then(function (response) {
-                    console.log(response);
+                data: val //textObject
+            }).then(function (response) {
+                console.log(response);
+                $scope.loading = false;
+
+                // $scope.DocList = response.data;
+
+                //$scope.ShipmentHead();
+
+                if (response.status !== 200) {
                     $scope.loading = false;
-
-                        // $scope.DocList = response.data;
-
-                        $scope.ShipmentHead();
-
-                    if (response.status !== 200) {
-                        $scope.loading = false;
-                        $scope.ShipEditErr = response.statusText;
-                        $scope.alert($scope.ShipEditErr);
-                    }
-                });
+                    $scope.ShipEditErr = response.statusText;
+                    $scope.alert($scope.ShipEditErr);
+                }
+            });
 
             return ;
         }

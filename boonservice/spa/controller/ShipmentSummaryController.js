@@ -30,7 +30,6 @@
 
         $scope.fn_preview = function () {
             $scope.loading = true;
-            console.log($scope.selection);
             var val = _.clone($scope.selection, true);
             if (val == undefined) {
                 $scope.alert('โปรดระบุเงื่อนไขการค้นหา');

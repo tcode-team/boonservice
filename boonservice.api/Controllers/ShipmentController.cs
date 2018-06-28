@@ -258,71 +258,76 @@ namespace boonservice.api.Controllers
             {
                 using (var context = new SAPContext())
                 {
+                    var newdata = false;
                     afs_shipment_h data = new afs_shipment_h();
-                    data.CLIENT = postdata.client;
-                    data.SHIPMENT_NUMBER = postdata.shipment_number;
-                    data.TRANSPORT_DATE = DateTime.ParseExact(postdata.transport_date,"dd/MM/yyyy", null);
-                    data.CARGROUP_CODE = postdata.cargroup_code;
-                    data.DRIVER_ID = postdata.driver_id;
-                    data.STAFF1_ID = postdata.staff1_id;
-                    data.STAFF2_ID = postdata.staff2_id;
-                    data.STATUS = postdata.status_code;
-                    data.REMARK = postdata.remark;
-                    data.POINT_ID = postdata.point_id;
-                    var shipment_h = context.afs_shipment_h.Where(t => t.CLIENT == postdata.client && t.SHIPMENT_NUMBER == postdata.shipment_number).FirstOrDefault();
+                    var shipment_h = context.afs_shipment_h
+                        .Where(t => t.CLIENT == postdata.client && t.SHIPMENT_NUMBER == postdata.shipment_number).FirstOrDefault();
                     if (shipment_h == null)
                     {
-                        data.CREATED_BY = postdata.created_by;
-                        data.CREATED_DATE = DateTime.Now;
-                        data.UPDATE_BY = postdata.update_by;
-                        data.UPDATE_DATE = DateTime.Now;
+                        newdata = true;
+                        shipment_h = new afs_shipment_h();
+                        shipment_h.CLIENT = postdata.client;
+                        shipment_h.SHIPMENT_NUMBER = postdata.shipment_number;
+                        shipment_h.CREATED_BY = postdata.created_by;
+                        shipment_h.CREATED_DATE = DateTime.Now;
+                    }
+
+                    shipment_h.TRANSPORT_DATE = DateTime.ParseExact(postdata.transport_date,"dd/MM/yyyy", null);
+                    shipment_h.CARGROUP_CODE = postdata.cargroup_code;
+                    shipment_h.DRIVER_ID = postdata.driver_id;
+                    shipment_h.STAFF1_ID = postdata.staff1_id;
+                    shipment_h.STAFF2_ID = postdata.staff2_id;
+                    shipment_h.STATUS = postdata.status_code;
+                    shipment_h.REMARK = postdata.remark;
+                    shipment_h.POINT_ID = postdata.point_id;
+                    shipment_h.UPDATE_BY = postdata.update_by;
+                    shipment_h.UPDATE_DATE = DateTime.Now;
+
+                    if (newdata)
+                    {
                         context.afs_shipment_h.Add(data);
                     }
                     else
                     {
-                        context.afs_shipment_h.Remove(shipment_h);
-                        data.CREATED_BY = shipment_h.CREATED_BY;
-                        data.CREATED_DATE = shipment_h.CREATED_DATE;
-                        data.UPDATE_BY = postdata.update_by;
-                        data.UPDATE_DATE = DateTime.Now;
-                        context.afs_shipment_h.Add(data);
+                        context.Entry(shipment_h).State = EntityState.Modified;
                     }
-                    
 
                     // Save Shipment carries
                     if (postdata.shipment_carries != null)
                     {
                         foreach (var item in postdata.shipment_carries)
                         {
-                            afs_shipment_carries carries = new afs_shipment_carries();
-                            carries.CLIENT = postdata.client;
-                            carries.SHIPMENT_NUMBER = postdata.shipment_number;
-                            carries.ITEM_NO = item.itemno;
-                            carries.POINT_DESC = item.point_desc;
-                            carries.TIME_RANGE = item.time_range;
-                            carries.SALEORDER_NUMBER = item.so_number;
-                            carries.REMARK = item.remark;
-                            carries.DRIVER_AMOUNT = item.driver_amount;
-                            carries.STAFF_AMOUNT = item.staff_amount;
-                            var exists = context.afs_shipment_carries.Where(w => 
-                                w.CLIENT == carries.CLIENT && 
-                                w.SHIPMENT_NUMBER == carries.SHIPMENT_NUMBER && 
-                                w.ITEM_NO == carries.ITEM_NO).FirstOrDefault();
+                            newdata = false;
+                            var exists = context.afs_shipment_carries.Where(w =>
+                                w.CLIENT == item.client &&
+                                w.SHIPMENT_NUMBER == item.shipment_number &&
+                                w.ITEM_NO == item.itemno).FirstOrDefault();
                             if (exists == null)
                             {
-                                carries.CREATED_BY = postdata.created_by;
-                                carries.CREATED_DATE = DateTime.Now;
-                                carries.UPDATE_BY = postdata.update_by;
-                                carries.UPDATE_DATE = DateTime.Now;
-                                context.afs_shipment_carries.Add(carries);
+                                newdata = true;
+                                exists = new afs_shipment_carries();
+                                exists.CLIENT = postdata.client;
+                                exists.SHIPMENT_NUMBER = postdata.shipment_number;
+                                exists.ITEM_NO = item.itemno;
+                                exists.CREATED_BY = postdata.created_by;
+                                exists.CREATED_DATE = DateTime.Now;
+                            }
+
+                            exists.POINT_DESC = item.point_desc;
+                            exists.TIME_RANGE = item.time_range;
+                            exists.SALEORDER_NUMBER = item.so_number;
+                            exists.REMARK = item.remark;
+                            exists.DRIVER_AMOUNT = item.driver_amount;
+                            exists.STAFF_AMOUNT = item.staff_amount;
+                            exists.UPDATE_BY = postdata.update_by;
+                            exists.UPDATE_DATE = DateTime.Now;
+
+                            if (newdata)
+                            {
+                                context.afs_shipment_carries.Add(exists);
                             } else
                             {
-                                context.afs_shipment_carries.Remove(exists);
-                                carries.CREATED_BY = shipment_h.CREATED_BY;
-                                carries.CREATED_DATE = shipment_h.CREATED_DATE;
-                                carries.UPDATE_BY = postdata.update_by;
-                                carries.UPDATE_DATE = DateTime.Now;
-                                context.afs_shipment_carries.Add(carries);
+                                context.Entry(exists).State = EntityState.Modified;
                             }
                         }
                     }
@@ -332,33 +337,36 @@ namespace boonservice.api.Controllers
                     {
                         foreach (var item in postdata.shipment_expense) 
                         {
+                            newdata = false;
                             afs_shipment_expense exp = new afs_shipment_expense();
-                            exp.CLIENT = postdata.client;
-                            exp.SHIPMENT_NUMBER = postdata.shipment_number;
-                            exp.ITEM_NO = item.itemno;
-                            exp.EXPENSE_ID = item.expense_id;
-                            exp.REMARK = item.remark;
-                            exp.EXPENSE_AMOUNT = item.expense_amount;
                             var exists = context.afs_shipment_expense.Where(w =>
-                                w.CLIENT == exp.CLIENT &&
-                                w.SHIPMENT_NUMBER == exp.SHIPMENT_NUMBER &&
-                                w.ITEM_NO == exp.ITEM_NO
+                                w.CLIENT == item.client &&
+                                w.SHIPMENT_NUMBER == item.shipment_number &&
+                                w.ITEM_NO == item.itemno
                             ).FirstOrDefault();
-                            if (exists==null)
+                            if (exists == null)
                             {
-                                exp.CREATED_BY = postdata.created_by;
-                                exp.CREATED_DATE = DateTime.Now;
-                                exp.UPDATE_BY = postdata.update_by;
-                                exp.UPDATE_DATE = DateTime.Now;
-                                context.afs_shipment_expense.Add(exp);
+                                newdata = true;
+                                exists = new afs_shipment_expense();
+                                exists.CLIENT = postdata.client;
+                                exists.SHIPMENT_NUMBER = postdata.shipment_number;
+                                exists.ITEM_NO = item.itemno;
+                                exists.EXPENSE_ID = item.expense_id;
+                                exists.CREATED_BY = postdata.created_by;
+                                exists.CREATED_DATE = DateTime.Now;
+                            }
+
+                            exists.REMARK = item.remark;
+                            exists.EXPENSE_AMOUNT = item.expense_amount;
+                            exists.UPDATE_BY = postdata.update_by;
+                            exists.UPDATE_DATE = DateTime.Now;
+
+                            if (newdata)
+                            {  
+                                context.afs_shipment_expense.Add(exists);
                             } else
                             {
-                                context.afs_shipment_expense.Remove(exists);
-                                exp.CREATED_BY = shipment_h.CREATED_BY;
-                                exp.CREATED_DATE = shipment_h.CREATED_DATE;
-                                exp.UPDATE_BY = postdata.update_by;
-                                exp.UPDATE_DATE = DateTime.Now;
-                                context.afs_shipment_expense.Add(exp);
+                                context.Entry(exists).State = EntityState.Modified;
                             }
                         }
                     }
@@ -376,9 +384,79 @@ namespace boonservice.api.Controllers
             }
             catch (Exception ex)
             {
-                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.InnerException.Message);
             }
            
+        }
+
+        /// <summary>
+        /// ลบรายการจุดส่ง
+        /// </summary>
+        /// <remarks>
+        /// ลบรายการจุดส่ง
+        /// </remarks>
+        /// <returns></returns>
+        /// <response code="200"></response>
+        [Authorize]
+        [Route("removeCarries")]
+        public HttpResponseMessage removeCarries(ShipmentCarries postdata)
+        {
+            try
+            {
+                using (var context = new SAPContext())
+                {
+                    var carries = context.afs_shipment_carries
+                        .Where(t => t.CLIENT == postdata.client 
+                            && t.SHIPMENT_NUMBER == postdata.shipment_number 
+                            && t.ITEM_NO == postdata.itemno).FirstOrDefault();
+                    if (carries != null)
+                    {
+                        context.Entry(carries).State = EntityState.Deleted;
+                        context.SaveChanges();
+                    }
+                }
+                return Request.CreateResponse(HttpStatusCode.OK);
+            }
+            catch (Exception ex)
+            {
+
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex);
+            }
+        }
+
+        /// <summary>
+        /// ลบรายการจุดส่ง
+        /// </summary>
+        /// <remarks>
+        /// ลบรายการจุดส่ง
+        /// </remarks>
+        /// <returns></returns>
+        /// <response code="200"></response>
+        [Authorize]
+        [Route("removeExpense")]
+        public HttpResponseMessage removeExpense(ShipmentExpense postdata)
+        {
+            try
+            {
+                using (var context = new SAPContext())
+                {
+                    var expense = context.afs_shipment_expense
+                        .Where(t => t.CLIENT == postdata.client 
+                            && t.SHIPMENT_NUMBER == postdata.shipment_number 
+                            && t.ITEM_NO == postdata.itemno).FirstOrDefault();
+                    if (expense != null)
+                    {
+                        context.Entry(expense).State = EntityState.Deleted;
+                        context.SaveChanges();
+                    }
+                }
+                return Request.CreateResponse(HttpStatusCode.OK);
+            }
+            catch (Exception ex)
+            {
+
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex);
+            }
         }
 
         /// <summary>
