@@ -81,7 +81,7 @@
                                                 <div class="form-group col-md-7">
                                                     <label for="Status" class="form-control-label col-md-3">สถานะ</label>
                                                     <div class="col-md-4">
-                                                        <select class="form-control" ng-model="DataSearch.Status" name="Status">
+                                                        <select class="form-control" ng-model="DataSearch.ShipmentStatus" name="Status">
                                                             <option value="ALL" selected>ทั้งหมด</option>
                                                             <option ng-repeat="option3 in DocStatus" ng-value="option3.STATUS_CODE">{{option3.STATUS_DESC}}</option>
                                                         </select>
@@ -190,7 +190,15 @@
                                                                     </div>
                                                                 </td>
                                                                 <td>{{ x.shipment_date | date:'dd/MM/yyyy' }}</td>
-                                                                <td>{{ x.shipment_number}}</td>
+                                                                <td  class="text-center"> 
+                                                                    <div ng-hide="x.status_code=='03'">{{ x.shipment_number}}</div>
+                                                                    <div ng-hide="x.status_code!='03'">
+                                                                        <button type="button"   class="btn btn-link"
+                                                                                ng-click="ShipmentForm(x.shipment_number)">
+                                                                            <u> {{ x.shipment_number}}</u>
+                                                                        </button>
+                                                                    </div>
+                                                                </td>
                                                                 <td>{{ x.route_desc}}</td>
                                                                 <td>{{ x.container_id}}</td>
                                                                 <td>{{ x.cargroup_desc}}</td>
