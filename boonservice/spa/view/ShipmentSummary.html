@@ -59,15 +59,19 @@
                                                 </modal-select>
                                             </div>
                                             <div class="form-row">
-                                                <div class="form-group col-md-4">
-                                                    <label class="col-form-label col-md-3"></label>
-                                                    <button class="btn btn-primary fuse-ripple-ready" type="button" style="margin-left:15px;"
+                                                <div class="form-group col">
+                                                    <label class="col-form-label col-md-1"></label>
+                                                    <button class="btn btn-primary fuse-ripple-ready" type="button" style="margin-left:13px;"
                                                             ng-click="fn_preview()">
                                                         <i class="icon icon-application"></i> Preview
                                                     </button>
                                                     <button class="btn btn-primary fuse-ripple-ready" type="button" style="margin-left:15px;"
                                                             ng-click="fn_clear()">
                                                         <i class="icon icon-note-outline"></i> Clear
+                                                    </button>
+                                                    <button class="btn btn-primary fuse-ripple-ready" type="button" style="margin-left:15px;"
+                                                            ng-click="fn_print()">
+                                                        <i class="icon icon-printer"></i> Print
                                                     </button>
                                                 </div>
                                             </div>
@@ -79,7 +83,7 @@
                             <br />
                             <!-- List -->
                             <div class="card">
-                                <div class="card-body">
+                                <div class="card-body" id="printDoc">
                                    <div ng-repeat="iden in shipmentsum">
                                        <table style="width:100%;border:none">
                                            <tr>

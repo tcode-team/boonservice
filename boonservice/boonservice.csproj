@@ -174,6 +174,7 @@
     <Content Include="Content\images\logo_lifestyle.jpg" />
     <Content Include="Content\vendor\angular-base64-upload\angular-base64-upload.js" />
     <Content Include="Content\vendor\angular-base64-upload\angular-base64-upload.min.js" />
+    <Content Include="Content\vendor\jquery.print\jQuery.print.min.js" />
     <Content Include="Content\vendor\lodash\lodash.js" />
     <Content Include="Content\vendor\magnific-popup\jquery.magnific-popup-init.js" />
     <Content Include="Content\vendor\magnific-popup\jquery.magnific-popup.js" />

@@ -33,7 +33,8 @@ namespace boonservice
                         "~/content/vendor/datatables-responsive/js/dataTables.responsive.js",
                         "~/content/vendor/pnotify/pnotify.custom.min.js",
                         "~/content/vendor/lodash/lodash.js",
-                        "~/content/vendor/magnific-popup/jquery.magnific-popup.js"));
+                        "~/content/vendor/magnific-popup/jquery.magnific-popup.js",
+                        "~/content/vendor/jquery.print/jquery.print.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/angular").Include(
                         "~/content/vendor/angular/angular.min.js",

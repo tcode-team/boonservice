@@ -63,6 +63,18 @@
             $scope.shipmentsum = [];
         };
 
+        $scope.fn_print = function () {
+            $("#printDoc").print({
+                addGlobalStyles: true,
+                stylesheet: "http://fonts.googleapis.com/css?family=Inconsolata",
+                stylesheet: null,
+                iframe: false,
+                title: null,
+                append: null,
+                prepend: null
+            });
+        }
+
         // alert function 
         $scope.alert = function (message) {
             new PNotify({
