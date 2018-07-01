@@ -119,12 +119,12 @@
                                                     <label for="STAFF1_ID" class="form-control-label col-md-3">เด็กรถ 1</label>
                                                     <div class="col-md-6">
                                                         <input type="text" class="form-control" id="Staff_Name1" ng-model="Staff_Name1" ng-disabled="true" ng-value="getDriverName(DocList[0].staff1_id)">
-                                                        <input type="text" ng-hide="true" id="Staff_ID1" ng-model="DocList[0].staff1_id">
+                                                        <input type="text" ng-hide="true" id="Staff_ID1" ng-model="DocList[0].staff1_id" ng-change="changeStaff()">
                                                     </div>
                                                     <button type="button" class="btn btn-light btn-fab btn-sm" ng-click="toggleModalS1('พนักงานเด็กรถ(1)')" ng-disabled="DocList[0].status_code=='03'">
                                                         <i class="icon-account-search"></i>
                                                     </button>
-                                                    <button type="button" class="btn btn-danger btn-fab btn-sm" ng-click="DocList[0].staff1_id=0" 
+                                                    <button type="button" class="btn btn-danger btn-fab btn-sm" ng-click="ClearStaff('staff1')" 
                                                             ng-hide="DocList[0].staff1_id==0 || DocList[0].status_code=='03'" >
                                                         <i class="icon-minus"></i>
                                                     </button>
@@ -133,12 +133,12 @@
                                                     <label for="STAFF2_ID" class="form-control-label col-md-2">เด็กรถ 2</label>
                                                     <div class="col-md-6">
                                                         <input type="text" class="form-control" id="Staff_Name2" ng-model="Staff_Name2" ng-disabled="true" ng-value="getDriverName(DocList[0].staff2_id)">
-                                                        <input type="text" ng-hide="true" id="Staff_ID2" ng-model="DocList[0].staff2_id">
+                                                        <input type="text" ng-hide="true" id="Staff_ID2" ng-model="DocList[0].staff2_id" ng-change="changeStaff()">
                                                     </div>
                                                     <button type="button" class="btn btn-light btn-fab btn-sm" ng-click="toggleModalS2('พนักงานเด็กรถ(2)')" ng-disabled="DocList[0].status_code=='03'">
                                                         <i class="icon-account-search"></i>
                                                     </button>
-                                                    <button type="button" class="btn btn-danger btn-fab btn-sm" ng-click="DocList[0].staff2_id=0"
+                                                    <button type="button" class="btn btn-danger btn-fab btn-sm" ng-click="ClearStaff('staff2')"
                                                             ng-hide="DocList[0].staff2_id==0 || DocList[0].status_code=='03'">
                                                         <i class="icon-minus"></i>
                                                     </button>
@@ -150,7 +150,7 @@
                                                 <div class="list-group" role="tablist" style="height:450px;overflow-x:auto">
                                                     <a ng-repeat="rowS1 in staff1_list |  filter:{STAFF_FLAG:'Y' }" class="list-group-item list-group-item-action" href=""
                                                        ng-click="selected_Staff1(rowS1.PEOPLE_ID)" data-toggle="tab"
-                                                       ng-class="{'active':Staff_ID1==rowS1.PEOPLE_ID, '':Staff_ID1!=rowS1.PEOPLE_ID }">{{rowS1.PEOPLE_ID}}:{{rowS1.NAME}}</a>
+                                                       ng-class="{'active':staff1_id==rowS1.PEOPLE_ID, '':Staff_ID1!=rowS1.PEOPLE_ID }">{{rowS1.PEOPLE_ID}}:{{rowS1.NAME}}</a>
                                                 </div>
                                             </modal-select>
 
@@ -158,7 +158,7 @@
                                                 <div class="list-group" role="tablist" style="height:450px;overflow-x:auto">
                                                     <a ng-repeat="rowS2 in staff2_list |  filter:{STAFF_FLAG:'Y' }" class="list-group-item list-group-item-action" href=""
                                                        ng-click="selected_Staff2(rowS2.PEOPLE_ID)" data-toggle="tab"
-                                                       ng-class="{'active':Staff_ID2==rowS2.PEOPLE_ID, '':Staff_ID2!=rowS2.PEOPLE_ID }">{{rowS2.PEOPLE_ID}}:{{rowS2.NAME}}</a>
+                                                       ng-class="{'active':staff2_id==rowS2.PEOPLE_ID, '':Staff_ID2!=rowS2.PEOPLE_ID }">{{rowS2.PEOPLE_ID}}:{{rowS2.NAME}}</a>
                                                 </div>
                                             </modal-select>
 
