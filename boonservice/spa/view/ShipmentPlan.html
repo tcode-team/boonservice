@@ -61,15 +61,19 @@
                                                 </div>
                                             </div>
                                             <div class="form-row">
-                                                <div class="form-group col-md-4">
-                                                    <label class="col-form-label col-md-4"></label>
+                                                <div class="form-group col-md-5">
+                                                    <label class="col-form-label col-md-3"></label>
                                                     <button class="btn btn-primary fuse-ripple-ready" type="button" style="margin-left:15px;"
                                                             ng-click="fn_search_list()">
                                                         <i class="icon icon-search-web"></i> Search
                                                     </button>
                                                     <button class="btn btn-primary fuse-ripple-ready" type="button" style="margin-left:15px;"
-                                                            >
+                                                            ng-click="fn_clear()">
                                                         <i class="icon icon-note-outline"></i> Clear
+                                                    </button>
+                                                    <button class="btn btn-primary fuse-ripple-ready" type="button" style="margin-left:15px;"
+                                                            ng-click="fn_exportToExcel('#tableShipmentPlant')">
+                                                        <i class="icon icon-file-excel"></i> Excel
                                                     </button>
                                                 </div>
                                             </div>
@@ -83,7 +87,7 @@
                             <div class="card">
                                 <div class="card-body">
                                     <div class="table-responsive">
-                                        <table class="table table-bordered">
+                                        <table id="tableShipmentPlant" class="table table-bordered">
                                             <thead>
                                                 <tr>
                                                     <th width="100px;">วันที่ส่ง</th>
