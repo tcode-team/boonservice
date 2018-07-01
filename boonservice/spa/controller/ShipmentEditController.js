@@ -26,11 +26,13 @@
 
 
            // $scope.PointList = [];
-            $scope.ShipmentNo = $routeParams.param1; 
-             
+            $scope.ShipmentNo = $routeParams.param1;  
             $scope.Get_CarriesPoint();
             $scope.Get_TimeList();
-            $scope.Get_ExpenseList();
+            $scope.Get_ExpenseList(); 
+
+            $scope.Get_identity();
+
             $scope.loading = false;
             $scope.ShipmentHead(); 
         }
@@ -65,6 +67,17 @@
                 $scope.loading = false;
                 $scope.DocList = response.data;
 
+
+                $scope.drivers = _.cloneDeep($scope.identity);  
+                $scope.staff1_list = _.cloneDeep($scope.identity);
+                $scope.staff2_list = _.cloneDeep($scope.identity);   
+                //console.log('drivers');
+                //console.log($scope.drivers);
+                //console.log('staff1_list');
+                //console.log($scope.staff1_list);
+                //console.log('staff2_list');
+                //console.log($scope.staff2_list);
+
                 console.log(response.status); 
                     $scope.ShipmentNumber = $scope.DocList[0].shipment_number;
                     if ($scope.DocList[0].transport_date.length > 0) {
@@ -84,7 +97,14 @@
                 }
                 $scope.Get_Staff_Amt();
                 $scope.CalDocAmt();
-
+                // Remove driver_id  ที่ถูกเลือกในช่องอื่นแล้ว  
+                $scope.Remove_driver_list($scope.DocList[0].staff1_id);
+                $scope.Remove_driver_list($scope.DocList[0].staff2_id);
+                $scope.Remove_Staff1_list($scope.DocList[0].driver_id);
+                $scope.Remove_Staff1_list($scope.DocList[0].staff2_id);
+                $scope.Remove_Staff2_list($scope.DocList[0].driver_id);
+                $scope.Remove_Staff2_list($scope.DocList[0].staff1_id);
+                // Remove driver_id  ที่ถูกเลือกในช่องอื่นแล้ว    End 
                 try {
                     if ($scope.DocList[0].shipment_carries.length > 0) {
                         for (var i = 0; i < $scope.DocList[0].shipment_carries.length; i++) {
@@ -131,7 +151,23 @@
             ];
         };
 
+        $scope.Get_identity = function () { 
+            $http({
+                url: config.api.url + 'afs_car_identity_card/get',
+                method: 'GET'
+            }).then(function (response) {
+                console.log(response);
+                $scope.identity = response.data;
+                });
+             
+            //$http.get(config.api.url + '/afs_car_identity_card/get').then(function (response) {
+            //    console.log(response);
+            //    $scope.identity = response.data;
 
+            //    console.log('Get_identity');
+            //});
+        };
+        
         $scope.Get_CarriesPoint = function () {
             $http({
                 url: config.api.url + 'afs_carries_point/get',
@@ -294,10 +330,6 @@
         }
         /// Add-Remove row Table End ---------------------------------------------------------------------------------------
          
-        $http.get(config.api.url + '/afs_car_identity_card/get').then(function (response) {
-            console.log(response);
-            $scope.drivers = response.data;
-        });
 
         //Modal //////////////////////////////////////////
         $scope.showModal = false; //ต้องมี
@@ -322,6 +354,8 @@
             $scope.DocList[0].driver_id = driver_id; 
 
             $scope.CalDocAmt();
+            $scope.Remove_Staff1_list(Staff_id);
+
         }
 
         $scope.toggleModalS1 = function (btnClicked) { //ต้องมี
@@ -332,6 +366,7 @@
             $scope.DocList[0].staff1_id = Staff_id; 
 
             $scope.CalDocAmt();
+            $scope.Remove_driver_list(Staff_id);
         }
 
         $scope.toggleModalS2 = function (btnClicked) { //ต้องมี
@@ -342,18 +377,77 @@
             $scope.DocList[0].staff2_id = Staff_id; 
 
             $scope.CalDocAmt();
+            $scope.Remove_driver_list(Staff_id);
+            $scope.Remove_Staff1_list(Staff_id);
+        }
+
+        $scope.Remove_driver_list = function (driver_id) {// Remove driver_id  ที่ถูกเลือกในช่องอื่นแล้ว  
+            console.log('Remove Drive ' + driver_id)
+            //// Start -- find index and remove 
+            var index = -1;
+            var comArr = eval($scope.drivers);
+            for (var i = 0; i < comArr.length; i++) {
+                if (comArr[i].PEOPLE_ID === driver_id) {
+                    index = i;
+                    break;
+                }
+            }
+            if (index === -1) {
+              //  alert("Something gone wrong");
+                return undefined;
+            }
+            $scope.drivers.splice(index, 1);
+                //// End -- find index and remov 
+        }
+
+        $scope.Remove_Staff1_list = function (driver_id) {// Remove driver_id  ที่ถูกเลือกในช่องอื่นแล้ว  
+            console.log('Remove Staff1 ' + driver_id)
+            //// Start -- find index and remove 
+            var index = -1;
+            var comArr = eval($scope.staff1_list);
+            for (var i = 0; i < comArr.length; i++) {
+                if (comArr[i].PEOPLE_ID === driver_id) {
+                    index = i;
+                    break;
+                }
+            }
+            if (index === -1) {
+                //  alert("Something gone wrong");
+                return undefined;
+            }
+            $scope.staff1_list.splice(index, 1);
+            //// End -- find index and remov 
+        }
+
+        $scope.Remove_Staff2_list = function (driver_id) {// Remove driver_id  ที่ถูกเลือกในช่องอื่นแล้ว  
+            console.log('Remove Staff1 ' + driver_id)
+            //// Start -- find index and remove 
+            var index = -1;
+            var comArr = eval($scope.staff2_list);
+            for (var i = 0; i < comArr.length; i++) {
+                if (comArr[i].PEOPLE_ID === driver_id) {
+                    index = i;
+                    break;
+                }
+            }
+            if (index === -1) {
+                //  alert("Something gone wrong");
+                return undefined;
+            }
+            $scope.staff2_list.splice(index, 1);
+            //// End -- find index and remov 
         }
         //Modal //////////////////////////////////////////-----------------------------------------------------
 
 
         ///  Get Description 
-        $scope.getDriverName = function (TblDataList, KeyID) {
+        $scope.getDriverName = function (KeyID) {
            // var NameEmp = $filter('EmpName')(TblDataLIst, KeyID);
-            //console.log('KeyID ' + KeyID);
-            if (TblDataList && KeyID) {
-                for (var i = 0; i < TblDataList.length; i++) {
-                    if (TblDataList[i].PEOPLE_ID === KeyID) {
-                       var  NameEmp = TblDataList[i].NAME;
+            var comArr = eval($scope.identity);
+            if (comArr && KeyID) {
+                for (var i = 0; i < comArr.length; i++) {
+                    if (comArr[i].PEOPLE_ID === KeyID) {
+                        var NameEmp = comArr[i].NAME;
                        // console.log('EmName ' + NameEmp);
                         return NameEmp;
                         break;
@@ -383,18 +477,17 @@
             console.log('CalStaffCount ' + $scope.Staff_Count );
         }
 
-        $scope.Get_Staff_Amt = function () {
-            $scope.CalStaffCount();
-            if ($scope.Driver_Amt1 === 0) {
+        $scope.Get_Staff_Amt = function () { 
+           // console.log('Driver_Amt1 ' + $scope.Driver_Amt1 + ' Staff_Amt1 ' + $scope.Staff_Amt1  + ' RowPoint ' + $scope.RowPoint);
+            if ($scope.Driver_Amt1 === 0 || $scope.RowPoint < 2 ) {
                 console.log($scope.CarriesPoint);
-                console.log('Driver_Amt1 ' + $scope.Driver_Amt1 + ' Staff_Amt1 ' + $scope.Staff_Amt1);
                 for (var i = 0; i < $scope.CarriesPoint.length; i++) {
                     if ($scope.CarriesPoint[i].CARGROUP_CODE === $scope.DocList[0].cargroup_code && $scope.CarriesPoint[i].POINT_ID === $scope.DocList[0].point_id) {
                         $scope.Driver_Amt1 = $scope.CarriesPoint[i].DPOINT1_AMOUNT;
                         $scope.Staff_Amt1 = $scope.CarriesPoint[i].SPOINT1_AMOUNT;
                         $scope.Driver_Amt2 = $scope.CarriesPoint[i].DPOINT2_AMOUNT;
                         $scope.Staff_Amt2 = $scope.CarriesPoint[i].SPOINT2_AMOUNT;
-                        console.log('Add Driver_Amt1 ' + $scope.Driver_Amt1 + ' Staff_Amt1 ' + $scope.Staff_Amt1);
+                        //console.log('Add Driver_Amt1 ' + $scope.Driver_Amt1 + ' Staff_Amt1 ' + $scope.Staff_Amt1);
                         break;
                     }
                 }
@@ -439,7 +532,7 @@
             catch (errExpen) { }
 
             $scope.DocList[0].transport_amount = $scope.Driver_Doc_Amt + $scope.Staff_Doc_Amt;
-
+            $scope.changeExpenseAmount();
         }
         ////  Get Description  End ----------------------------------------------------
 
@@ -516,12 +609,12 @@
                 $scope.alert($scope.ShipEditErr);
                    return;
                 }
-            if ($scope.DocList[0].staff1_id.length == 0 || $scope.DocList[0].staff1_id == 0 ) {
-                $scope.ShipEditErr = "กรุณาระบุข้อมูลส่วน เด็กรถคนที่ 1 ";
+            //if ($scope.DocList[0].staff1_id.length == 0 || $scope.DocList[0].staff1_id == 0 ) {
+            //    $scope.ShipEditErr = "กรุณาระบุข้อมูลส่วน เด็กรถคนที่ 1 ";
 
-                $scope.alert($scope.ShipEditErr);
-                return; 
-            }
+            //    $scope.alert($scope.ShipEditErr);
+            //    return; 
+            //}
 
             console.log($scope.DocList[0].point_id);
             if ($scope.DocList[0].point_id === undefined) {

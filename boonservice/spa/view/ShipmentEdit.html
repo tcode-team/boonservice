@@ -95,7 +95,7 @@
                                                 <div class="form-group col-md-6">
                                                     <label for="DRIVER_ID" class="form-control-label col-md-2">คนขับ</label>
                                                     <div class="col-md-6">
-                                                        <input type="text" id="Driver_Name" class="form-control" ng-model="Driver_Name" ng-disabled="true" ng-value="getDriverName(drivers,DocList[0].driver_id)">
+                                                        <input type="text" id="Driver_Name" class="form-control" ng-model="Driver_Name" ng-disabled="true" ng-value="getDriverName(DocList[0].driver_id)">
                                                         <input type="text" ng-hide="true" id="Driver_ID" ng-model="DocList[0].driver_id">
                                                     </div>
                                                     <button type="button" class="btn btn-light btn-fab btn-sm" ng-click="toggleModal('พนักงานขับรถ')" ng-disabled="DocList[0].status_code=='03'">
@@ -118,21 +118,29 @@
                                                 <div class="form-group col-md-6">
                                                     <label for="STAFF1_ID" class="form-control-label col-md-3">เด็กรถ 1</label>
                                                     <div class="col-md-6">
-                                                        <input type="text" class="form-control" id="Staff_Name1" ng-model="Staff_Name1" ng-disabled="true" ng-value="getDriverName(drivers,DocList[0].staff1_id)">
+                                                        <input type="text" class="form-control" id="Staff_Name1" ng-model="Staff_Name1" ng-disabled="true" ng-value="getDriverName(DocList[0].staff1_id)">
                                                         <input type="text" ng-hide="true" id="Staff_ID1" ng-model="DocList[0].staff1_id">
                                                     </div>
                                                     <button type="button" class="btn btn-light btn-fab btn-sm" ng-click="toggleModalS1('พนักงานเด็กรถ(1)')" ng-disabled="DocList[0].status_code=='03'">
                                                         <i class="icon-account-search"></i>
                                                     </button>
+                                                    <button type="button" class="btn btn-danger btn-fab btn-sm" ng-click="DocList[0].staff1_id=0" 
+                                                            ng-hide="DocList[0].staff1_id==0 || DocList[0].status_code=='03'" >
+                                                        <i class="icon-minus"></i>
+                                                    </button>
                                                 </div>
                                                 <div class="form-group col-md-6">
                                                     <label for="STAFF2_ID" class="form-control-label col-md-2">เด็กรถ 2</label>
                                                     <div class="col-md-6">
-                                                        <input type="text" class="form-control" id="Staff_Name2" ng-model="Staff_Name2" ng-disabled="true" ng-value="getDriverName(drivers,DocList[0].staff2_id)">
+                                                        <input type="text" class="form-control" id="Staff_Name2" ng-model="Staff_Name2" ng-disabled="true" ng-value="getDriverName(DocList[0].staff2_id)">
                                                         <input type="text" ng-hide="true" id="Staff_ID2" ng-model="DocList[0].staff2_id">
                                                     </div>
                                                     <button type="button" class="btn btn-light btn-fab btn-sm" ng-click="toggleModalS2('พนักงานเด็กรถ(2)')" ng-disabled="DocList[0].status_code=='03'">
                                                         <i class="icon-account-search"></i>
+                                                    </button>
+                                                    <button type="button" class="btn btn-danger btn-fab btn-sm" ng-click="DocList[0].staff2_id=0"
+                                                            ng-hide="DocList[0].staff2_id==0 || DocList[0].status_code=='03'">
+                                                        <i class="icon-minus"></i>
                                                     </button>
                                                 </div>
                                             </div>
@@ -140,7 +148,7 @@
 
                                             <modal-select visible="showModalS1">
                                                 <div class="list-group" role="tablist" style="height:450px;overflow-x:auto">
-                                                    <a ng-repeat="rowS1 in drivers |  filter:{STAFF_FLAG:'Y' }" class="list-group-item list-group-item-action" href=""
+                                                    <a ng-repeat="rowS1 in staff1_list |  filter:{STAFF_FLAG:'Y' }" class="list-group-item list-group-item-action" href=""
                                                        ng-click="selected_Staff1(rowS1.PEOPLE_ID)" data-toggle="tab"
                                                        ng-class="{'active':Staff_ID1==rowS1.PEOPLE_ID, '':Staff_ID1!=rowS1.PEOPLE_ID }">{{rowS1.PEOPLE_ID}}:{{rowS1.NAME}}</a>
                                                 </div>
@@ -148,7 +156,7 @@
 
                                             <modal-select visible="showModalS2">
                                                 <div class="list-group" role="tablist" style="height:450px;overflow-x:auto">
-                                                    <a ng-repeat="rowS2 in drivers |  filter:{STAFF_FLAG:'Y' }" class="list-group-item list-group-item-action" href=""
+                                                    <a ng-repeat="rowS2 in staff2_list |  filter:{STAFF_FLAG:'Y' }" class="list-group-item list-group-item-action" href=""
                                                        ng-click="selected_Staff2(rowS2.PEOPLE_ID)" data-toggle="tab"
                                                        ng-class="{'active':Staff_ID2==rowS2.PEOPLE_ID, '':Staff_ID2!=rowS2.PEOPLE_ID }">{{rowS2.PEOPLE_ID}}:{{rowS2.NAME}}</a>
                                                 </div>
@@ -168,6 +176,7 @@
                                             <div class="form-row">
                                                 <div class="form-group col-md-1">
                                                     <button type="button" class="btn btn-secondary btn-fab btn-sm" ng-click="addRowPoint()"
+                                                            ng-hide="DocList[0].status_code=='03'"
                                                             ng-disabled="(DocList[0].point_id.length===0 || DocList[0].point_id===0 ) && DocList[0].status_code!=='03'">
                                                         <i class="icon-plus"></i>
                                                     </button>
@@ -271,7 +280,9 @@
                                             <!-- Add Expense-->
                                             <div class="form-row">
                                                 <div class="form-group col-md-1">
-                                                    <button type="button" class="btn btn-secondary btn-fab btn-sm" ng-click="addRowExpense()" ng-disabled="DocList[0].point_id===0 && DocList[0].status_code=='03'">
+                                                    <button type="button" class="btn btn-secondary btn-fab btn-sm" ng-click="addRowExpense()" 
+                                                            ng-hide="DocList[0].status_code=='03'"
+                                                            ng-disabled="DocList[0].point_id===0 && DocList[0].status_code=='03'">
                                                         <i class="icon-plus"></i>
                                                     </button>
                                                 </div>
