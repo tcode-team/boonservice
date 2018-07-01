@@ -67,10 +67,9 @@
                 $scope.loading = false;
                 $scope.DocList = response.data;
 
-
-                $scope.drivers = _.cloneDeep($scope.identity);  
-                $scope.staff1_list = _.cloneDeep($scope.identity);
-                $scope.staff2_list = _.cloneDeep($scope.identity);   
+                $scope.drivers = _.cloneDeep($scope.identity, true);
+                $scope.staff1_list = _.cloneDeep($scope.identity, true);
+                $scope.staff2_list = _.cloneDeep($scope.identity, true);  
                 //console.log('drivers');
                 //console.log($scope.drivers);
                 //console.log('staff1_list');
@@ -98,12 +97,9 @@
                 $scope.Get_Staff_Amt();
                 $scope.CalDocAmt();
                 // Remove driver_id  ที่ถูกเลือกในช่องอื่นแล้ว  
-                $scope.Remove_driver_list($scope.DocList[0].staff1_id);
-                $scope.Remove_driver_list($scope.DocList[0].staff2_id);
-                $scope.Remove_Staff1_list($scope.DocList[0].driver_id);
-                $scope.Remove_Staff1_list($scope.DocList[0].staff2_id);
-                $scope.Remove_Staff2_list($scope.DocList[0].driver_id);
-                $scope.Remove_Staff2_list($scope.DocList[0].staff1_id);
+                $scope.Remove_driver_list(); 
+                $scope.Remove_Staff1_list(); 
+                $scope.Remove_Staff2_list();
                 // Remove driver_id  ที่ถูกเลือกในช่องอื่นแล้ว    End 
                 try {
                     if ($scope.DocList[0].shipment_carries.length > 0) {
@@ -206,6 +202,7 @@
                 $scope.DocList[0].shipment_carries = [];
             }
             $scope.DocList[0].shipment_carries.push({
+                client: $scope.DocList[0].client,
                 shipment_number: $scope.DocList[0].shipment_number,
                 itemno: $scope.PointMax ,
                 point_desc: "จุดส่งที่ " + $scope.RowPoint,
@@ -213,7 +210,9 @@
                 so_number: "",
                 remark: "",
                 driver_amount : Driver_Amt,
-                staff_amount : Staff_Amt
+                staff_amount: Staff_Amt,
+                created_by: $scope.user.userid,
+                update_by: $scope.user.userid
             });
             //$scope.DocList[0].transport_amount = $scope.DocList[0].transport_amount + Driver_Amt + Staff_Amt;
             $scope.CalDocAmt();
@@ -269,11 +268,14 @@
             }
 
             $scope.DocList[0].shipment_expense.push({
+                client: $scope.DocList[0].client,
                 shipment_number: $scope.ShipmentNo,
                 itemno: $scope.ExpenseMax,
                 expense_id :0,  
                 remark: "อื่นๆที่ " + $scope.RowExpense, 
-                expense_amount: 0
+                expense_amount: 0,
+                created_by: $scope.user.userid,
+                update_by: $scope.user.userid
             });
             $scope.CalDocAmt();
             console.log($scope.DocList[0].shipment_expense);
@@ -354,7 +356,8 @@
             $scope.DocList[0].driver_id = driver_id; 
 
             $scope.CalDocAmt();
-            $scope.Remove_Staff1_list(Staff_id);
+            $scope.Remove_Staff1_list();
+            $scope.Remove_Staff2_list();
 
         }
 
@@ -366,7 +369,8 @@
             $scope.DocList[0].staff1_id = Staff_id; 
 
             $scope.CalDocAmt();
-            $scope.Remove_driver_list(Staff_id);
+            $scope.Remove_driver_list();
+            $scope.Remove_Staff2_list();
         }
 
         $scope.toggleModalS2 = function (btnClicked) { //ต้องมี
@@ -377,64 +381,119 @@
             $scope.DocList[0].staff2_id = Staff_id; 
 
             $scope.CalDocAmt();
-            $scope.Remove_driver_list(Staff_id);
-            $scope.Remove_Staff1_list(Staff_id);
+            $scope.Remove_driver_list();
+            $scope.Remove_Staff1_list();
         }
 
-        $scope.Remove_driver_list = function (driver_id) {// Remove driver_id  ที่ถูกเลือกในช่องอื่นแล้ว  
-            console.log('Remove Drive ' + driver_id)
+        $scope.Remove_driver_list = function () {// Remove driver_id  ที่ถูกเลือกในช่องอื่นแล้ว   
+            $scope.drivers = _.cloneDeep($scope.identity, true);
+            console.log('Remove Drive ' )
             //// Start -- find index and remove 
-            var index = -1;
-            var comArr = eval($scope.drivers);
-            for (var i = 0; i < comArr.length; i++) {
-                if (comArr[i].PEOPLE_ID === driver_id) {
-                    index = i;
-                    break;
+            if ($scope.DocList[0].staff1_id !== 0) {
+                var index = -1;
+                var comArr = eval($scope.drivers);
+                for (var i = 0; i < comArr.length; i++) {
+                    if (comArr[i].PEOPLE_ID === $scope.DocList[0].staff1_id) {
+                        index = i;
+                        break;
+                    }
                 }
+                if (index === -1) {
+                    //  alert("Something gone wrong");
+                    return undefined;
+                }
+                $scope.drivers.splice(index, 1);
             }
-            if (index === -1) {
-              //  alert("Something gone wrong");
-                return undefined;
+            if ($scope.DocList[0].staff2_id !== 0) {
+                var index = -1;
+                var comArr = eval($scope.drivers);
+                for (var i = 0; i < comArr.length; i++) {
+                    if (comArr[i].PEOPLE_ID === $scope.DocList[0].staff2_id) {
+                        index = i;
+                        break;
+                    }
+                }
+                if (index === -1) {
+                    //  alert("Something gone wrong");
+                    return undefined;
+                }
+                $scope.drivers.splice(index, 1);
             }
-            $scope.drivers.splice(index, 1);
                 //// End -- find index and remov 
         }
 
-        $scope.Remove_Staff1_list = function (driver_id) {// Remove driver_id  ที่ถูกเลือกในช่องอื่นแล้ว  
-            console.log('Remove Staff1 ' + driver_id)
-            //// Start -- find index and remove 
-            var index = -1;
-            var comArr = eval($scope.staff1_list);
-            for (var i = 0; i < comArr.length; i++) {
-                if (comArr[i].PEOPLE_ID === driver_id) {
-                    index = i;
-                    break;
+        $scope.Remove_Staff1_list = function () {// Remove driver_id  ที่ถูกเลือกในช่องอื่นแล้ว  
+            console.log('Remove Staff1 ');
+            $scope.staff1_list = _.cloneDeep($scope.identity, true);
+            //// Start -- find index and remove  
+            if ($scope.DocList[0].driver_id !== 0) {
+                var index = -1;
+                var comArr = eval($scope.staff1_list);
+                for (var i = 0; i < comArr.length; i++) {
+                    if (comArr[i].PEOPLE_ID === $scope.DocList[0].driver_id) {
+                        index = i;
+                        break;
+                    }
                 }
+                if (index === -1) {
+                    //  alert("Something gone wrong");
+                    return undefined;
+                }
+                $scope.staff1_list.splice(index, 1);
             }
-            if (index === -1) {
-                //  alert("Something gone wrong");
-                return undefined;
+            if ($scope.DocList[0].staff2_id !== 0) {
+                var index = -1;
+                var comArr = eval($scope.staff1_list);
+                for (var i = 0; i < comArr.length; i++) {
+                    if (comArr[i].PEOPLE_ID === $scope.DocList[0].staff2_id) {
+                        index = i;
+                        break;
+                    }
+                }
+                if (index === -1) {
+                    //  alert("Something gone wrong");
+                    return undefined;
+                }
+                $scope.staff1_list.splice(index, 1);
             }
-            $scope.staff1_list.splice(index, 1);
             //// End -- find index and remov 
         }
 
-        $scope.Remove_Staff2_list = function (driver_id) {// Remove driver_id  ที่ถูกเลือกในช่องอื่นแล้ว  
-            console.log('Remove Staff1 ' + driver_id)
+        $scope.Remove_Staff2_list = function () {// Remove driver_id  ที่ถูกเลือกในช่องอื่นแล้ว  
+            console.log('Remove Staff2 ');
+            $scope.staff2_list = _.cloneDeep($scope.identity, true);
             //// Start -- find index and remove 
-            var index = -1;
-            var comArr = eval($scope.staff2_list);
-            for (var i = 0; i < comArr.length; i++) {
-                if (comArr[i].PEOPLE_ID === driver_id) {
-                    index = i;
-                    break;
+
+            if ($scope.DocList[0].driver_id !== 0) {
+                var index = -1;
+                var comArr = eval($scope.staff2_list);
+                for (var i = 0; i < comArr.length; i++) {
+                    if (comArr[i].PEOPLE_ID === $scope.DocList[0].driver_id) {
+                        index = i;
+                        break;
+                    }
                 }
+                if (index === -1) {
+                    //  alert("Something gone wrong");
+                    return undefined;
+                }
+                $scope.staff2_list.splice(index, 1);
             }
-            if (index === -1) {
-                //  alert("Something gone wrong");
-                return undefined;
+            if ($scope.DocList[0].staff1_id !== 0) {
+                var index = -1;
+                var comArr = eval($scope.staff2_list);
+                for (var i = 0; i < comArr.length; i++) {
+                    if (comArr[i].PEOPLE_ID === $scope.DocList[0].staff1_id) {
+                        index = i;
+                        break;
+                    }
+                }
+                if (index === -1) {
+                    //  alert("Something gone wrong");
+                    return undefined;
+                }
+                $scope.staff2_list.splice(index, 1);
             }
-            $scope.staff2_list.splice(index, 1);
             //// End -- find index and remov 
         }
         //Modal //////////////////////////////////////////-----------------------------------------------------
@@ -536,7 +595,25 @@
         }
         ////  Get Description  End ----------------------------------------------------
 
-       
+        $scope.ClearStaff = function (Staff) {
+            console.log(Staff);
+            if (Staff === 'staff1') {
+                $scope.DocList[0].staff1_id = 0;
+            }
+            if (Staff === 'staff2') {
+                $scope.DocList[0].staff2_id = 0;
+            }
+            $scope.changeStaff();
+        }
+
+        $scope.changeStaff = function () {
+            console.log('changeStaff ');
+            $scope.Remove_driver_list();
+            $scope.Remove_Staff1_list();
+            $scope.Remove_Staff2_list();
+            $scope.CalDocAmt();
+        }
+
         $scope.changeExpenseAmount = function () {
             $scope.TotalDriverAmount();
             $scope.TotalStaffAmount();
@@ -588,6 +665,7 @@
         ///  Save Data
         $scope.put_Data_Flag = function Put_Data() {
 
+            $scope.DocList[0].update_by = $scope.user.userid;
             console.log($scope.DocList[0]); 
 
             var ChkPointList = $scope.ShowTBL($scope.DocList[0].shipment_carries);
