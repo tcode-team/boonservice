@@ -154,7 +154,7 @@ namespace boonservice.api.Controllers
                                 result.Add(r);
                             } else
                             {
-                                if ((searchvalue.ShipmentStatus == null) || (shipment_h.STATUS == searchvalue.ShipmentStatus))
+                                if ((searchvalue.ShipmentStatus == null || searchvalue.ShipmentStatus == "ALL") || (shipment_h.STATUS == searchvalue.ShipmentStatus))
                                 {
                                     var status = sapcontext.afs_shipment_status.Where(t =>
                                                     t.STATUS_CODE == shipment_h.STATUS).FirstOrDefault();
@@ -285,7 +285,7 @@ namespace boonservice.api.Controllers
 
                     if (newdata)
                     {
-                        context.afs_shipment_h.Add(data);
+                        context.afs_shipment_h.Add(shipment_h);
                     }
                     else
                     {

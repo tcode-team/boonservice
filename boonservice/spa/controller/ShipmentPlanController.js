@@ -5,8 +5,8 @@
         .module('app')
         .controller('ShipmentPlanController', ShipmentPlanController)
 
-    ShipmentPlanController.$inject = ['$scope', '$location', 'ShipmentService'];
-    function ShipmentPlanController($scope, $location, ShipmentService) {
+    ShipmentPlanController.$inject = ['$scope', '$location', '$timeout', 'Excel', 'ShipmentService'];
+    function ShipmentPlanController($scope, $location, $timeout, Excel, ShipmentService) {
         $scope.title = 'ตารางงานจัดส่ง';
         $scope.transports = [];
         $scope.user = JSON.parse(sessionStorage.getItem('userDetail'));
@@ -35,6 +35,18 @@
                 };
                 $scope.loading = false;
             });
+        }
+
+        //Clear screen
+        $scope.fn_clear = function () {
+            $scope.selection = {};
+            $scope.transports = [];
+        }
+
+        //Export excel
+        $scope.fn_exportToExcel = function (tableId) { // ex: '#my-table'
+            $scope.exportHref = Excel.tableToExcel(tableId, 'sheet name');
+            $timeout(function () { location.href = $scope.exportHref; }, 100); // trigger download
         }
 
         // alert function 
