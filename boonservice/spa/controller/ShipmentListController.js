@@ -21,6 +21,71 @@
             $scope.ConfirmList = '';
             $scope.ConfirmRow = 0;
             console.log($scope.user);
+           // try {
+                var postBack = $routeParams.param1;
+                if (postBack === 'back')
+                {
+                    console.log(typeof sessionStorage.getItem('SearchShipment'));
+                    var TextSearch;
+                    if (sessionStorage.getItem('SearchShipment') !== undefined && sessionStorage.getItem('SearchShipment') !== null) {
+                        TextSearch = JSON.parse(sessionStorage.getItem('SearchShipment'));
+
+                    //    if (TextSearch.ShipmentNo !== undefined )
+                    //    {
+                    //}
+                        try {
+                            console.log(TextSearch.ShipmentNo);
+                            $scope.DataSearch.ShipmentNo = TextSearch.ShipmentNo;  // DataSearch.ShipmentNo
+                        }
+                        catch{
+                        }
+                        try {
+                            console.log(TextSearch.CarLicense);
+                            $scope.DataSearch.CarLicense = TextSearch.CarLicense;  // DataSearch.ShipmentNo
+                        }
+                        catch{
+                        }
+                    }
+                    else {
+                        TextSearch = $scope.DataSearch;
+                    }
+                    var Df;
+                    if (sessionStorage.getItem('SearchShipmentDF') !== undefined) {
+                        Df = sessionStorage.getItem('SearchShipmentDF');
+                    }
+                    else {
+                        Df ="";
+                    }
+                    var Dt;
+                    if (sessionStorage.getItem('SearchShipmentDT') !== undefined) {
+                        Dt = sessionStorage.getItem('SearchShipmentDT');
+                    }
+                    else {
+                        Dt = "";
+                    }
+                    console.log(TextSearch);
+                    console.log('Df ' + Df);
+                    console.log('Dt ' + Dt);
+                    if (Df !== undefined && Df !== null) {
+                        console.log(Df); 
+                        //delete TextSearch.ShipmentDateFrom;
+                        var s = Df.split('/');
+                        $scope.ShipmentDateFrom = new Date(s[2], s[1] - 1, s[0]);
+                    }
+                    if (Dt !== undefined && Dt !== null) {
+                        console.log(Dt);  
+                       // delete TextSearch.ShipmentDateTo;
+                        var s2 = Dt.split('/');
+                        $scope.ShipmentDateTo = new Date(s2[2], s2[1] - 1, s2[0]);
+                    } 
+                   // delete TextSearch.forwarding; 
+                    console.log(TextSearch); 
+                    $scope.Get_List(TextSearch,Df,Dt);
+                }
+            //}
+            //catch (errInit) {
+            //    return;
+            //}
         }
 
         $scope.Get_ShipmentType = function () {
@@ -60,8 +125,7 @@
             //console.log(typeof SearchData);
             console.log(typeof DateFrom + " Fromtext " +  DateFrom);
             console.log(typeof DateTo + " Totext " + DateTo);
-
-              
+             
             var textObject = JSON.stringify(SearchData);
             if (SearchData === undefined) {
                 textObject = "{}";
@@ -81,14 +145,21 @@
                 }
             }
 
-            var Df = $scope.getFormattedDate(DateFrom);
-            var Dt = $scope.getFormattedDate(DateTo);
-            //console.log(typeof Df + " DF " + Df);
-            //console.log(typeof Dt + " DT " + Dt); 
+            var Df;
+            var Dt ;
+            if (typeof DateFrom === 'string') { Df = DateFrom; }
+            else Df   = $scope.getFormattedDate(DateFrom);
+            if (typeof DateTo === 'string') { Dt = DateTo; }
+            else Dt = $scope.getFormattedDate(DateTo);
 
-            while (textObject.indexOf(':""') !== - 1) { textObject = textObject.replace(':""', ':'); }
-            
+            sessionStorage.removeItem('SearchShipmentDF' );
+            sessionStorage.removeItem('SearchShipmentDT' );
+            sessionStorage.removeItem('SearchShipment' );
+            //console.log(typeof Df + " DF " + Df);
+            //console.log(typeof Dt + " DT " + Dt);  
+            while (textObject.indexOf(':""') !== - 1) { textObject = textObject.replace(':""', ':'); } 
             console.log("text in " + textObject);
+            
                    // console.log("text in " + textObject.indexOf("ShipmentNo")); 
             if (textObject === '{}') {  
                 textObject =  '{"forwarding":"5910"}' ;
@@ -96,17 +167,30 @@
             else {
                 //console.log("text " + textObject.substring(1, textObject.length - 1));
                 textObject = '{' + textObject.substring(1, textObject.length - 1) + ',"forwarding":"5910"}'; 
+                //TextSearch.forwarding = "5910";
             }
             console.log("textObjectX " + textObject);
-             
+            //var TextSearch = textObject; 
+            //while (TextSearch.indexOf('":') !== - 1) { TextSearch = TextSearch.replace('":', ':'); }
+            //while (TextSearch.indexOf(',"') !== - 1) { TextSearch = TextSearch.replace(',"', ','); }
+            //TextSearch = TextSearch.replace('{"', '{');
+            //console.log("TextSearch " + TextSearch);
                 if (Df !== undefined && Df.length > 0) {
                     textObject = '{' + textObject.substring(1, textObject.length - 1) + ',"ShipmentDateFrom":"' + Df + '"}'; 
+                    //TextSearch.ShipmentDateFrom = Df;
+                    sessionStorage.setItem('SearchShipmentDF', Df);
                 }
                 if (Dt !== undefined && Dt.length > 0) {
                     textObject = '{' + textObject.substring(1, textObject.length - 1) + ',"ShipmentDateTo":"' + Dt + '"}'; 
+                    //TextSearch.ShipmentDateTo = Dt;
+                    sessionStorage.setItem('SearchShipmentDT', Dt);
                 } 
 
             console.log("textObjectX " + textObject);
+            console.log(SearchData); 
+            if (SearchData !== undefined) {
+                sessionStorage.setItem('SearchShipment', JSON.stringify(SearchData));
+            }
                    $http({
                         url: config.api.url + 'shipment/search',
                         method: 'POST',
@@ -158,6 +242,19 @@
 
             if (itemStatus ==='02' || itemStatus === 2)
             return false;
+
+            //console.log('itemStatus chkBox ' + itemStatus);
+            return true;
+        }
+
+        $scope.disabledChkBoxAll = function () { 
+            var index = -1;
+            var comArr = eval($scope.DataList);
+            for (var i = 0; i < comArr.length; i++) {
+                if (comArr[i].status_code === '02' || omArr[i].status_code  === 2) {
+                    return false;
+                }
+            } 
 
             //console.log('itemStatus chkBox ' + itemStatus);
             return true;
@@ -260,6 +357,67 @@
                 }
                 console.log($scope.ConfirmList);
             }
+            console.log($scope.ConfirmList);
+        }
+
+
+        $scope.addOrRemoveConfirmALL = function (  isMultiple) {
+
+            console.log('addOrRemoveConfirm ALL ');
+            var comArr = eval($scope.DocList);
+            var itemData = '';
+            for (var i = 0; i < comArr.length; i++) {
+                if (comArr[i].status_code === 2 || comArr[i].status_code === '02' ) {
+                    itemData = '{ "client" : "' + comArr[i].client + '", "shipment_number": "' + comArr[i].shipment_number + '", "confirm_by": ' + $scope.user.userid + '}'
+                 //   break;
+
+
+                    var itemIndex = $scope.ConfirmList.indexOf(itemData);//(item);
+                    var isPresent = (itemIndex > -1);
+
+                    console.log('itemdata ' + itemData);
+                    console.log('itemIndex ' + itemIndex + isMultiple);
+                    console.log('isPresent ' + isPresent);
+                    if (isMultiple) {
+                        if (isPresent) {
+                            // $scope.ConfirmList.splice(itemIndex, 1)
+                            if ($scope.ConfirmList.indexOf(',' + itemData) > -1) {
+                                $scope.ConfirmRow--;
+                                $scope.ConfirmList = $scope.ConfirmList.replace(',' + itemData, '');
+                            }
+                            if ($scope.ConfirmList.indexOf(itemData + ',') > -1) {
+                                $scope.ConfirmRow--;
+                                $scope.ConfirmList = $scope.ConfirmList.replace(itemData + ',', '');
+                            }
+                            if ($scope.ConfirmList.indexOf(itemData) > -1) {
+                                $scope.ConfirmRow--;
+                                $scope.ConfirmList = $scope.ConfirmList.replace(itemData, '');
+                            }
+                        } else {
+                            // $scope.ConfirmList.push(item)
+                            $scope.ConfirmRow++
+                            if ($scope.ConfirmList.length === 0) {
+                                $scope.ConfirmList = itemData;
+                            }
+                            else {
+                                $scope.ConfirmList = $scope.ConfirmList + ',' + itemData;
+                            }
+                        }
+                    } else { // UnClick 
+                        $scope.ConfirmRow--;
+                        console.log('Delete  ConfirmList');
+                        if (isPresent) {
+                            $scope.ConfirmList = '';
+                        } else {
+                            $scope.ConfirmList = $scope.ConfirmList.replace(itemData, '');
+                        }
+                        console.log($scope.ConfirmList);
+                    }
+
+                }
+            }
+
+           
             console.log($scope.ConfirmList);
         }
 

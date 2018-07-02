@@ -45,6 +45,11 @@
                 controller: 'ShipmentListController',
                 resolve: resolveController('ShipmentListController')
             })
+            .when('/shipmentlist/:param1', {
+                templateUrl: 'spa/view/shipmentlist.html?v=' + config.version,
+                controller: 'ShipmentListController',
+                resolve: resolveController('ShipmentListController')
+            })
             .when('/shipmentedit/:param1', {
                 templateUrl: 'spa/view/shipmentedit.html?v=' + config.version,
                 controller: 'ShipmentEditController',

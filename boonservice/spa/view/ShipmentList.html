@@ -120,8 +120,14 @@
                                                         <thead>
                                                             <tr>
                                                                 <th>
-                                                                    <div class="table-header">
-                                                                        <span class="column-title"></span>
+                                                                    <div class="table-header"> 
+                                                                            <div class="form-check" ng-hide="disabledChkBoxALL()">
+                                                                                <label class="form-check-label">
+                                                                                    <input type="checkbox" class="form-check-input" 
+                                                                                           ng-click="addOrRemoveConfirmALL(  true)" />
+                                                                                    <span class="checkbox-icon"></span>
+                                                                                </label>
+                                                                            </div> 
                                                                     </div>
                                                                 </th>
                                                                 <th>

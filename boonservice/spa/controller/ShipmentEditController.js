@@ -38,7 +38,7 @@
         }
 
         $scope.back = function () {
-            $location.path('/shipmentlist');
+            $location.path('/shipmentlist/back');
         }
 
 
@@ -358,7 +358,7 @@
             $scope.CalDocAmt();
             $scope.Remove_Staff1_list();
             $scope.Remove_Staff2_list();
-
+            $scope.showModal = !$scope.showModal;
         }
 
         $scope.toggleModalS1 = function (btnClicked) { //ต้องมี
@@ -371,6 +371,7 @@
             $scope.CalDocAmt();
             $scope.Remove_driver_list();
             $scope.Remove_Staff2_list();
+            $scope.showModalS1 = !$scope.showModalS1;
         }
 
         $scope.toggleModalS2 = function (btnClicked) { //ต้องมี
@@ -383,6 +384,7 @@
             $scope.CalDocAmt();
             $scope.Remove_driver_list();
             $scope.Remove_Staff1_list();
+            $scope.showModalS2 = !$scope.showModalS2;
         }
 
         $scope.Remove_driver_list = function () {// Remove driver_id  ที่ถูกเลือกในช่องอื่นแล้ว   
