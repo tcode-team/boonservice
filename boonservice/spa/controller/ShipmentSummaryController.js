@@ -26,6 +26,7 @@
         $scope.selected_identity = function (identity) {
             $scope.selection.identity_id = identity.PEOPLE_ID;  
             $scope.selection.identity_name = identity.NAME;
+            $scope.showModal = !$scope.showModal;
         }
 
         $scope.fn_preview = function () {
@@ -65,9 +66,8 @@
 
         $scope.fn_print = function () {
             $("#printDoc").print({
-                addGlobalStyles: true,
+                addGlobalStyles: false,
                 stylesheet: "http://fonts.googleapis.com/css?family=Inconsolata",
-                stylesheet: null,
                 iframe: false,
                 title: null,
                 append: null,

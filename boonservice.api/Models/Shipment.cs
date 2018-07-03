@@ -540,6 +540,11 @@ namespace boonservice.api.Models
         public string containerid;
 
         /// <summary>
+        /// Sort ช่วงเวลา
+        /// </summary>
+        public int time_sort;
+
+        /// <summary>
         /// ช่วงเวลา
         /// </summary>
         public string time_range;

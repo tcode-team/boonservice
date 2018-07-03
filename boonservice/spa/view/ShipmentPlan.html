@@ -106,7 +106,7 @@
                                                 <tr ng-if="transports.length==0">
                                                     <td colspan="10" class="text-center">ไม่พบข้อมูล</td>
                                                 </tr>
-                                                <tr ng-repeat="row in transports | orderBy:'time_range'">
+                                                <tr ng-repeat="row in transports | orderBy:['transport_date','containerid','shipment_number','time_sort']">
                                                     <td>{{row.transport_date | date:'dd/MM/yyyy'}}</td>
                                                     <td>{{row.shipment_number}}</td>
                                                     <td>{{row.car_license}}</td>

@@ -555,6 +555,40 @@ namespace boonservice.api.Controllers
                         result.car_license = item.car_license;
                         result.containerid = item.containerid;
                         result.time_range = item.time_range;
+
+                        switch (result.time_range)
+                        {
+                            case "8.00-9.00":
+                                result.time_sort = 1;
+                                break;
+                            case "9.00-10.00":
+                                result.time_sort = 2;
+                                break;
+                            case "10.00-11.00":
+                                result.time_sort = 3;
+                                break;
+                            case "11.00-12.00":
+                                result.time_sort = 4;
+                                break;
+                            case "12.00-13.00":
+                                result.time_sort = 5;
+                                break;
+                            case "13.00-14.00":
+                                result.time_sort = 6;
+                                break;
+                            case "14.00-15.00":
+                                result.time_sort = 7;
+                                break;
+                            case "15.00-16.00":
+                                result.time_sort = 8;
+                                break;
+                            case "16.00-17.00":
+                                result.time_sort = 9;
+                                break;
+                            default:
+                                break;
+                        }
+
                         result.so_number = item.so_number;
                         result.point_desc = item.point_desc;
                         result.remark = item.remark;
@@ -647,7 +681,11 @@ namespace boonservice.api.Controllers
                         h.shipment_number = item.shipment_number;
                         if (result.identity_id == item.driver) h.identity_type = "คนขับ";
                         if (result.identity_id == item.staff1 || result.identity_id == item.staff2) h.identity_type = "เด็กรถ";
-                        
+
+                        //count staff
+                        var count_staff = 0;
+                        if (item.staff1 != 0) count_staff += 1;
+                        if (item.staff2 != 0) count_staff += 1;
 
                         //Point
                         h.point = new List<ShipmentPointSummaryModel>();
@@ -658,7 +696,7 @@ namespace boonservice.api.Controllers
                             v = new ShipmentPointSummaryModel();
                             v.point_desc = point.POINT_DESC;
                             v.remark = point.REMARK;
-                            v.amount = h.identity_type == "คนขับ" ? point.DRIVER_AMOUNT : h.identity_type == "เด็กรถ" ? point.STAFF_AMOUNT : 0;
+                            v.amount = h.identity_type == "คนขับ" ? point.DRIVER_AMOUNT : h.identity_type == "เด็กรถ" ? (point.STAFF_AMOUNT / count_staff) : 0;
                             h.total_point += v.amount;
                             h.point.Add(v);
                         }

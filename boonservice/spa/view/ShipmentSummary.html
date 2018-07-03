@@ -84,7 +84,7 @@
                             <!-- List -->
                             <div class="card">
                                 <div class="card-body" id="printDoc">
-                                   <div ng-repeat="iden in shipmentsum">
+                                   <div ng-repeat="iden in shipmentsum" class="pageBreak">
                                        <table style="width:100%;border:none">
                                            <tr>
                                                <td width="200px;">
@@ -116,26 +116,26 @@
                                                    <tr ng-if="iden.shipment.length===0">
                                                        <td colspan="9">ไม่พบข้อมูล</td>
                                                    </tr>
-                                                   <tr ng-repeat="head in iden.shipment | orderBy:'transport_date'">
+                                                   <tr ng-repeat="head in iden.shipment | orderBy:['transport_date','shipment_number']" ng-class="{'pageBreak':$index%34>=1}">
                                                        <td style="vertical-align:text-top">{{head.transport_date | date:'dd/MM/yyyy'}}</td>
                                                        <td style="vertical-align:text-top">{{head.shipment_number}}</td>
                                                        <td style="vertical-align:text-top">{{head.identity_type}}</td>
-                                                       <td>
+                                                       <td style="vertical-align:text-top">
                                                            <p ng-repeat="point in head.point" ng-init="iden.count_point = iden.count_point + 1;">
                                                                {{point.point_desc}}
                                                            </p>
                                                        </td>
-                                                       <td class="text-right">
+                                                       <td class="text-right" style="vertical-align:text-top">
                                                            <p ng-repeat="point in head.point">
                                                                {{point.amount | number:2}}
                                                            </p>
                                                        </td>
-                                                       <td>
+                                                       <td style="vertical-align:text-top">
                                                            <p ng-repeat="exp in head.expense">
                                                                {{exp.expense_desc}}
                                                            </p>
                                                        </td>
-                                                       <td class="text-right">
+                                                       <td class="text-right" style="vertical-align:text-top">
                                                            <p ng-repeat="exp in head.expense">
                                                                {{exp.amount | number:2}}
                                                            </p>
@@ -177,5 +177,8 @@
     }
     th, td {
         padding: 10px;
+    }
+    .pageBreak {
+        page-break-after: always;
     }
 </style>
