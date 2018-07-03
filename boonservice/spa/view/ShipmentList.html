@@ -47,7 +47,7 @@
                                                 <div class="form-group col-md-5">
                                                     <label class="form-control-label col-md-4" for="ShipmentNo">Shipment NO</label>
                                                     <div class="col-md-7">
-                                                        <input type="text" class="form-control" id="ShipmentNo" placeholder="" ng-model="DataSearch.ShipmentNo">
+                                                        <input type="text" class="form-control" id="ShipmentNo" placeholder="" ng-model="ShipmentNo">
                                                     </div>
                                                 </div>
                                             </div>
@@ -56,23 +56,23 @@
                                                 <div class="form-group col-md-7">
                                                     <label for="CarType" class="form-control-label col-md-3">ประเภทรถ</label>
                                                     <div class="col-md-4">
-                                                        <select id="CarType" class="form-control" ng-model="DataSearch.ShipmentType">
+                                                        <select id="CarType" class="form-control" ng-model="ShipmentType">
                                                             <option selected></option>
-                                                            <option ng-repeat="option in ShipmentType" ng-value="option.shipmenttype_code">{{option.shipmenttype_desc}}</option>
+                                                            <option ng-repeat="option in ShipmentTypeList" ng-value="option.shipmenttype_code">{{option.shipmenttype_desc}}</option>
                                                         </select>
                                                     </div>
                                                     <label for="CarGroup" class="form-control-label col-md-2">กลุ่มรถ</label>
                                                     <div class="col-md-3">
-                                                        <select id="CarGroup" class="form-control" ng-model="DataSearch.CarGroup">
+                                                        <select id="CarGroup" class="form-control" ng-model="CarGroup">
                                                             <option selected></option>
-                                                            <option ng-repeat="option2 in CarGroup" ng-value="option2.CARGROUP_CODE">{{option2.CARGROUP_DESC}}</option>
+                                                            <option ng-repeat="option2 in CarGroupList" ng-value="option2.CARGROUP_CODE">{{option2.CARGROUP_DESC}}</option>
                                                         </select>
                                                     </div>
                                                 </div>
                                                 <div class="form-group col-md-5">
                                                     <label class="form-control-label col-md-4" for="CarNo">ทะเบียนรถ</label>
                                                     <div class="col-md-7">
-                                                        <input type="text" class="form-control" id="CarLicense" ng-model="DataSearch.CarLicense">
+                                                        <input type="text" class="form-control" id="CarLicense" ng-model="CarLicense">
                                                     </div>
                                                 </div>
                                             </div>
@@ -81,7 +81,7 @@
                                                 <div class="form-group col-md-7">
                                                     <label for="Status" class="form-control-label col-md-3">สถานะ</label>
                                                     <div class="col-md-4">
-                                                        <select class="form-control" ng-model="DataSearch.ShipmentStatus" name="Status">
+                                                        <select class="form-control" ng-model="ShipmentStatus" name="Status">
                                                             <option value="ALL" selected>ทั้งหมด</option>
                                                             <option ng-repeat="option3 in DocStatus" ng-value="option3.STATUS_CODE">{{option3.STATUS_DESC}}</option>
                                                         </select>
@@ -90,7 +90,7 @@
                                                 <div class="form-group col-md-3">
                                                     <div>
                                                         <button type="button" class="btn btn-primary fuse-ripple-ready" style="margin-left:15px;"
-                                                                ng-click="Get_List(DataSearch,ShipmentDateFrom,ShipmentDateTo)">
+                                                                ng-click="Get_List(ShipmentDateFrom,ShipmentDateTo)">
                                                             <i class="icon icon-search-web"></i> Search
                                                         </button>
                                                     </div>

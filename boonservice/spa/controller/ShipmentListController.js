@@ -8,8 +8,7 @@
     ShipmentListController.$inject = ['$scope', '$http', '$q', 'config', '$rootScope', '$location','$routeParams'];
     function ShipmentListController($scope, $http, $q, config, $rootScope, $location, $routeParams) {          
         $scope.title = 'คำนวณค่าขนส่ง BLF';         
-
-
+         
         $scope.user = JSON.parse(sessionStorage.getItem('userDetail'));
 
         $scope.init = function () {
@@ -26,39 +25,35 @@
                 if (postBack === 'back')
                 {
                     console.log(typeof sessionStorage.getItem('SearchShipment'));
-                    var TextSearch;
-                    if (sessionStorage.getItem('SearchShipment') !== undefined && sessionStorage.getItem('SearchShipment') !== null) {
-                        TextSearch = JSON.parse(sessionStorage.getItem('SearchShipment'));
-
-                    //    if (TextSearch.ShipmentNo !== undefined )
-                    //    {
-                    //}
-                        try {
-                            console.log(TextSearch.ShipmentNo);
-                            $scope.DataSearch.ShipmentNo = TextSearch.ShipmentNo;  // DataSearch.ShipmentNo
+                    var TextSearch = JSON.parse(sessionStorage.getItem('SearchShipment'));
+                    console.log(TextSearch);
+                    if (TextSearch !== undefined) { 
+                        if (TextSearch.ShipmentNo !== undefined) {
+                            $scope.ShipmentNo = TextSearch.ShipmentNo;
+                        } 
+                        if (TextSearch.CarLicense !== undefined) {
+                            $scope.CarLicense = TextSearch.CarLicense;  // DataSearch.ShipmentNo 
                         }
-                        catch{
+                        if (TextSearch.ShipmentType !== undefined) {
+                            $scope.ShipmentType = TextSearch.ShipmentType;  // DataSearch.ShipmentNo 
                         }
-                        try {
-                            console.log(TextSearch.CarLicense);
-                            $scope.DataSearch.CarLicense = TextSearch.CarLicense;  // DataSearch.ShipmentNo
+                        if (TextSearch.CarGroup !== undefined) {
+                            $scope.CarGroup = TextSearch.CarGroup;  // DataSearch.ShipmentNo 
                         }
-                        catch{
+                        if (TextSearch.ShipmentStatus !== undefined) {
+                            $scope.ShipmentStatus = TextSearch.ShipmentStatus;  // DataSearch.ShipmentNo 
                         }
-                    }
-                    else {
-                        TextSearch = $scope.DataSearch;
-                    }
+                    } 
                     var Df;
-                    if (sessionStorage.getItem('SearchShipmentDF') !== undefined) {
-                        Df = sessionStorage.getItem('SearchShipmentDF');
+                    if (TextSearch.ShipmentDateFrom !== undefined) {
+                        Df = TextSearch.ShipmentDateFrom;
                     }
                     else {
                         Df ="";
                     }
                     var Dt;
-                    if (sessionStorage.getItem('SearchShipmentDT') !== undefined) {
-                        Dt = sessionStorage.getItem('SearchShipmentDT');
+                    if (TextSearch.ShipmentDateTo !== undefined) {
+                        Dt = TextSearch.ShipmentDateTo;
                     }
                     else {
                         Dt = "";
@@ -66,21 +61,19 @@
                     console.log(TextSearch);
                     console.log('Df ' + Df);
                     console.log('Dt ' + Dt);
-                    if (Df !== undefined && Df !== null) {
-                        console.log(Df); 
+                    if (Df !== undefined && Df !== null) { 
                         //delete TextSearch.ShipmentDateFrom;
                         var s = Df.split('/');
                         $scope.ShipmentDateFrom = new Date(s[2], s[1] - 1, s[0]);
                     }
-                    if (Dt !== undefined && Dt !== null) {
-                        console.log(Dt);  
+                    if (Dt !== undefined && Dt !== null) { 
                        // delete TextSearch.ShipmentDateTo;
                         var s2 = Dt.split('/');
                         $scope.ShipmentDateTo = new Date(s2[2], s2[1] - 1, s2[0]);
                     } 
                    // delete TextSearch.forwarding; 
                     console.log(TextSearch); 
-                    $scope.Get_List(TextSearch,Df,Dt);
+                    $scope.Get_List(Df,Dt);
                 }
             //}
             //catch (errInit) {
@@ -94,7 +87,7 @@
                 method: 'GET'
             }).then(function (response) {
                 console.log(response);
-                $scope.ShipmentType = response.data;
+                $scope.ShipmentTypeList = response.data;
             });
         }
 
@@ -104,7 +97,7 @@
                 method: 'GET'
             }).then(function (response) {
                 console.log(response);
-                $scope.CarGroup = response.data;
+                $scope.CarGroupList = response.data;
             });
         }
 
@@ -119,19 +112,28 @@
             });
         }
 
-        $scope.Get_List = function (SearchData, DateFrom, DateTo) {
+        $scope.Get_List = function (DateFrom, DateTo) {
             $scope.loading = true;
             $scope.ShipSearchErr = "";
             //console.log(typeof SearchData);
             console.log(typeof DateFrom + " Fromtext " +  DateFrom);
             console.log(typeof DateTo + " Totext " + DateTo);
              
-            var textObject = JSON.stringify(SearchData);
-            if (SearchData === undefined) {
-                textObject = "{}";
-            } 
-
-
+            var textObject = '{}'; 
+            var SearchData = [];
+            if ($scope.ShipmentNo !== undefined && $scope.ShipmentNo.length > 0) {
+                textObject = '{"forwarding":"5910","ShipmentNo":"' + $scope.ShipmentNo + '"}';
+                SearchData.push({
+                    forwarding: "5910",
+                    ShipmentNo: $scope.ShipmentNo
+                });
+            }
+            else {
+                textObject = '{"forwarding":"5910"}';
+                SearchData.push({
+                    forwarding: "5910" 
+                });
+            }
             if (DateFrom === undefined || DateTo === undefined) {
                 
                 if (textObject.indexOf("ShipmentNo") === - 1) {
@@ -150,46 +152,47 @@
             if (typeof DateFrom === 'string') { Df = DateFrom; }
             else Df   = $scope.getFormattedDate(DateFrom);
             if (typeof DateTo === 'string') { Dt = DateTo; }
-            else Dt = $scope.getFormattedDate(DateTo);
+            else Dt = $scope.getFormattedDate(DateTo); 
 
-            sessionStorage.removeItem('SearchShipmentDF' );
-            sessionStorage.removeItem('SearchShipmentDT' );
-            sessionStorage.removeItem('SearchShipment' );
-            //console.log(typeof Df + " DF " + Df);
-            //console.log(typeof Dt + " DT " + Dt);  
+            sessionStorage.removeItem('SearchShipment'); 
+
             while (textObject.indexOf(':""') !== - 1) { textObject = textObject.replace(':""', ':'); } 
             console.log("text in " + textObject);
-            
-                   // console.log("text in " + textObject.indexOf("ShipmentNo")); 
-            if (textObject === '{}') {  
-                textObject =  '{"forwarding":"5910"}' ;
-            }
-            else {
-                //console.log("text " + textObject.substring(1, textObject.length - 1));
-                textObject = '{' + textObject.substring(1, textObject.length - 1) + ',"forwarding":"5910"}'; 
-                //TextSearch.forwarding = "5910";
-            }
-            console.log("textObjectX " + textObject);
-            //var TextSearch = textObject; 
-            //while (TextSearch.indexOf('":') !== - 1) { TextSearch = TextSearch.replace('":', ':'); }
-            //while (TextSearch.indexOf(',"') !== - 1) { TextSearch = TextSearch.replace(',"', ','); }
-            //TextSearch = TextSearch.replace('{"', '{');
-            //console.log("TextSearch " + TextSearch);
+             
+            console.log("textObjectX " + textObject); 
                 if (Df !== undefined && Df.length > 0) {
                     textObject = '{' + textObject.substring(1, textObject.length - 1) + ',"ShipmentDateFrom":"' + Df + '"}'; 
-                    //TextSearch.ShipmentDateFrom = Df;
-                    sessionStorage.setItem('SearchShipmentDF', Df);
+                    SearchData.ShipmentDateFrom = Df;
+                    //sessionStorage.setItem('SearchShipmentDF', Df);
                 }
                 if (Dt !== undefined && Dt.length > 0) {
                     textObject = '{' + textObject.substring(1, textObject.length - 1) + ',"ShipmentDateTo":"' + Dt + '"}'; 
-                    //TextSearch.ShipmentDateTo = Dt;
-                    sessionStorage.setItem('SearchShipmentDT', Dt);
+                    SearchData.ShipmentDateTo = Dt;
+                   // sessionStorage.setItem('SearchShipmentDT', Dt);
                 } 
 
-            console.log("textObjectX " + textObject);
+
+            if ($scope.ShipmentType !== undefined && $scope.ShipmentType.length > 0) {
+                textObject = '{' + textObject.substring(1, textObject.length - 1) + ',"ShipmentType":"' + $scope.ShipmentType + '"}';
+                SearchData.ShipmentType = $scope.ShipmentType;
+            }
+            if ($scope.CarGroup !== undefined && $scope.CarGroup.length > 0) {
+                textObject = '{' + textObject.substring(1, textObject.length - 1) + ',"CarGroup":"' + $scope.CarGroup + '"}';
+                SearchData.CarGroup = $scope.CarGroup;
+            }
+            if ($scope.CarLicense !== undefined && $scope.CarLicense.length > 0) {
+                textObject = '{' + textObject.substring(1, textObject.length - 1) + ',"CarLicense":"' + $scope.CarLicense + '"}';
+                SearchData.CarLicense = $scope.CarLicense;
+            }
+            if ($scope.ShipmentStatus !== undefined && $scope.ShipmentStatus.length > 0) {
+                textObject = '{' + textObject.substring(1, textObject.length - 1) + ',"ShipmentStatus":"' + $scope.ShipmentStatus + '"}';
+                SearchData.ShipmentStatus = $scope.ShipmentStatus;
+            }
+
             console.log(SearchData); 
-            if (SearchData !== undefined) {
-                sessionStorage.setItem('SearchShipment', JSON.stringify(SearchData));
+            if (textObject !== undefined) {
+                //sessionStorage.setItem('SearchShipment', JSON.stringify(SearchData));
+                sessionStorage.setItem('SearchShipment', textObject);
             }
                    $http({
                         url: config.api.url + 'shipment/search',

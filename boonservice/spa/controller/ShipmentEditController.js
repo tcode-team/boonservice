@@ -531,7 +531,7 @@
                 var staff2 = $scope.DocList[0].staff2_id;
                 console.log('staff2 ' + staff2);
                 if ( staff2 !== 0) {
-                    $scope.Staff_Count++;
+                    $scope.Staff_Count = 1; //$scope.Staff_Count++;
                 }
             }
 
