@@ -92,6 +92,11 @@ namespace boonservice.api.Models
         /// Container ID
         /// </summary>
         public string ContainerID;
+
+        /// <summary>
+        /// SO Number
+        /// </summary>
+        public string SONumber;
     }
 
     /// <summary>
@@ -583,6 +588,16 @@ namespace boonservice.api.Models
         /// สถานะ
         /// </summary>
         public string status;
+
+        /// <summary>
+        /// Count Article ใน SO
+        /// </summary>
+        public int article_count;
+
+        /// <summary>
+        /// Sum Article Qty ใน SO
+        /// </summary>
+        public decimal article_sum_qty;
     }
 
     /// <summary>

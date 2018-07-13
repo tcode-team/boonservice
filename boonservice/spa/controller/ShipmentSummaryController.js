@@ -5,8 +5,8 @@
         .module('app')
         .controller('ShipmentSummaryController', ShipmentSummaryController)
 
-    ShipmentSummaryController.$inject = ['$scope', '$location', 'ShipmentService'];
-    function ShipmentSummaryController($scope, $location, ShipmentService) {
+    ShipmentSummaryController.$inject = ['$scope', '$location', '$timeout', 'Excel', 'ShipmentService'];
+    function ShipmentSummaryController($scope, $location, $timeout, Excel, ShipmentService) {
         $scope.title = 'รายงานเอกสารค่าเที่ยวสรุปบัญชี';
         $scope.selection = {};
         $scope.shipmentsum = [];
@@ -66,7 +66,7 @@
 
         $scope.fn_print = function () {
             $("#printDoc").print({
-                addGlobalStyles: false,
+                addGlobalStyles: true,
                 stylesheet: "http://fonts.googleapis.com/css?family=Inconsolata",
                 iframe: false,
                 title: null,
@@ -74,6 +74,12 @@
                 prepend: null
             });
         }
+
+        //Export excel
+        $scope.fn_exportToExcel = function (tableId) { // ex: '#my-table'
+            $scope.exportHref = Excel.tableToExcel(tableId, 'sheet name');
+            $timeout(function () { location.href = $scope.exportHref; }, 100); // trigger download
+        };
 
         // alert function 
         $scope.alert = function (message) {

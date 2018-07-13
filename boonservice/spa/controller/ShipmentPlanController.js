@@ -13,7 +13,7 @@
 
         $scope.fn_search_list = function () {
             $scope.loading = true;
-            console.log($scope.selection);
+            //console.log($scope.selection);    
             var val = _.clone($scope.selection, true);
             if (val == undefined) {
                 $scope.alert('โปรดระบุเงื่อนไขการค้นหา');
@@ -45,6 +45,12 @@
 
         //Export excel
         $scope.fn_exportToExcel = function (tableId) { // ex: '#my-table'
+
+            var table = $(tableId).clone();
+            //console.log(table.html());
+            table.find('[style*="display: none"]').remove();
+            //console.log(table.html());
+
             $scope.exportHref = Excel.tableToExcel(tableId, 'sheet name');
             $timeout(function () { location.href = $scope.exportHref; }, 100); // trigger download
         }

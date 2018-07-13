@@ -165,11 +165,11 @@
                                                                         <span class="column-title">ทะเบียนรถ</span>
                                                                     </div>
                                                                 </th>
-                                                                <th>
+                                                                <!--<th>
                                                                     <div class="table-header">
                                                                         <span class="column-title">รวมค่าขนส่ง</span>
                                                                     </div>
-                                                                </th>
+                                                                </th>-->
                                                                 <th>
                                                                     <div class="table-header">
                                                                         <span class="column-title">สถานะ</span>
@@ -210,7 +210,7 @@
                                                                 <td>{{ x.cargroup_desc}}</td>
                                                                 <td>{{ x.shipmenttype_desc}}</td>
                                                                 <td>{{ x.car_license}}</td>
-                                                                <td>{{ x.transport_amount | number : 2}}</td>
+                                                                <!--<td>{{ x.transport_amount | number : 2}}</td>-->
                                                                 <td><span ng-class="Show_Status(x.status_code)"> {{ x.status_desc}}</span></td>
                                                                 <td>
                                                                     <button type="button" class="btn btn-warning"

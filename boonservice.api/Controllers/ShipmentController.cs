@@ -541,6 +541,10 @@ namespace boonservice.api.Controllers
                     {
                         items.RemoveAll(w => !w.containerid.Contains(searchdata.ContainerID));
                     }
+                    if (!string.IsNullOrEmpty(searchdata.SONumber))
+                    {
+                        items.RemoveAll(w => w.so_number != searchdata.SONumber);
+                    }
 
                     //assign Sale Order
                     ShipmentPlanModel result = new ShipmentPlanModel();
@@ -610,6 +614,8 @@ namespace boonservice.api.Controllers
 
                                 var vbap = SaleOrderService.GetVBAP(vbak.MANDT, vbak.VBELN);
                                 result.so_amount = vbap.Select(x => x.NETWR + x.MWSBP).Sum();
+                                result.article_count = vbap.GroupBy(g => g.MATNR).Count();
+                                result.article_sum_qty = vbap.Select(x => x.KWMENG).Sum();
                             }
                         }
                         results.Add(result);
@@ -696,7 +702,7 @@ namespace boonservice.api.Controllers
                             v = new ShipmentPointSummaryModel();
                             v.point_desc = point.POINT_DESC;
                             v.remark = point.REMARK;
-                            v.amount = h.identity_type == "คนขับ" ? point.DRIVER_AMOUNT : h.identity_type == "เด็กรถ" ? (point.STAFF_AMOUNT / count_staff) : 0;
+                            v.amount = h.identity_type == "คนขับ" ? point.DRIVER_AMOUNT : h.identity_type == "เด็กรถ" ? point.STAFF_AMOUNT : 0;
                             h.total_point += v.amount;
                             h.point.Add(v);
                         }

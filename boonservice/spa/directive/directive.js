@@ -40,7 +40,7 @@
 
                 modelCtrl.$parsers.push(function (inputValue) {
 
-                    var transformedInput = inputValue ? inputValue.replace(/[^0-9.]/g, '') : 0;
+                    var transformedInput = inputValue ? inputValue.replace(/[^0-9.+-]/g, '') : 0;
                     var max = angular.isUndefined(attrs.ngMax) ? 0 : attrs.ngMax;
                     //console.log(transformedInput + '|' + attrs.ngMax);
                     if (transformedInput != inputValue) {
@@ -48,10 +48,10 @@
                         modelCtrl.$render();
                     }
                     //clear beginning 0
-                    if (transformedInput < 0) {
-                        modelCtrl.$setViewValue(0);
-                        modelCtrl.$render();
-                    }
+                    //if (transformedInput < 0) {
+                    //    modelCtrl.$setViewValue(0);
+                    //    modelCtrl.$render();
+                    //}
 
                     if (max > 0 && transformedInput > max) {
                         transformedInput = max.toString();
@@ -71,8 +71,8 @@
             format = function (s, c) { return s.replace(/{(\w+)}/g, function (m, p) { return c[p]; }) };
         return {
             tableToExcel: function (tableId, worksheetName) {
-                var table = $(tableId),
-                    ctx = { worksheet: worksheetName, table: table.html() },
+                var table = $(tableId);
+                var ctx = { worksheet: worksheetName, table: table.html() },
                     href = uri + base64(format(template, ctx));
                 return href;
             }

@@ -438,7 +438,8 @@
 
                 // $scope.DocList = response.data;
                 $scope.ConfirmList = ''; 
-                $scope.Get_List($scope.DataSearch, $scope.ShipmentDateFrom, $scope.ShipmentDateTo);
+                //$scope.Get_List($scope.DataSearch, $scope.ShipmentDateFrom, $scope.ShipmentDateTo);
+                $scope.Get_List($scope.ShipmentDateFrom, $scope.ShipmentDateTo);
 
                 if (response.status !== 200) {
                     $scope.loading = false;
