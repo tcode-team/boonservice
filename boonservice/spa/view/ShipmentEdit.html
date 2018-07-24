@@ -107,8 +107,10 @@
                                             </div>
 
                                             <modal-select visible="showModal">
+                                                <input type="text" class="form-control" ng-model="selection.filter_drivername" placeholder="ค้นหาพนักงานขับรถ"
+                                                       style="margin-top:10px;" />
                                                 <div class="list-group" role="tablist" style="height:450px;overflow-x:auto">
-                                                    <a ng-repeat="row in drivers |  filter:{DRIVER_FLAG:'Y'}" class="list-group-item list-group-item-action" href=""
+                                                    <a ng-repeat="row in drivers |  filter:{DRIVER_FLAG:'Y',NAME:selection.filter_drivername}" class="list-group-item list-group-item-action" href=""
                                                        ng-click="selected_driver(row.PEOPLE_ID)" data-toggle="tab"
                                                        ng-class="{'active':driver_id==row.PEOPLE_ID, '':driver_id!=row.PEOPLE_ID }">{{row.PEOPLE_ID}}:{{row.NAME}}</a>
                                                 </div>
@@ -147,16 +149,20 @@
 
 
                                             <modal-select visible="showModalS1">
+                                                <input type="text" class="form-control" ng-model="selection.filter_staff1name" placeholder="ค้นหาเด็กรถ 1"
+                                                       style="margin-top:10px;" />
                                                 <div class="list-group" role="tablist" style="height:450px;overflow-x:auto">
-                                                    <a ng-repeat="rowS1 in staff1_list |  filter:{STAFF_FLAG:'Y' }" class="list-group-item list-group-item-action" href=""
+                                                    <a ng-repeat="rowS1 in staff1_list |  filter:{STAFF_FLAG:'Y',NAME:selection.filter_staff1name}" class="list-group-item list-group-item-action" href=""
                                                        ng-click="selected_Staff1(rowS1.PEOPLE_ID)" data-toggle="tab"
                                                        ng-class="{'active':staff1_id==rowS1.PEOPLE_ID, '':Staff_ID1!=rowS1.PEOPLE_ID }">{{rowS1.PEOPLE_ID}}:{{rowS1.NAME}}</a>
                                                 </div>
                                             </modal-select>
 
                                             <modal-select visible="showModalS2">
+                                                <input type="text" class="form-control" ng-model="selection.filter_staff2name" placeholder="ค้นหาเด็กรถ 2"
+                                                       style="margin-top:10px;" />
                                                 <div class="list-group" role="tablist" style="height:450px;overflow-x:auto">
-                                                    <a ng-repeat="rowS2 in staff2_list |  filter:{STAFF_FLAG:'Y' }" class="list-group-item list-group-item-action" href=""
+                                                    <a ng-repeat="rowS2 in staff2_list |  filter:{STAFF_FLAG:'Y',NAME:selection.filter_staff2name}" class="list-group-item list-group-item-action" href=""
                                                        ng-click="selected_Staff2(rowS2.PEOPLE_ID)" data-toggle="tab"
                                                        ng-class="{'active':staff2_id==rowS2.PEOPLE_ID, '':Staff_ID2!=rowS2.PEOPLE_ID }">{{rowS2.PEOPLE_ID}}:{{rowS2.NAME}}</a>
                                                 </div>

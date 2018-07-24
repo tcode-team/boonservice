@@ -88,68 +88,70 @@
                             <!-- List -->
                             <div class="card">
                                 <div class="card-body" id="printDoc">
-                                    <div ng-repeat="iden in shipmentsum" class="pageBreak">
-                                        <table style="width:100%;border:none">
-                                            <tr>
-                                                <td width="200px;">
-                                                    <img src="../../content/images/logo_lifestyle.jpg" style="width:200px;" />
-                                                </td>
-                                                <td style="text-align:center">
-                                                    <h5>พนักงาน {{iden.identity_name}}</h5>
-                                                    <h5>เดือน {{iden.month_name}} ปี {{iden.year}}</h5>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                        <div class="table-responsive table-content">
-                                            <table style="width:100%" id="tableShipmentSummary" class="table-hover">
+                                    <div id="wrap" ng-repeat="iden in shipmentsum" class="pageBreak">
+                                        <div id="main" class="clearfix">
+                                            <table style="width:100%;border:none">
+                                                <tr>
+                                                    <td width="200px;">
+                                                        <img src="../../content/images/logo_lifestyle.jpg" style="width:200px;" />
+                                                    </td>
+                                                    <td style="text-align:center">
+                                                        <h5>พนักงาน {{iden.identity_name}}</h5>
+                                                        <h5>เดือน {{iden.month_name}} ปี {{iden.year}}</h5>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                            <table style="width:100%;" id="tableShipmentSummary" class="table-hover">
                                                 <thead>
                                                     <tr>
                                                         <th style="width:100px;border-bottom-style:outset;border-top-style:outset;border-top-width:3px;border-bottom-width:3px;">วันที่</th>
                                                         <th style="width:100px;border-bottom-style:outset;border-top-style:outset;border-top-width:3px;border-bottom-width:3px;">Shipment</th>
-                                                        <th style="width:90px;border-bottom-style:outset;border-top-style:outset;border-top-width:3px;border-bottom-width:3px;">ประเภท</th>
+                                                        <th style="width:90px;border-bottom-style:outset;border-top-style:outset;border-top-width:3px;border-bottom-width:3px;border-right-style:outset;border-right-width:3px;">ประเภท</th>
                                                         <th style="border-bottom-style:outset;border-top-style:outset;border-top-width:3px;border-bottom-width:3px;">จุดส่ง</th>
                                                         <th style="width:100px;border-bottom-style:outset;border-top-style:outset;border-top-width:3px;border-bottom-width:3px;">ค่าจุด</th>
                                                         <th style="border-bottom-style:outset;border-top-style:outset;border-top-width:3px;border-bottom-width:3px;">รายการอื่น ๆ</th>
-                                                        <th style="width:100px;border-bottom-style:outset;border-top-style:outset;border-top-width:3px;border-bottom-width:3px;">ค่าอื่น ๆ</th>
-                                                        <th style="width:100px;border-bottom-style:outset;border-top-style:outset;border-top-width:3px;border-bottom-width:3px;">รวมค่าอื่น ๆ</th>
+                                                        <th style="width:100px;border-bottom-style:outset;border-top-style:outset;border-top-width:3px;border-bottom-width:3px;border-right-style:outset;border-right-width:3px;">ค่าอื่น ๆ</th>
                                                         <th style="width:100px;border-bottom-style:outset;border-top-style:outset;border-top-width:3px;border-bottom-width:3px;">รวมค่าจุด</th>
+                                                        <th style="width:100px;border-bottom-style:outset;border-top-style:outset;border-top-width:3px;border-bottom-width:3px;border-right-style:outset;border-right-width:3px;">รวมค่าอื่น ๆ</th>
                                                         <th style="width:100px;border-bottom-style:outset;border-top-style:outset;border-top-width:3px;border-bottom-width:3px;">รวมทั้งสิ้น</th>
                                                     </tr>
                                                 </thead>
+                                                <tfoot>
+                                                    <tr>
+                                                        <td style="height:160px;"></td>
+                                                    </tr>
+                                                </tfoot>
                                                 <tbody>
                                                     <tr ng-if="iden.shipment.length===0">
                                                         <td colspan="9">ไม่พบข้อมูล</td>
                                                     </tr>
                                                     <tr ng-repeat="head in iden.shipment | orderBy:['transport_date','shipment_number']">
-                                                        <td style="vertical-align:text-top">{{head.transport_date | date:'dd/MM/yyyy'}}</td>
-                                                        <td style="vertical-align:text-top">{{head.shipment_number}}</td>
-                                                        <td style="vertical-align:text-top">{{head.identity_type}}</td>
-                                                        <td style="vertical-align:text-top">
+                                                        <td style="vertical-align:text-top;border-bottom-style:outset;border-bottom-width:3px;">{{head.transport_date | date:'dd/MM/yyyy'}}</td>
+                                                        <td style="vertical-align:text-top;border-bottom-style:outset;border-bottom-width:3px;">{{head.shipment_number}}</td>
+                                                        <td style="vertical-align:text-top;border-bottom-style:outset;border-bottom-width:3px;border-right-style:outset;border-right-width:3px;">{{head.identity_type}}</td>
+                                                        <td style="vertical-align:text-top;border-bottom-style:outset;border-bottom-width:3px;">
                                                             <div ng-repeat="point in head.point" ng-init="iden.count_point = iden.count_point + 1;">
                                                                 {{point.point_desc}}<br />
                                                             </div>
                                                         </td>
-                                                        <td class="text-right" style="vertical-align:text-top">
+                                                        <td class="text-right" style="vertical-align:text-top;border-bottom-style:outset;border-bottom-width:3px;">
                                                             <div ng-repeat="point in head.point">
                                                                 {{point.amount | number:2}}<br />
                                                             </div>
                                                         </td>
-                                                        <td style="vertical-align:text-top">
+                                                        <td style="vertical-align:text-top;border-bottom-style:outset;border-bottom-width:3px;">
                                                             <div ng-repeat="exp in head.expense">
                                                                 {{exp.expense_desc}}<br />
                                                             </div>
                                                         </td>
-                                                        <td class="text-right" style="vertical-align:text-top">
+                                                        <td class="text-right" style="vertical-align:text-top;border-bottom-style:outset;border-bottom-width:3px;border-right-style:outset;border-right-width:3px;">
                                                             <div ng-repeat="exp in head.expense">
                                                                 {{exp.amount | number:2}}<br />
                                                             </div>
                                                         </td>
-                                                        <td style="vertical-align:text-top;text-align:right;" ng-init="iden.sum_expense = iden.sum_expense + head.total_expense;">{{head.total_expense | number:2}}</td>
-                                                        <td style="vertical-align:text-top;text-align:right;" ng-init="iden.sum_point = iden.sum_point + head.total_point;">{{head.total_point | number:2}}</td>
-                                                        <td style="vertical-align:text-top;text-align:right;">
-                                                            {{head.total_point + head.total_expense | number:2}}
-                                                            <!--<div ng-class="{'pageBreak':($index / 34)>=1}"></div>-->
-                                                        </td>
+                                                        <td style="vertical-align:text-top;text-align:right;border-bottom-style:outset;border-bottom-width:3px;" ng-init="iden.sum_point = iden.sum_point + head.total_point;">{{head.total_point | number:2}}</td>
+                                                        <td style="vertical-align:text-top;text-align:right;border-bottom-style:outset;border-bottom-width:3px;border-right-style:outset;border-right-width:3px;" ng-init="iden.sum_expense = iden.sum_expense + head.total_expense;">{{head.total_expense | number:2}}</td>
+                                                        <td style="vertical-align:text-top;text-align:right;border-bottom-style:outset;border-bottom-width:3px;">{{head.total_point + head.total_expense | number:2}}</td>
                                                     </tr>
                                                     <tr>
                                                         <td style="border:none;border-top-style:outset"></td>
@@ -159,34 +161,116 @@
                                                         <td style="border:none;border-top-style:outset"></td>
                                                         <td style="border:none;border-top-style:outset"></td>
                                                         <td style="border:none;border-top-style:outset"></td>
-                                                        <td style="border-top-style:outset;border-top-width:3px;border-bottom:solid;text-align:right;font-weight:bold;">{{iden.sum_expense | number:2}}</td>
                                                         <td style="border-top-style:outset;border-top-width:3px;border-bottom:solid;text-align:right;font-weight:bold;">{{iden.sum_point | number:2}}</td>
+                                                        <td style="border-top-style:outset;border-top-width:3px;border-bottom:solid;text-align:right;font-weight:bold;">{{iden.sum_expense | number:2}}</td>
                                                         <td style="border-top-style:outset;border-top-width:3px;border-bottom:solid;text-align:right;font-weight:bold;">{{iden.sum_expense + iden.sum_point | number:2}}</td>
                                                     </tr>
                                                 </tbody>
                                             </table>
                                         </div>
-                                        <div class="footer">
-                                            <table style="width:100%;border:none;border-style:none;margin-top:50px;">
-                                                <tr>
-                                                    <td>
-                                                        <h5>พนักงารคลัง/ประกอบเฟอร์</h5><br />
-                                                        ____________________________<br /><br />
-                                                        (____/____/_____)
-                                                    </td>
-                                                    <td>
-                                                        <h5>ผู้ออกเอกสาร</h5><br />
-                                                        ____________________________<br /><br />
-                                                        (____/____/_____)
-                                                    </td>
-                                                    <td>
-                                                        <h5>ผู้อนุมัติ</h5><br />
-                                                        ____________________________<br /><br />
-                                                        (____/____/_____)
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </div>
+                                    </div> 
+                                    <!--<table style="width:100%;" id="tableShipmentSummary" class="table-hover pageBreak" ng-repeat="iden in shipmentsum">
+                                        <thead>
+                                            <tr>
+                                                <th colspan="10">
+                                                    <table style="width:100%;border:none">
+                                                        <tr>
+                                                            <td width="200px;">
+                                                                <img src="../../content/images/logo_lifestyle.jpg" style="width:200px;" />
+                                                            </td>
+                                                            <td style="text-align:center">
+                                                                <h5>พนักงาน {{iden.identity_name}}</h5>
+                                                                <h5>เดือน {{iden.month_name}} ปี {{iden.year}}</h5>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <th style="width:100px;border-bottom-style:outset;border-top-style:outset;border-top-width:3px;border-bottom-width:3px;">วันที่</th>
+                                                <th style="width:100px;border-bottom-style:outset;border-top-style:outset;border-top-width:3px;border-bottom-width:3px;">Shipment</th>
+                                                <th style="width:90px;border-bottom-style:outset;border-top-style:outset;border-top-width:3px;border-bottom-width:3px;border-right-style:outset;border-right-width:3px;">ประเภท</th>
+                                                <th style="border-bottom-style:outset;border-top-style:outset;border-top-width:3px;border-bottom-width:3px;">จุดส่ง</th>
+                                                <th style="width:100px;border-bottom-style:outset;border-top-style:outset;border-top-width:3px;border-bottom-width:3px;">ค่าจุด</th>
+                                                <th style="border-bottom-style:outset;border-top-style:outset;border-top-width:3px;border-bottom-width:3px;">รายการอื่น ๆ</th>
+                                                <th style="width:100px;border-bottom-style:outset;border-top-style:outset;border-top-width:3px;border-bottom-width:3px;border-right-style:outset;border-right-width:3px;">ค่าอื่น ๆ</th>
+                                                <th style="width:100px;border-bottom-style:outset;border-top-style:outset;border-top-width:3px;border-bottom-width:3px;">รวมค่าจุด</th>
+                                                <th style="width:100px;border-bottom-style:outset;border-top-style:outset;border-top-width:3px;border-bottom-width:3px;border-right-style:outset;border-right-width:3px;">รวมค่าอื่น ๆ</th>
+                                                <th style="width:100px;border-bottom-style:outset;border-top-style:outset;border-top-width:3px;border-bottom-width:3px;">รวมทั้งสิ้น</th>
+                                            </tr>
+                                        </thead>
+                                        <tfoot>
+                                            <tr>
+                                                <td style="height:160px;"></td>
+                                            </tr>
+                                        </tfoot>
+                                        <tbody>
+                                            <tr ng-if="iden.shipment.length===0">
+                                                <td colspan="9">ไม่พบข้อมูล</td>
+                                            </tr>
+                                            <tr ng-repeat="head in iden.shipment | orderBy:['transport_date','shipment_number']">
+                                                <td style="vertical-align:text-top;border-bottom-style:outset;border-bottom-width:3px;">{{head.transport_date | date:'dd/MM/yyyy'}}</td>
+                                                <td style="vertical-align:text-top;border-bottom-style:outset;border-bottom-width:3px;">{{head.shipment_number}}</td>
+                                                <td style="vertical-align:text-top;border-bottom-style:outset;border-bottom-width:3px;border-right-style:outset;border-right-width:3px;">{{head.identity_type}}</td>
+                                                <td style="vertical-align:text-top;border-bottom-style:outset;border-bottom-width:3px;">
+                                                    <div ng-repeat="point in head.point" ng-init="iden.count_point = iden.count_point + 1;">
+                                                        {{point.point_desc}}<br />
+                                                    </div>
+                                                </td>
+                                                <td class="text-right" style="vertical-align:text-top;border-bottom-style:outset;border-bottom-width:3px;">
+                                                    <div ng-repeat="point in head.point">
+                                                        {{point.amount | number:2}}<br />
+                                                    </div>
+                                                </td>
+                                                <td style="vertical-align:text-top;border-bottom-style:outset;border-bottom-width:3px;">
+                                                    <div ng-repeat="exp in head.expense">
+                                                        {{exp.expense_desc}}<br />
+                                                    </div>
+                                                </td>
+                                                <td class="text-right" style="vertical-align:text-top;border-bottom-style:outset;border-bottom-width:3px;border-right-style:outset;border-right-width:3px;">
+                                                    <div ng-repeat="exp in head.expense">
+                                                        {{exp.amount | number:2}}<br />
+                                                    </div>
+                                                </td>
+                                                <td style="vertical-align:text-top;text-align:right;border-bottom-style:outset;border-bottom-width:3px;" ng-init="iden.sum_point = iden.sum_point + head.total_point;">{{head.total_point | number:2}}</td>
+                                                <td style="vertical-align:text-top;text-align:right;border-bottom-style:outset;border-bottom-width:3px;border-right-style:outset;border-right-width:3px;" ng-init="iden.sum_expense = iden.sum_expense + head.total_expense;">{{head.total_expense | number:2}}</td>
+                                                <td style="vertical-align:text-top;text-align:right;border-bottom-style:outset;border-bottom-width:3px;">{{head.total_point + head.total_expense | number:2}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="border:none;border-top-style:outset"></td>
+                                                <td style="border:none;border-top-style:outset"></td>
+                                                <td style="border:none;border-top-style:outset"></td>
+                                                <td style="border-top-style:outset;border-top-width:3px;border-bottom:solid;font-weight:bold">Counts: {{iden.count_point | number:0}}</td>
+                                                <td style="border:none;border-top-style:outset"></td>
+                                                <td style="border:none;border-top-style:outset"></td>
+                                                <td style="border:none;border-top-style:outset"></td>
+                                                <td style="border-top-style:outset;border-top-width:3px;border-bottom:solid;text-align:right;font-weight:bold;">{{iden.sum_point | number:2}}</td>
+                                                <td style="border-top-style:outset;border-top-width:3px;border-bottom:solid;text-align:right;font-weight:bold;">{{iden.sum_expense | number:2}}</td>
+                                                <td style="border-top-style:outset;border-top-width:3px;border-bottom:solid;text-align:right;font-weight:bold;">{{iden.sum_expense + iden.sum_point | number:2}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>-->
+
+                                    <div id="footer" >
+                                        <table style="width:100%;border:none;border-style:none;background-color:aquamarine;">
+                                            <tr>
+                                                <td>
+                                                    <h5>พนักงานคลัง/ประกอบเฟอร์</h5><br />
+                                                    ____________________________<br /><br />
+                                                    (____/____/_____)
+                                                </td>
+                                                <td>
+                                                    <h5>ผู้ออกเอกสาร</h5><br />
+                                                    ____________________________<br /><br />
+                                                    (____/____/_____)
+                                                </td>
+                                                <td>
+                                                    <h5>ผู้อนุมัติ</h5><br />
+                                                    ____________________________<br /><br />
+                                                    (____/____/_____)
+                                                </td>
+                                            </tr>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
@@ -203,11 +287,14 @@
         padding: 10px;
     }
     @media screen {
-        .footer{
+        #footer{
             display:none
         }
     }
     @media print {
+        body {
+            padding-top: 30px;
+        }
         table {
             page-break-inside: auto
         }
@@ -215,12 +302,33 @@
             page-break-inside: avoid;
             page-break-after: auto
         }
-        .table-content {
-            min-height:100%;
-        }
-        .footer {
+        #footer {
+            width:100%;
             text-align: center;
+            position: fixed;
+            bottom: 0;
         }
+        /*tfoot {
+            display: table-footer-group;
+        }*/
+        /*tfoot {
+            display: table-footer-group;
+            bottom: 20px;
+            /*position: fixed;
+            padding-bottom: 0px;
+            margin-bottom: 0px;
+        }*/
+        /*.footer {
+            display: table-footer-group;
+            text-align: center;
+            bottom: 0;
+            width: 100%;
+        }*/
+        /*.footer {
+            position: absolute;
+            bottom: 0;
+            background-color:crimson
+        }*/
         .pageBreak {
             page-break-before: always;
         }

@@ -67,9 +67,8 @@
         $scope.fn_print = function () {
             $("#printDoc").print({
                 addGlobalStyles: true,
-                stylesheet: "http://fonts.googleapis.com/css?family=Inconsolata",
                 iframe: false,
-                title: null,
+                title: ' ',
                 append: null,
                 prepend: null
             });

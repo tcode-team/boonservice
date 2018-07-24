@@ -670,25 +670,26 @@
             $scope.DocList[0].update_by = $scope.user.userid;
             console.log($scope.DocList[0]); 
 
-            var ChkPointList = $scope.ShowTBL($scope.DocList[0].shipment_carries);
-            console.log('ChkPointList ' + ChkPointList);
-            if (ChkPointList)
-            {
-                $scope.ShipEditErr = "กรุณาระบุข้อมูลส่วน รายละเอียดจุดส่งของ ";  
+            // Disable check จุดส่ง 23.07.2017
+            //var ChkPointList = $scope.ShowTBL($scope.DocList[0].shipment_carries);
+            //console.log('ChkPointList ' + ChkPointList);
+            //if (ChkPointList)
+            //{
+            //    $scope.ShipEditErr = "กรุณาระบุข้อมูลส่วน รายละเอียดจุดส่งของ ";  
+            //    $scope.alert($scope.ShipEditErr);
+            //    return;
+            //}
 
-                $scope.alert($scope.ShipEditErr);
-                return;
-            }
 
+            //console.log($scope.DocList); 
+            // disable check คนขับรถ 23.07.2018
+            //if ($scope.DocList[0].driver_id.length == 0 || $scope.DocList[0].driver_id==0) {
+            //    $scope.ShipEditErr = "กรุณาระบุข้อมูลส่วน คนขับรถ ";
 
-            console.log($scope.DocList); 
-             
-            if ($scope.DocList[0].driver_id.length == 0 || $scope.DocList[0].driver_id==0) {
-                $scope.ShipEditErr = "กรุณาระบุข้อมูลส่วน คนขับรถ ";
+            //    $scope.alert($scope.ShipEditErr);
+            //    return;
+            //}
 
-                $scope.alert($scope.ShipEditErr);
-                   return;
-                }
             //if ($scope.DocList[0].staff1_id.length == 0 || $scope.DocList[0].staff1_id == 0 ) {
             //    $scope.ShipEditErr = "กรุณาระบุข้อมูลส่วน เด็กรถคนที่ 1 ";
 
@@ -696,22 +697,17 @@
             //    return; 
             //}
 
-            console.log($scope.DocList[0].point_id);
-            if ($scope.DocList[0].point_id === undefined) {
-                $scope.ShipEditErr = "กรุณาระบุปข้อมูลให้ครบ (จุดส่ง)";
+            //console.log($scope.DocList[0].point_id);
+            // Disable check จุดส่ง 
+            //if ($scope.DocList[0].point_id === undefined || $scope.DocList[0].point_id == 0) {
+            //    $scope.ShipEditErr = "กรุณาระบุปข้อมูลให้ครบ (จุดส่ง)";
 
-                $scope.alert($scope.ShipEditErr);
-                return undefined;
-            }
-            if ($scope.DocList[0].point_id == 0) {
-                $scope.ShipEditErr = "กรุณาระบุปข้อมูลให้ครบ (จุดส่ง)";
-
-                $scope.alert($scope.ShipEditErr);
-                return undefined;
-            }  
+            //    $scope.alert($scope.ShipEditErr);
+            //    return undefined;
+            //}
                
-            console.log(typeof $scope.DocList[0].transport_date);
-            console.log('transport_date ' + $scope.DocList[0].transport_date);
+            //console.log(typeof $scope.DocList[0].transport_date);
+            //console.log('transport_date ' + $scope.DocList[0].transport_date);
             if ($scope.DocList[0].transport_date == undefined || $scope.DocList[0].transport_date == null || $scope.DocList[0].transport_date == '') 
             {
                 $scope.ShipEditErr = "กรุณาระบุปข้อมูลให้ครบ (วันที่ส่ง)";
@@ -723,7 +719,7 @@
 
             /////////   ExpenseList   Detail
             var ChkExpenseListt = $scope.ShowTBL($scope.DocList[0].shipment_expense);
-            console.log('ChkExpenseListt ' + ChkExpenseListt);
+            //console.log('ChkExpenseListt ' + ChkExpenseListt);
             //if (ChkExpenseListt) {
             //    $scope.ShipEditErr = "กรุณาระบุข้อมูลส่วน จุดส่งของ ";
             //    return;
@@ -734,8 +730,8 @@
 
             //transport_amount 
 
-            console.log($scope.DocList[0].shipment_carries);
-            console.log($scope.DocList[0].shipment_expense);
+            //console.log($scope.DocList[0].shipment_carries);
+            //console.log($scope.DocList[0].shipment_expense);
 
             var val = _.clone($scope.DocList[0], true);
             if (val.transport_date !== undefined) val.transport_date = getFormattedDate(val.transport_date);
