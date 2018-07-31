@@ -20,8 +20,9 @@
                 $scope.loading = false;
                 return;
             }
-            if (val.transport_date === undefined || val.transport_date === null || val.transport_date === '') {
-                $scope.alert('โปรดระบุวันที่ส่ง');
+            if ((val.transport_date === undefined || val.transport_date === null || val.transport_date === '') &&
+                (val.SONumber === undefined || val.SONumber === null || val.SONumber === '')){
+                $scope.alert('โปรดระบุวันที่ส่ง หรือ SO No');
                 $scope.loading = false;
                 return;
             }

@@ -508,13 +508,11 @@ namespace boonservice.api.Controllers
             try
             {
                 using (var context = new SAPContext())
-                {
-                    var tdate = DateTime.ParseExact(searchdata.transport_date, "dd/MM/yyyy", null);
+                {   
                     var items = (from h in context.afs_shipment_h
                                 join i in context.afs_shipment_carries on h.SHIPMENT_NUMBER equals i.SHIPMENT_NUMBER
                                 join vttk in context.VTTK on h.SHIPMENT_NUMBER equals vttk.TKNUM
-                                where (h.CLIENT == client
-                                    && h.TRANSPORT_DATE == tdate)
+                                where h.CLIENT == client
                                 select new
                                 {
                                     transport_date = h.TRANSPORT_DATE,
@@ -529,6 +527,11 @@ namespace boonservice.api.Controllers
                                 }).ToList();
 
                     //remove filter
+                    if (!string.IsNullOrEmpty(searchdata.transport_date))
+                    {
+                        var tdate = DateTime.ParseExact(searchdata.transport_date, "dd/MM/yyyy", null);
+                        items.RemoveAll(w => w.transport_date != tdate);
+                    }
                     if (!string.IsNullOrEmpty(searchdata.ShipmentNo))
                     {
                         items.RemoveAll(w => w.shipment_number != searchdata.ShipmentNo);
