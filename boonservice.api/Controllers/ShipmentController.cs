@@ -677,6 +677,7 @@ namespace boonservice.api.Controllers
                     if (iden != null)
                     {
                         result.identity_name = iden.NAME;
+                        result.card_code = iden.CARD_CODE;
                     }
                     result.month_name = fdate.ToString("MMMM", CultureInfo.CreateSpecificCulture("th"));
                     result.year = (fdate.Year + 543).ToString();

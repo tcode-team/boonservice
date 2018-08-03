@@ -616,6 +616,11 @@ namespace boonservice.api.Models
         public string identity_name;
 
         /// <summary>
+        /// Card Code
+        /// </summary>
+        public string card_code;
+
+        /// <summary>
         /// เดือน
         /// </summary>
         public string month_name;
