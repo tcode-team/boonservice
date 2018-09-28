@@ -23,7 +23,7 @@ namespace boonservice.api.Services
             using (var context = new SAPContext())
             {
                 OracleParameter p1 = new OracleParameter("MANDT", mandt);
-                OracleParameter p2 = new OracleParameter("KUNNR", kunnr);
+                OracleParameter p2 = new OracleParameter("KUNNR", kunnr.PadLeft(10, '0'));
                 object[] parameters = new object[] { p1, p2 };
 
                 var kna1 = context.KNA1

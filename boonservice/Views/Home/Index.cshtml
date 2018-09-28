@@ -1,6 +1,11 @@
 ﻿@{
     ViewBag.Title = "Boonthavorn Service";
 }
+@section scripts {
+    <!-- SignalR -->
+    <script src="~/Scripts/jquery.signalR-2.2.3.js"></script>
+    <script src="~/signalr/hubs" type="text/javascript"></script>
+}
 @section apps {
     <script src="~/spa/app.js"></script>
     <script src="~/spa/config.js"></script>

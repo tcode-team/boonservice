@@ -122,6 +122,11 @@ namespace boonservice.api.Models
         public string saleoffice { get; set; }
 
         /// <summary>
+        /// Sale Office name
+        /// </summary>
+        public string saleoffice_name { get; set; }
+
+        /// <summary>
         /// รหัสลูกค้า
         /// </summary>
         public string soldto_code { get; set; }
@@ -184,7 +189,12 @@ namespace boonservice.api.Models
         /// <summary>
         /// รหัสผู้สร้าง
         /// </summary>
-        public int created_by { get; set; }
+        public double created_by { get; set; }
+
+        /// <summary>
+        /// ชื่อผู้สร้าง
+        /// </summary>
+        public string created_name { get; set; }
 
         /// <summary>
         /// วันที่สร้าง
@@ -194,7 +204,12 @@ namespace boonservice.api.Models
         /// <summary>
         /// รหัสผู้อัพเดท
         /// </summary>
-        public int update_by { get; set; }
+        public double update_by { get; set; }
+
+        /// <summary>
+        /// ชื่อผู้อัพเดท
+        /// </summary>
+        public string update_name { get; set; }
 
         /// <summary>
         /// วันที่อัพเดท
@@ -255,7 +270,7 @@ namespace boonservice.api.Models
         /// <summary>
         /// รหัสผู้สร้าง
         /// </summary>
-        public int created_by { get; set; }
+        public double created_by { get; set; }
 
         /// <summary>
         /// วันที่สร้าง
@@ -265,7 +280,7 @@ namespace boonservice.api.Models
         /// <summary>
         /// รหัสผู้อัพเดท
         /// </summary>
-        public int update_by { get; set; }
+        public double update_by { get; set; }
 
         /// <summary>
         /// วันที่อัพเดท
@@ -422,9 +437,19 @@ namespace boonservice.api.Models
         public string status { get; set; }
 
         /// <summary>
+        /// วันที่คาดว่าอะไหล่จะเข้า
+        /// </summary>
+        public DateTime? raw_date { get; set; }
+
+        /// <summary>
+        /// หมายเหตุ
+        /// </summary>
+        public string remark { get; set; }
+
+        /// <summary>
         /// รหัสผู้สร้าง
         /// </summary>
-        public int created_by { get; set; }
+        public double created_by { get; set; }
 
         /// <summary>
         /// วันที่สร้าง
@@ -434,7 +459,7 @@ namespace boonservice.api.Models
         /// <summary>
         /// รหัสผู้อัพเดท
         /// </summary>
-        public int update_by { get; set; }
+        public double update_by { get; set; }
 
         /// <summary>
         /// วันที่อัพเดท

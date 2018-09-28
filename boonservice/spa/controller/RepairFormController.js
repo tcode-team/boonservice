@@ -6,7 +6,7 @@
         .controller('RepairFormController', RepairFormController)
 
     RepairFormController.$inject = ['$scope', '$http', '$routeParams', '$location', 'RepairService'];
-    function RepairFormController($scope, $http, $routeParams, $location, RepairService) {        
+    function RepairFormController($scope, $http, $routeParams, $location, RepairService) {
         $scope.title = 'เพิ่มงานซ่อม SO';
         $scope.user = JSON.parse(sessionStorage.getItem('userDetail'));
 
@@ -37,9 +37,9 @@
                 }
             } else {
                 $scope.alert("เกิดข้อผิดพลาด โปรดลองใหม่อีกครั้ง");
-            }; 
+            };
         });
-        
+
         // checkk route parameter 
         if ($routeParams.param1 === undefined || $routeParams.param1 === null) {
             //new แจ้งซ่อม
@@ -57,6 +57,9 @@
                         response.data.appoint.target_date = new Date(response.data.appoint.target_date);
                     };
                     $scope.repairapp = response.data.appoint;
+                    angular.forEach(response.data.raws, function (value, key) {
+                        value.raw_date = new Date(value.raw_date);
+                    });
                     $scope.repairraw = response.data.raws;
                 } else {
                     $scope.alert($scope.repairh.so_number + ': ' + response.data.Message);
@@ -154,9 +157,28 @@
         };
 
         //ลบรายการ อะไหล่
+        $scope.currentRemoveRawIndex = 0;
         $scope.RemoveRawItem = function (index) {
-            $scope.repairraw.splice(index, 1);
-        }
+            if ($scope.repairraw[index].repair_raw_id === 0) {
+                $scope.repairraw.splice(index, 1);
+            } else {
+                $scope.currentRemoveRawIndex = index;
+                $('#confirmRemoveRaw').modal('show');
+            };
+        };
+
+        //ลบรายการอะไล่ ออกจาก database
+        $scope.fn_removeraw = function () {
+            $scope.loading = true;
+            RepairService.removeraw($scope.repairraw[$scope.currentRemoveRawIndex].repair_raw_id).then(function (response) {
+                if (response.status == "200") {
+                    $scope.repairraw.splice($scope.currentRemoveRawIndex, 1);
+                } else {
+                    $scope.alert(response.data.Message);
+                }
+                $scope.loading = false;
+            });
+        };
 
         //Before save data
         $scope.fn_before_save = function () {
@@ -193,11 +215,11 @@
                         $scope.alert('โปรดระบุ วันที่นัดซ่อมเสร็จ ต้องมากกว่าหรือเท่ากับวันที่นัดหมายลูกค้า');
                         return;
                     }
-                    //check raw item
-                    angular.forEach($scope.repairraw, function (value, key) {
-                        console.log(value);
-                    });
-                    console.log('after loop');
+                    ////check raw item
+                    //angular.forEach($scope.repairraw, function (value, key) {
+                    //    console.log(value);
+                    //});
+                    //console.log('after loop');
 
                     $('#confirmSave').modal('show');
                     break;
@@ -239,6 +261,9 @@
                                 response.data.appoint.target_date = new Date(response.data.appoint.target_date);
                             };
                             $scope.repairapp = response.data.appoint;
+                            angular.forEach(response.data.raws, function (value, key) {
+                                value.raw_date = new Date(value.raw_date);
+                            });
                             $scope.repairraw = response.data.raws;
                         } else {
                             $scope.alert(response.data.Message);
@@ -254,11 +279,7 @@
 
         //Convert Status
         $scope.fn_status_desc = function (status) {
-            if (status == "NEW") return "New"
-            else if (status == "PREPARE") return "จัดเตรียมคิวงานและอะไหล่"
-            else if (status == "PROCCESS") return "ทีมช่างดำเนินการ"
-            else if (status == "COMPLETE") return "Complete"
-            else return "สร้างใหม่";
+            return RepairService.RepairStatusText(status);
         }
 
         //clear screen

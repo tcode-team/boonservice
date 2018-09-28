@@ -13,7 +13,7 @@
 
         $scope.selection = {
             status: 'ALL'
-        }
+        };
 
         $scope.fn_search_list = function () {
             $scope.loading = true;
@@ -22,7 +22,7 @@
                 $scope.alert('โปรดระบุเงื่อนไขการค้นหา');
                 $scope.loading = false;
                 return;
-            }
+            };
             if (val.repair_date_from !== undefined) val.repair_date_from = getFormattedDate(val.repair_date_from);
             if (val.repair_date_to !== undefined) val.repair_date_to = getFormattedDate(val.repair_date_to);
             RepairService.search_list(val).then(function (response) {
@@ -35,10 +35,14 @@
                 };
                 $scope.loading = false;
             });
-        }
+        };
 
         $scope.LinkRepairForm = function (repair_code) {
             $location.path('/repairform/' + repair_code);
+        };
+
+        $scope.RepairStatusText = function (status) {
+            return RepairService.RepairStatusText(status);
         }
 
         // alert function 
@@ -69,7 +73,7 @@
                 },
                 addclass: 'md multiline'
             });
-        }
+        };
 
         function getFormattedDate(date) {
             try {
@@ -85,7 +89,7 @@
             }
             catch
             { return undefined; }
-        }
+        };
     };
 
 })();

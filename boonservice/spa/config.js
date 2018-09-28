@@ -12,7 +12,7 @@
 
         config.version = '1';
         config.api = {
-            url: 'http://dotnet64-test.boonthavorn.com/boon.api/'
+            url: 'http://localhost:56480/'  //'http://dotnet64-test.boonthavorn.com/boon.api/'
         }
         
         return config;

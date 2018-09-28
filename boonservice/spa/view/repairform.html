@@ -52,12 +52,11 @@
                                                                        style="padding-left:0px;padding-right:0px;"
                                                                        ng-show="repairh.repair_code==undefined && authority_group!='AFTERSALE'"
                                                                        value="{{fn_status_desc(repairh.status)}}">
-                                                                <select class="form-control" id="iStatus" 
+                                                                <select class="form-control" id="iStatus"
                                                                         ng-show="repairh.repair_code!=undefined && authority_group=='AFTERSALE'"
                                                                         ng-model="repairh.status">
-                                                                    <option value="NEW">สร้างใหม่</option>
                                                                     <option value="PREPARE">จัดเตรียมคิวงานและอะไหล่</option>
-                                                                    <option value="PROCCESS">ทีมช่างดำเนินการ</option>
+                                                                    <option value="PROCESS">ทีมช่างดำเนินการ</option>
                                                                     <option value="COMPLETE">Complete</option>
                                                                 </select>
                                                             </div>
@@ -128,8 +127,8 @@
                                                             <div class="col-md-8">
                                                                 <input class="form-control" type="text" ng-show="authority_group==='SALE'"
                                                                        ng-model="repairh.transport_amount" id="iTransportAmount">
-                                                                <input class="form-control-plaintext" readonly  style="padding-left:0px;padding-right:0px;"
-                                                                       type="text" ng-show="authority_group!=='SALE'" 
+                                                                <input class="form-control-plaintext" readonly style="padding-left:0px;padding-right:0px;"
+                                                                       type="text" ng-show="authority_group!=='SALE'"
                                                                        value="{{repairh.transport_amount | number:2}}" id="iTransportAmount">
                                                             </div>
                                                         </div>
@@ -138,7 +137,7 @@
                                                             <div class="col-md-8">
                                                                 <input class="form-control" ng-show="authority_group==='SALE'"
                                                                        type="text" ng-model="repairh.contact_tel" id="iTel">
-                                                                <input class="form-control-plaintext" readonly 
+                                                                <input class="form-control-plaintext" readonly
                                                                        ng-show="authority_group!=='SALE'" style="padding-left:0px;padding-right:0px;"
                                                                        type="text" value="{{repairh.contact_tel}}" id="iTel">
                                                             </div>
@@ -156,7 +155,7 @@
                                                                       ng-model="repairh.remark" id="iRemark" rows="4"></textarea>
                                                         </div>
                                                         <div class="form-group col-md-12">
-                                                            <button type="button" class="btn btn-secondary fuse-ripple-ready" 
+                                                            <button type="button" class="btn btn-secondary fuse-ripple-ready"
                                                                     ng-show="authority_group!==undefined"
                                                                     ng-click="fn_before_save()">
                                                                 <i class="icon icon-content-save"></i> บันทึก
@@ -241,7 +240,9 @@
                                             </fieldset>
                                         </div>
                                     </div>
+                                    <!-- รายการ -->
                                     <div class="card" style="margin-top:15px;">
+                                        <div class="card-header">รายการแจ้งซ่อม</div>
                                         <div class="card-body">
                                             <ul class="nav nav-tabs" role="tablist">
                                                 <li class="nav-item">
@@ -249,9 +250,6 @@
                                                 </li>
                                                 <li class="nav-item">
                                                     <a class="nav-link btn fuse-ripple-ready" id="imagetab" ng-click="ActiveTabName='imagetab'" data-toggle="tab" role="tab" aria-controls="imagetab" aria-expanded="false">รูปภาพประกอบ</a>
-                                                </li>
-                                                <li class="nav-item" ng-show="repairh.repair_code!=undefined">
-                                                    <a class="nav-link btn fuse-ripple-ready" id="rawtab" ng-click="ActiveTabName='rawtab'" data-toggle="tab" role="tab" aria-controls="rawtab" aria-expanded="false">รายการอะไหล่</a>
                                                 </li>
                                             </ul>
                                             <div class="tab-content">
@@ -301,17 +299,36 @@
                                                                                 {{row.so_number}}/{{row.so_item}}
                                                                             </td>
                                                                             <td>
+                                                                                <input class="form-control-plaintext" readonly style="padding-left:0px;padding-right:0px;"
+                                                                                       value="{{row.repair_item_type}}" ng-show="authority_group!='SALE'" />
                                                                                 <select class="form-control" style="padding-right:0px;width:100px;"
-                                                                                        ng-model="row.repair_item_type">
+                                                                                        ng-model="row.repair_item_type" ng-show="authority_group=='SALE'">
                                                                                     <option ng-repeat="item in repair_item_types" ng-value="item.ITEM_TYPE">{{item.ITEM_TYPE}}</option>
                                                                                 </select>
                                                                             </td>
-                                                                            <td><input tye="text" class="form-control text-right" ng-model="row.qty" numeric-only /></td>
-                                                                            <td><input tye="text" class="form-control" ng-model="row.repair_remark" /></td>
-                                                                            <td><input tye="text" class="form-control" ng-model="row.repair_desc" /></td>
                                                                             <td>
+                                                                                <input class="form-control-plaintext text-right" readonly style="padding-left:0px;padding-right:0px;"
+                                                                                       value="{{row.qty | number:0}}" ng-show="authority_group!='SALE'" />
+                                                                                <input tye="text" class="form-control text-right" ng-show="authority_group=='SALE'"
+                                                                                       ng-model="row.qty" numeric-only />
+                                                                            </td>
+                                                                            <td>
+                                                                                <input class="form-control-plaintext" readonly style="padding-left:0px;padding-right:0px;"
+                                                                                       value="{{row.repair_remark}}" ng-show="authority_group!='SALE'" />
+                                                                                <input tye="text" class="form-control" ng-show="authority_group=='SALE'"
+                                                                                       ng-model="row.repair_remark" />
+                                                                            </td>
+                                                                            <td>
+                                                                                <input class="form-control-plaintext" readonly style="padding-left:0px;padding-right:0px;"
+                                                                                       value="{{row.repair_desc}}" ng-show="authority_group!='SALE'" />
+                                                                                <input tye="text" class="form-control" ng-show="authority_group=='SALE'"
+                                                                                       ng-model="row.repair_desc" />
+                                                                            </td>
+                                                                            <td>
+                                                                                <input class="form-control-plaintext" readonly style="padding-left:0px;padding-right:0px;"
+                                                                                       value="{{row.repair_type}}" ng-show="authority_group!='SALE'" />
                                                                                 <select class="form-control" style="padding-right:0px;width:100px;"
-                                                                                        ng-model="row.repair_type" required>
+                                                                                        ng-model="row.repair_type" required ng-show="authority_group=='SALE'">
                                                                                     <option>แจ้งซ่อม</option>
                                                                                     <option>เปลี่ยนใหม่</option>
                                                                                 </select>
@@ -386,64 +403,78 @@
                                                            accept="image/*" minsize="500" required minnum="2"
                                                            onloadend="onLoadend" onerror="errorHandler">
                                                 </div>
-                                                <div role="tabpanel" class="tab-pane" id="rawtab" ng-show="repairh.repair_code!=undefined"
-                                                     ng-class="{'active':ActiveTabName=='rawtab'}">
-                                                    <div class="form-row">
-                                                        <div class="col-auto">
-                                                            <div class="form-group">
-                                                                <button class="btn btn-primary fuse-ripple-ready" 
-                                                                        ng-show="authority_group==='AFTERSALE'"
-                                                                        ng-click="AddRawItem()">เพิ่มรายการ</button>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-sm-8">
-                                                            <div class="table-responsive">
-                                                                <table class="table table-bordered">
-                                                                    <thead>
-                                                                        <tr>
-                                                                            <th style="width:60px;">ลำดับ</th>
-                                                                            <th>รายการอะไหล่</th>
-                                                                            <th style="width:60px;">จำนวน</th>
-                                                                            <th style="width:80px;">สถานะ</th>
-                                                                            <th style="width:30px;"></th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody>
-                                                                        <tr ng-repeat="item in repairraw">
-                                                                            <td class="text-right">{{$index + 1 | number:0}}</td>
-                                                                            <td>
-                                                                                <input class="form-control" type="text" ng-model="item.raw_name">
-                                                                            </td>
-                                                                            <td>
-                                                                                <input class="form-control text-right" type="number" style="width:100px;"
-                                                                                       ng-model="item.raw_qty">
-                                                                            </td>
-                                                                            <td>
-                                                                                <select class="form-control" ng-model="item.status" style="width:100px;">
-                                                                                    <option value="มีอะไหล่">มีอะไหล่</option>
-                                                                                    <option value="รอสั่งซื้อ">รอสั่งซื้อ</option>
-                                                                                </select>
-                                                                            </td>
-                                                                            <td>
-                                                                                <button class="btn btn-danger" ng-click="RemoveRawItem($index)">
-                                                                                    <i class="icon icon-trash"></i>
-                                                                                </button>
-                                                                            </td>
-                                                                        </tr>
-                                                                    </tbody>
-                                                                </table>
-                                                            </div>
-                                                        </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- รายการอะไหล่-->
+                                    <div class="card" style="margin-top:15px;">
+                                        <div class="card-header">รายการอะไหล่</div>
+                                        <div class="card-body">
+                                            <div class="form-row">
+                                                <div class="col-auto">
+                                                    <div class="form-group">
+                                                        <button class="btn btn-primary fuse-ripple-ready"
+                                                                ng-show="authority_group==='AFTERSALE'"
+                                                                ng-click="AddRawItem()">
+                                                            เพิ่มรายการ
+                                                        </button>
                                                     </div>
-                                                    
+                                                </div>
+                                                <div class="col-sm-12">
+                                                    <div class="table-responsive">
+                                                        <table class="table table-bordered">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th style="width:60px;">ลำดับ</th>
+                                                                    <th>รายการอะไหล่</th>
+                                                                    <th style="width:60px;">จำนวน</th>
+                                                                    <th style="width:80px;">สถานะ</th>
+                                                                    <th style="width:100px;">วันที่คาดว่าอะไหล่จะเข้า</th>
+                                                                    <th style="width:300px;">หมายเหตุ</th>
+                                                                    <th style="width:30px;"></th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr ng-repeat="item in repairraw">
+                                                                    <td class="text-right">{{$index + 1 | number:0}}</td>
+                                                                    <td>
+                                                                        <input class="form-control" type="text" ng-model="item.raw_name">
+                                                                    </td>
+                                                                    <td>
+                                                                        <input class="form-control text-right" type="number" style="width:100px;"
+                                                                               ng-model="item.raw_qty">
+                                                                    </td>
+                                                                    <td>
+                                                                        <select class="form-control" ng-model="item.status" style="width:100px;">
+                                                                            <option value="มีอะไหล่">มีอะไหล่</option>
+                                                                            <option value="รอสั่งซื้อ">รอสั่งซื้อ</option>
+                                                                        </select>
+                                                                    </td>
+                                                                    <td>
+                                                                        <input class="form-control" type="date" placeholder="dd/MM/yyyy" ng-model="item.raw_date">
+                                                                    </td>
+                                                                    <td>
+                                                                        <textarea class="form-control" type="text" ng-model="item.remark" rows="1"></textarea>
+                                                                    </td>
+                                                                    <td>
+                                                                        <button class="btn btn-danger" ng-click="RemoveRawItem($index)">
+                                                                            <i class="icon icon-trash"></i>
+                                                                        </button>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <br />
                                 </fieldset>
                             </form>
                             <!-- Form -->
+                            <br />
+                            <br />
+                            <br />
                         </div>
 
                         <!-- Modal Clear screen -->
@@ -479,6 +510,24 @@
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">ไม่</button>
                                         <button type="button" class="btn btn-primary" ng-click="fn_save()">ใช่</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Modal Confirm remove รายการอะไหล่ -->
+                        <div id="confirmRemoveRaw" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="confirmNewLabel">ลบรายการอะไหล่</h5>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>ยืนยัน ลบรายการ</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">ไม่</button>
+                                        <button type="button" class="btn btn-primary" ng-click="fn_removeraw()">ใช่</button>
                                     </div>
                                 </div>
                             </div>

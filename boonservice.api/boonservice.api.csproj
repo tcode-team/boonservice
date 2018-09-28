@@ -259,6 +259,7 @@
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\b3gRepair.cs" />
+    <Compile Include="Services\loadUser.cs" />
     <Compile Include="Services\sapBilling.cs" />
     <Compile Include="Services\sapBranch.cs" />
     <Compile Include="Services\sapSaleOrder.cs" />

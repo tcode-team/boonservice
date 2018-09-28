@@ -39,9 +39,12 @@ namespace boonservice.api.Controllers
         [Route("search_list")]
         public HttpResponseMessage search_list(RepairSearchModel search)
         {
+
+            var loadUser = new loadUser();
             var sapSaleOrder = new sapSaleOrder();
             var sapCustomer = new sapCustomer();
             var sapBilling = new sapBilling();
+            var BranchService = new sapBranch();
 
             search.fetchdata = search.fetchdata == null ? new fetchdata() : search.fetchdata;
             var result = new List<RepairHeader>();
@@ -128,13 +131,43 @@ namespace boonservice.api.Controllers
                         rh.division = vbak.SPART;
                         rh.salegroup = vbak.VKGRP;
                         rh.saleoffice = vbak.VKBUR;
+
+                        var branch = BranchService.GetZBRANCH(client, rh.saleoffice);
+                        if (branch != null)
+                        {
+                            rh.saleoffice_name = branch.HOST_DESC;
+                        }
+
+                        //Get Partner Customer
+                        var vbpa = sapSaleOrder.GetVBPA(vbak.MANDT, vbak.VBELN, "000000");
+
+                        //Get Sale Rep name
+                        var partner = vbpa.Where(w => w.PARVW == "ZR").FirstOrDefault();
+                        rh.salerep_code = partner.KUNNR;
+                        var salerep = sapCustomer.GetKNA1(partner.MANDT, partner.KUNNR);
+                        rh.salerep_name = salerep.NAME1 + salerep.NAME2;
+
                         rh.status = item.STATUS;
                         rh.transport_amount = item.TRANSPORT_AMOUNT;
                         rh.contact_tel = item.CONTACT_TEL;
                         rh.remark = item.REMARK;
                         rh.created_by = item.CREATED_BY;
+
+                        var ud = loadUser.GetUser(rh.created_by);
+                        if (ud != null)
+                        {
+                            rh.created_name = ud.firstname + ' ' + ud.lastname;
+                        };
+
                         rh.created_date = item.CREATED_DATE;
                         rh.update_by = item.UPDATE_BY;
+
+                        ud = loadUser.GetUser(rh.update_by);
+                        if (ud != null)
+                        {
+                            rh.update_name = ud.firstname + ' ' + ud.lastname;
+                        };
+
                         rh.update_date = item.UPDATE_DATE;
                         result.Add(rh);
                     }
@@ -406,6 +439,8 @@ namespace boonservice.api.Controllers
                             raw_name = raw.RAW_NAME,
                             raw_qty = raw.RAW_QTY,
                             status = raw.STATUS,
+                            raw_date = raw.RAW_DATE,
+                            remark = raw.REMARK,
                             created_by = raw.CREATED_BY,
                             created_date = raw.CREATED_DATE,
                             update_by = raw.UPDATE_BY,
@@ -587,8 +622,21 @@ namespace boonservice.api.Controllers
                         context.Entry(h).State = EntityState.Modified;
                     }
                     else return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Repair data not found");
-                    
+
+                    //set status
                     h.STATUS = postdata.header.status;
+                    if (postdata.header.status != "COMPLETE")
+                    {   
+                        if (postdata.raws.Where(w => w.status == "มีอะไหล่").Count() == postdata.raws.Count())
+                        {
+                            h.STATUS = "PROCESS";
+                        }
+                        else
+                        {
+                            h.STATUS = "PREPARE";
+                        };
+                    };
+
                     h.UPDATE_BY = postdata.header.update_by;
                     h.UPDATE_DATE = DateTime.Now;
                     context.SaveChanges();
@@ -643,6 +691,11 @@ namespace boonservice.api.Controllers
                         v.RAW_NAME = item.raw_name;
                         v.RAW_QTY = item.raw_qty;
                         v.STATUS = item.status;
+                        if (item.raw_date.HasValue)
+                        {
+                            v.RAW_DATE = item.raw_date.Value; //DateTime.ParseExact(item.raw_date, "dd/MM/yyyy", null);
+                        };
+                        v.REMARK = item.remark;
                         v.UPDATE_BY = postdata.header.update_by;
                         v.UPDATE_DATE = DateTime.Now;
 
@@ -669,5 +722,37 @@ namespace boonservice.api.Controllers
             }
         }
 
+        /// <summary>
+        /// Remove item of raw
+        /// </summary>
+        /// <param name="raw_id"></param>
+        /// <returns></returns>
+        /// <response code="200"></response>
+        [Authorize]
+        [Route("remove_raw")]
+        public HttpResponseMessage RemoveRaw(double raw_id)
+        {
+            try
+            {
+                using (var context = new SAPContext())
+                {
+                    afs_repair_raw v = new afs_repair_raw();
+                    v = context.afs_repair_raw.Where(t => t.REPAIR_RAW_ID == raw_id).FirstOrDefault();
+                    if (v != null)
+                    {
+                        context.Entry(v).State = EntityState.Deleted;
+                        context.SaveChanges();
+                    } else
+                    {
+                        return Request.CreateResponse(HttpStatusCode.NotFound, "Raw id is not found" );
+                    }
+                }
+                return Request.CreateResponse(HttpStatusCode.OK);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.InnerException.Message);
+            }
+        }
     }
 }

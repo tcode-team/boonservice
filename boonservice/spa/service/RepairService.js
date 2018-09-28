@@ -9,6 +9,7 @@
     function RepairService($http, $q, config) {
         var service = {};
 
+        service.RepairStatusText = RepairStatusText;
         service.authority = authority;
         service.get_repair_item_type = get_repair_item_type;
         service.search_list = search_list;
@@ -16,8 +17,18 @@
         service.repair_detail = repair_detail;
         service.save = save; 
         service.saveaftersale = saveaftersale;
+        service.removeraw = removeraw;
 
         return service;
+
+        //Convert Status
+        function RepairStatusText (status) {
+            if (status == "NEW") return "New"
+            else if (status == "PREPARE") return "จัดเตรียมคิวงานและอะไหล่"
+            else if (status == "PROCESS") return "ทีมช่างดำเนินการ"
+            else if (status == "COMPLETE") return "Complete"
+            else return "New";
+        }
 
         function authority(userid) {
             var response = $http({
@@ -87,6 +98,17 @@
                 }
             });
             return response;
+        };
+
+        function removeraw(raw_id) {
+            var response = $http({
+                url: config.api.url + 'repair/remove_raw',
+                method: 'POST',
+                data: {
+                    raw_id: raw_id
+                }
+            });
+            return response;  
         }
        
     }

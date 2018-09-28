@@ -75,7 +75,7 @@ namespace boonservice.api.Models
         /// <summary>
         /// รหัสผู้สร้าง
         /// </summary>
-        public int CREATED_BY { get; set; }
+        public double CREATED_BY { get; set; }
 
         /// <summary>
         /// วันที่สร้าง
@@ -85,7 +85,7 @@ namespace boonservice.api.Models
         /// <summary>
         /// รหัสผู้อัพเดท
         /// </summary>
-        public int UPDATE_BY { get; set; }
+        public double UPDATE_BY { get; set; }
 
         /// <summary>
         /// วันที่อัพเดท

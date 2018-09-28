@@ -64,10 +64,10 @@
                                                     <div class="col-md-8">
                                                         <select class="form-control" id="Status" ng-model="selection.status">
                                                             <option value="ALL">ทั้งหมด</option>
-                                                            <option value="NEW">สร้างใหม่</option>
+                                                            <option value="NEW">New</option>
                                                             <option value="PREPARE">จัดเตรียมคิวงานและอะไหล่</option>
                                                             <option value="PROCCESS">ทีมช่างดำเนินการ</option>
-                                                            <option value="COMPLETE">สำเร็จ</option>
+                                                            <option value="COMPLETE">Complete</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -100,19 +100,20 @@
                             <div class="card">
                                 <div class="card-body">
                                     <div class="table-responsive">
-                                        <table class="table table-bordered">
+                                        <table class="table table-bordered table-hover">
                                             <thead>
                                                 <tr>
                                                     <th width="100px;">วันที่แจ้งซ่อม</th>
-                                                    <th width="110px;">เลขที่แจ้งซ่อม</th>
+                                                    <th width="100px;">เลขที่แจ้งซ่อม</th>
+                                                    <th>สาขา</th>
                                                     <th width="100px;">SO</th>
                                                     <th>ชื่อลูกค้า</th>
                                                     <th>เบอร์ติดต่อ</th>
                                                     <th>พนักงานขาย</th>
                                                     <th>ผู้บันทึก</th>
                                                     <th>หมายเหตุ หน้าร้าน</th>
-                                                    <th>สถานะ</th>
-                                                    <th width="77px;"></th>
+                                                    <th width="160px;">สถานะ</th>
+                                                    <th width="70px;"></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -122,15 +123,16 @@
                                                 <tr ng-repeat="row in repairs">
                                                     <td>{{row.repair_date | date:'dd/MM/yyyy'}}</td>
                                                     <td>{{row.repair_code}}</td>
+                                                    <td>{{row.saleoffice_name}}</td>
                                                     <td>{{row.so_number}}</td>
                                                     <td>{{row.soldto_name}}</td>
                                                     <td>{{row.contact_tel}}</td>
-                                                    <td></td>
-                                                    <td>{{row.created_by}}</td>
+                                                    <td>{{row.salerep_name}}</td>
+                                                    <td>{{row.created_name}}</td>
                                                     <td>
                                                         <textarea class="form-control" type="text" rows="2" readonly>{{row.remark}}</textarea>
                                                     </td>
-                                                    <td>{{row.status}}</td>
+                                                    <td>{{RepairStatusText(row.status)}}</td>
                                                     <td>
                                                         <a class="btn btn-primary fuse-ripple-ready" ng-click="LinkRepairForm(row.repair_code)" href="" role="button">Edit</a>
                                                     </td>
